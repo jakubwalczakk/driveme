@@ -2,15 +2,12 @@ package pl.jakub.walczak.driveme.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.model.Student;
 import pl.jakub.walczak.driveme.repos.StudentRepository;
 
 @Controller
-@RequestMapping(path = "/demo")
+@RequestMapping(path = "/students")
 public class StudentController {
 
     @Autowired

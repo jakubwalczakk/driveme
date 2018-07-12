@@ -12,7 +12,7 @@ public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     private String licensePlateNumber;
     private String brand;
     private GasType gasType;

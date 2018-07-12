@@ -11,7 +11,7 @@ public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     private int studentId;
     private int instructorId;
     private int carId;
