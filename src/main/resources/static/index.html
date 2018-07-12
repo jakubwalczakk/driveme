@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <title>Save students</title>
 </head>
 <body>
 <div class="inputs">
     <h2>WPROWADŹ SWOJE DANE</h2>
-    <form action="http://localhost:8080/students/add" method="get">
+    <form action="http://localhost:8080/students/add" method="post">
         First name:
         <input type="text" name="firstName"><br><br>
         Last name:
@@ -18,7 +18,7 @@
         Email:
         <input type="email" name="email"><br><br>
 
-        <input type="submit" name="Save">
+        <input type="submit" value="Zapisz" name="Save">
     </form>
 </div>
 

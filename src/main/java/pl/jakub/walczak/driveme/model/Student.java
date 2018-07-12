@@ -26,6 +26,10 @@ public class Student {
     private String password;
     private int amountOfTakenHours;
 
+    public Student(){
+
+    }
+
     public Student(String firstName, String lastName, String phoneNumber, String email, String pesel, Address address, Date registrationDate, String password, int amountOfTakenHours) {
         this.firstName = firstName;
         this.lastName = lastName;
