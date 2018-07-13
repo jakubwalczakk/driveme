@@ -1,11 +1,10 @@
 package pl.jakub.walczak.driveme.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 @Entity(name = "students")
@@ -16,21 +15,29 @@ public class Student {
     private Long id;
     private String firstName;
     private String lastName;
+    @Column(name="phone_number", unique = true)
     private String phoneNumber;
+    @Column(name = "email", unique = true)
     private String email;
     private String pesel;
-    //  private Address address;
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private Address address;
+    @Column(name="registration_date")
     private Date registrationDate;
 
     @JsonIgnore
+    @Transient
+    @NotEmpty
+    @Length(min = 5)
     private String password;
     private int amountOfTakenHours;
 
-    public Student(){
+    public Student() {
 
     }
 
-    public Student(String firstName, String lastName, String phoneNumber, String email, String pesel, Address address, Date registrationDate, String password, int amountOfTakenHours) {
+    public Student(String firstName, String lastName, String phoneNumber, String email, String pesel, Address address, Date
+            registrationDate, String password, int amountOfTakenHours) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
