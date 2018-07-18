@@ -1,0 +1,12 @@
+package pl.jakub.walczak.driveme.controllers.address;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import pl.jakub.walczak.driveme.services.address.AddressService;
+
+@Controller
+public class AddressController {
+
+    @Autowired
+    private AddressService addressService;
+}
