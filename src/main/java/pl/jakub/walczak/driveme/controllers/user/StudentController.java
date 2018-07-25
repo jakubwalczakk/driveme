@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.model.address.Address;
 import pl.jakub.walczak.driveme.model.city.City;
 import pl.jakub.walczak.driveme.model.user.Student;
-import pl.jakub.walczak.driveme.repos.user.StudentRepository;
 import pl.jakub.walczak.driveme.services.user.StudentService;
 
 @Controller
@@ -21,12 +20,14 @@ public class StudentController {
     @PostMapping("/add")
     public @ResponseBody
     ResponseEntity addNewStudent(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String
-            phoneNumber, @RequestParam String email, @RequestParam String pesel, @RequestParam String cityName, @RequestParam
-            String zipCode, @RequestParam String street, @RequestParam int houseNumber, @RequestParam int localNumber) {
+            phoneNumber, @RequestParam String email, @RequestParam String password, @RequestParam String pesel,
+                                 @RequestParam String cityName, @RequestParam
+                                         String zipCode, @RequestParam String street, @RequestParam int houseNumber,
+                                 @RequestParam int localNumber) {
 
         City city = new City(cityName);
-        Address address = new Address(city,zipCode,street,houseNumber,localNumber);
-        Student student = new Student(firstName, lastName, phoneNumber, email, pesel, address);
+        Address address = new Address(city, zipCode, street, houseNumber, localNumber);
+        Student student = new Student(firstName, lastName, phoneNumber, email, password, pesel, address);
         studentService.save(student);
         return new ResponseEntity<>(student, HttpStatus.ACCEPTED);
     }

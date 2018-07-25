@@ -1,12 +1,9 @@
 package pl.jakub.walczak.driveme.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.validator.constraints.Length;
-import pl.jakub.walczak.driveme.model.payment.Payment;
 import pl.jakub.walczak.driveme.model.address.Address;
+import pl.jakub.walczak.driveme.model.payment.Payment;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.List;
 
@@ -21,48 +18,43 @@ public class Student extends User {
     private Date registrationDate;
     @OneToMany(cascade = {CascadeType.ALL})
     private List<Payment> payments;
-    @Column(name="paid_amount")
+    @Column(name = "paid_amount")
     private double paidAmount;
     @Column(name = "amount_to_paid")
     private double amountToPaid;
 
-//    @JsonIgnore
-//    @Transient
-//    @NotEmpty
-//    @Length(min = 5)
-//    @Column(name = "password")
-//    private String password;
-
-    @Column(name="taken_hours")
+    @Column(name = "taken_hours")
     private int takenHours;
 
-    public Student(){
+    public Student() {
 
     }
 
-    public Student(String firstName, String lastName, String phoneNumber, String email, String pesel, double paidAmount, double
-            amountToPaid) {
-        super(firstName, lastName, phoneNumber, email);
+    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String pesel,
+                   double paidAmount, double
+                           amountToPaid) {
+        super(firstName, lastName, phoneNumber, email, password);
         this.pesel = pesel;
         this.paidAmount = paidAmount;
         this.amountToPaid = amountToPaid;
     }
 
-    public Student(String firstName, String lastName, String phoneNumber, String email, String pesel) {
-        super(firstName, lastName, phoneNumber, email);
-        this.pesel=pesel;
+    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String pesel) {
+        super(firstName, lastName, phoneNumber, email, password);
+        this.pesel = pesel;
     }
 
-    public Student(String firstName, String lastName, String phoneNumber, String email, String pesel, Address address) {
-        super(firstName, lastName, phoneNumber, email);
-        this.pesel=pesel;
-        this.address=address;
+    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String pesel,
+                   Address address) {
+        super(firstName, lastName, phoneNumber, email, password);
+        this.pesel = pesel;
+        this.address = address;
     }
 
-    public Student(String firstName, String lastName, String phoneNumber, String email, String pesel, Address address, Date
-            registrationDate, List<Payment> payments, double paidAmount, double amountToPaid, @NotEmpty @Length(min = 5) String
-            password, int takenHours) {
-        super(firstName, lastName, phoneNumber, email);
+    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String pesel,
+                   Address address, Date registrationDate, List<Payment> payments, double paidAmount, double amountToPaid,
+                   int takenHours) {
+        super(firstName, lastName, phoneNumber, email, password);
         this.pesel = pesel;
         this.address = address;
         this.registrationDate = registrationDate;
@@ -121,13 +113,13 @@ public class Student extends User {
         this.amountToPaid = amountToPaid;
     }
 
-//    public String getPassword() {
-//        return password;
-//    }
-//
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
+    //    public String getPassword() {
+    //        return password;
+    //    }
+    //
+    //    public void setPassword(String password) {
+    //        this.password = password;
+    //    }
 
     public int getTakenHours() {
         return takenHours;

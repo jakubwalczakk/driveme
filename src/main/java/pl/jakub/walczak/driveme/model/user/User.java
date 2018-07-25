@@ -1,8 +1,12 @@
 package pl.jakub.walczak.driveme.model.user;
 
-import javax.persistence.*;
+import org.hibernate.validator.constraints.Length;
 
-@MappedSuperclass
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+
+@Entity(name = "users")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User {
 
     @Id
@@ -16,16 +20,23 @@ public class User {
     private String phoneNumber;
     @Column(name = "email", unique = true)
     private String email;
+    //    @JsonIgnore
+    //    @Transient
+    @NotEmpty
+    @Length(min = 5)
+    @Column(name = "password")
+    private String password;
 
     public User() {
 
     }
 
-    public User(String firstName, String lastName, String phoneNumber, String email) {
+    public User(String firstName, String lastName, String phoneNumber, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.password = password;
     }
 
 
@@ -67,5 +78,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

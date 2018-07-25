@@ -1,30 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>DriveMe</title>
+    <title>DriveMe - Login</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
+
 <body>
-<div class="login">
-    <div class="login-container">
-        <form class="login-form">
-                <span class="login-form-title">
-                    Login
-                </span>
+<div class="inputs">
+    <h2>ZALOGUJ SIĘ</h2>
+    <form action="http://localhost:8080/users/login" method="post">
+        Email:
+        <input type="email" name="email"><br><br>
+        Hasło:
+        <input type="password" name="password"><br><br>
 
-
-            <div class="login-container-form-btn">
-                <button class="login-form-btn">
-                    Login
-                </button>
-            </div>
-
-            <a href="#" class="google-login-btn">
-                Google
-            </a>
-        </form>
-    </div>
+        <input type="submit" value="Zaloguj" name="login">
+    </form>
 </div>
 
 </body>

@@ -17,9 +17,9 @@ public class Instructor extends User {
 
     }
 
-    public Instructor(String firstName, String lastName, String phoneNumber, String email, int availableHours, int
+    public Instructor(String firstName, String lastName, String phoneNumber, String email, String password, int availableHours, int
             takenHours) {
-        super(firstName, lastName, phoneNumber, email);
+        super(firstName, lastName, phoneNumber, email, password);
         this.availableHours = availableHours;
         this.takenHours = takenHours;
     }
