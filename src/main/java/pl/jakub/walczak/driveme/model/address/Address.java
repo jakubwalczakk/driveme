@@ -1,7 +1,5 @@
 package pl.jakub.walczak.driveme.model.address;
 
-import pl.jakub.walczak.driveme.model.city.City;
-
 import javax.persistence.*;
 
 @Entity(name = "adresses")
@@ -10,8 +8,8 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne(cascade = {CascadeType.ALL})
-    private City city;
+    @Column(name = "city", nullable = false)
+    private String city;
     @Column(name = "zip_code")
     private String zipCode;
     @Column(name = "street", nullable = false)
@@ -25,7 +23,7 @@ public class Address {
 
     }
 
-    public Address(City city, String zipCode, String street, int houseNumber, int localNumber) {
+    public Address(String city, String zipCode, String street, int houseNumber, int localNumber) {
         this.city = city;
         this.zipCode = zipCode;
         this.street = street;
@@ -33,12 +31,20 @@ public class Address {
         this.localNumber = localNumber;
     }
 
-    public City getCity() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCity() {
         return city;
     }
 
-    public void setCity(City city) {
-        //this.city = city;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getZipCode() {

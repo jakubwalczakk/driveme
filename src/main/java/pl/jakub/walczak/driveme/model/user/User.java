@@ -1,30 +1,31 @@
 package pl.jakub.walczak.driveme.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity(name = "users")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
-    @Column(name = "phone_number", unique = true)
+    @Column(name = "phone_number", unique = true, nullable = false)
     private String phoneNumber;
-    @Column(name = "email", unique = true)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
-    //    @JsonIgnore
-    //    @Transient
+//    @JsonIgnore
+//    @Transient
     @NotEmpty
     @Length(min = 5)
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     public User() {

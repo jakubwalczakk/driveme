@@ -1,7 +1,7 @@
 package pl.jakub.walczak.driveme.model.reservation;
 
 import pl.jakub.walczak.driveme.model.car.Car;
-import pl.jakub.walczak.driveme.model.city.City;
+import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
 
@@ -14,24 +14,24 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Student student;
-    @OneToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Instructor instructor;
-    @OneToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Car car;
     @Column(name="reservation_date")
     private Date date;
     @Column(name = "driving_time")
     private double drivingTime;
-    @OneToOne
-    private City drivingCity;
+    @ManyToOne(cascade = {CascadeType.ALL})
+    private DrivingCity drivingCity;
 
     public Reservation(){
 
     }
 
-    public Reservation(Student student, Instructor instructor, Car car, Date date, double drivingTime, City drivingCity) {
+    public Reservation(Student student, Instructor instructor, Car car, Date date, double drivingTime, DrivingCity drivingCity) {
         this.student = student;
         this.instructor = instructor;
         this.car = car;
@@ -80,11 +80,11 @@ public class Reservation {
         this.drivingTime = drivingTime;
     }
 
-    public City getDrivingCity() {
+    public DrivingCity getDrivingCity() {
         return drivingCity;
     }
 
-    public void setDrivingCity(City drivingCity) {
+    public void setDrivingCity(DrivingCity drivingCity) {
         this.drivingCity = drivingCity;
     }
 }

@@ -1,6 +1,6 @@
 package pl.jakub.walczak.driveme.model.car;
 
-import pl.jakub.walczak.driveme.model.enums.GasType;
+import pl.jakub.walczak.driveme.model.gastype.GasType;
 
 import javax.persistence.*;
 

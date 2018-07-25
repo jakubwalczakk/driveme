@@ -1,4 +1,4 @@
-package pl.jakub.walczak.driveme.model.enums;
+package pl.jakub.walczak.driveme.model.gastype;
 
 
 public enum GasType {

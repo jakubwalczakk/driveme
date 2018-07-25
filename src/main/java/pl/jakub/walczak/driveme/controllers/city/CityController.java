@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import pl.jakub.walczak.driveme.model.city.City;
+import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.services.city.CityService;
 
 @Controller
@@ -19,14 +19,14 @@ public class CityController {
     public @ResponseBody
     ResponseEntity addNewCity(@RequestParam String name){
 
-        City city = new City(name);
-        cityService.save(city);
-        return new ResponseEntity<>(city,HttpStatus.ACCEPTED);
+        DrivingCity drivingCity = new DrivingCity(name);
+        cityService.save(drivingCity);
+        return new ResponseEntity<>(drivingCity,HttpStatus.ACCEPTED);
     }
 
     @GetMapping(path = "/all")
     public @ResponseBody
-    Iterable<City> getAllCities() {
+    Iterable<DrivingCity> getAllCities() {
         return cityService.findAll();
     }
 }

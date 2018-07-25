@@ -1,6 +1,7 @@
 package pl.jakub.walczak.driveme.model.user;
 
 import pl.jakub.walczak.driveme.model.address.Address;
+import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.payment.Payment;
 
 import javax.persistence.*;
@@ -18,25 +19,21 @@ public class Student extends User {
     private Date registrationDate;
     @OneToMany(cascade = {CascadeType.ALL})
     private List<Payment> payments;
-    @Column(name = "paid_amount")
-    private double paidAmount;
-    @Column(name = "amount_to_paid")
-    private double amountToPaid;
-
-    @Column(name = "taken_hours")
-    private int takenHours;
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Course course;
 
     public Student() {
 
     }
 
     public Student(String firstName, String lastName, String phoneNumber, String email, String password, String pesel,
-                   double paidAmount, double
-                           amountToPaid) {
+                   Address address, Date registrationDate, List<Payment> payments, Course course) {
         super(firstName, lastName, phoneNumber, email, password);
         this.pesel = pesel;
-        this.paidAmount = paidAmount;
-        this.amountToPaid = amountToPaid;
+        this.address = address;
+        this.registrationDate = registrationDate;
+        this.payments = payments;
+        this.course = course;
     }
 
     public Student(String firstName, String lastName, String phoneNumber, String email, String password, String pesel) {
@@ -52,17 +49,12 @@ public class Student extends User {
     }
 
     public Student(String firstName, String lastName, String phoneNumber, String email, String password, String pesel,
-                   Address address, Date registrationDate, List<Payment> payments, double paidAmount, double amountToPaid,
-                   int takenHours) {
+                   Address address, Date registrationDate, List<Payment> payments) {
         super(firstName, lastName, phoneNumber, email, password);
         this.pesel = pesel;
         this.address = address;
         this.registrationDate = registrationDate;
         this.payments = payments;
-        this.paidAmount = paidAmount;
-        this.amountToPaid = amountToPaid;
-        //this.password = password;
-        this.takenHours = takenHours;
     }
 
     public String getPesel() {
@@ -97,35 +89,11 @@ public class Student extends User {
         this.payments = payments;
     }
 
-    public double getPaidAmount() {
-        return paidAmount;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setPaidAmount(double paidAmount) {
-        this.paidAmount = paidAmount;
-    }
-
-    public double getAmountToPaid() {
-        return amountToPaid;
-    }
-
-    public void setAmountToPaid(double amountToPaid) {
-        this.amountToPaid = amountToPaid;
-    }
-
-    //    public String getPassword() {
-    //        return password;
-    //    }
-    //
-    //    public void setPassword(String password) {
-    //        this.password = password;
-    //    }
-
-    public int getTakenHours() {
-        return takenHours;
-    }
-
-    public void setTakenHours(int takenHours) {
-        this.takenHours = takenHours;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }

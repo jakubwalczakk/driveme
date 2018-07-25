@@ -3,7 +3,7 @@ package pl.jakub.walczak.driveme.model.city;
 import javax.persistence.*;
 
 @Entity(name = "cities")
-public class City {
+public class DrivingCity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -12,11 +12,11 @@ public class City {
     @Column(name = "name", nullable = false)
     private String name;
 
-    public City(){
+    public DrivingCity(){
 
     }
 
-    public City(String name) {
+    public DrivingCity(String name) {
         this.name = name;
     }
 

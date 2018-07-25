@@ -12,7 +12,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Student student;
 
     @Column(name = "amount")

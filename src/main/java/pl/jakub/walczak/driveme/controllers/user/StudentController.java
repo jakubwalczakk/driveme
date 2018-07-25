@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.model.address.Address;
-import pl.jakub.walczak.driveme.model.city.City;
+import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.services.user.StudentService;
 
@@ -25,8 +25,7 @@ public class StudentController {
                                          String zipCode, @RequestParam String street, @RequestParam int houseNumber,
                                  @RequestParam int localNumber) {
 
-        City city = new City(cityName);
-        Address address = new Address(city, zipCode, street, houseNumber, localNumber);
+        Address address = new Address(cityName, zipCode, street, houseNumber, localNumber);
         Student student = new Student(firstName, lastName, phoneNumber, email, password, pesel, address);
         studentService.save(student);
         return new ResponseEntity<>(student, HttpStatus.ACCEPTED);

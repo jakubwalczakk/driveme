@@ -12,10 +12,10 @@ public class Exam {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "exam_date")
+    @Column(name = "exam_date", nullable = false)
     private Date dateOfExam;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Student student;
 
     public Exam(){
