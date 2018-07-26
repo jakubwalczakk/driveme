@@ -9,25 +9,25 @@ import java.util.Date;
 @Entity(name = "theoretical_exam")
 public class TheoreticalExam extends Exam {
 
-    @Column(name = "scored_points")
+    private static final int MAXIMUM_POINTS_AMOUNT = 74;
+
+    @Column(name = "scored_points", nullable = false)
     private int scoredPoints;
 
-    private static final int MAXIMUM_POINTS_AMOUNT=74;
-
-    @Column(name="result")
+    @Column(name = "result", nullable = false)
     private double result;
 
-    @Column(name="status")
+    @Column(name = "status", nullable = false)
     private boolean status;
 
-    public TheoreticalExam(){
+    public TheoreticalExam() {
 
     }
 
     public TheoreticalExam(Date dateOfExam, Student student, int scoredPoints) {
         super(dateOfExam, student);
         this.scoredPoints = scoredPoints;
-        this.result=scoredPoints*1.0/MAXIMUM_POINTS_AMOUNT;
+        this.result = scoredPoints * 1.0 / MAXIMUM_POINTS_AMOUNT;
     }
 
     public TheoreticalExam(int scoredPoints, double result, boolean status) {

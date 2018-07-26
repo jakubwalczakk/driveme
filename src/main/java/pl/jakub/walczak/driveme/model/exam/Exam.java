@@ -15,15 +15,19 @@ public class Exam {
     @Column(name = "exam_date", nullable = false)
     private Date dateOfExam;
 
-    @OneToOne(cascade = {CascadeType.ALL})
-    private Student student;
+//    @OneToOne(cascade = {CascadeType.ALL})
+//    private Student student;
 
     public Exam(){
 
     }
 
+    public Exam(Date dateOfExam) {
+        this.dateOfExam = dateOfExam;
+    }
+
     public Exam(Date dateOfExam, Student student) {
         this.dateOfExam = dateOfExam;
-        this.student = student;
+        //this.student = student;
     }
 }

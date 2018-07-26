@@ -2,15 +2,20 @@ package pl.jakub.walczak.driveme.model.gastype;
 
 
 public enum GasType {
-    PETROL,
-    GAS,
-    OIL,
-    ELECTRIC,
-    HYBRID;
+    PETROL("Benzyna"),
+    GAS("Gaz"),
+    OIL("Ropa naftowa"),
+    ELECTRIC("Elektryczny"),
+    HYBRID("Hybryda");
 
-//    private String value;
-//
-//    private GasType(String value) {
-//        this.value = value;
-//    }
+    private String value;
+
+    private GasType(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

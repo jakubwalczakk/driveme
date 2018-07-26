@@ -1,10 +1,6 @@
 package pl.jakub.walczak.driveme.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 
 @Entity(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -21,10 +17,10 @@ public class User {
     private String phoneNumber;
     @Column(name = "email", unique = true, nullable = false)
     private String email;
-//    @JsonIgnore
-//    @Transient
-    @NotEmpty
-    @Length(min = 5)
+    //    @JsonIgnore
+    //    @Transient
+    // @NotEmpty
+    // @Length(min = 5)
     @Column(name = "password", nullable = false)
     private String password;
 

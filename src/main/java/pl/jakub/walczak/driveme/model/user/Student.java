@@ -11,11 +11,12 @@ import java.util.List;
 @Entity(name = "students")
 public class Student extends User {
 
-    @Column(name = "pesel")
+    @Column(name = "pesel", nullable = false)
     private String pesel;
     @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(nullable = false)
     private Address address;
-    @Column(name = "registration_date")
+    @Column(name = "registration_date", nullable = false)
     private Date registrationDate;
     @OneToMany(cascade = {CascadeType.ALL})
     private List<Payment> payments;
@@ -36,9 +37,12 @@ public class Student extends User {
         this.course = course;
     }
 
-    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String pesel) {
+    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String pesel,
+                   Address address, Date date) {
         super(firstName, lastName, phoneNumber, email, password);
         this.pesel = pesel;
+        this.address = address;
+        this.registrationDate = date;
     }
 
     public Student(String firstName, String lastName, String phoneNumber, String email, String password, String pesel,

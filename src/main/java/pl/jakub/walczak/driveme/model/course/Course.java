@@ -16,13 +16,13 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "start_date")
+    @Column(name = "start_date", nullable = false)
     private Date startDate;
-    @Column(name = "driving_hours")
+    @Column(name = "driving_hours", nullable = false)
     private int drivingHours;
-    @Column(name = "lecture_hours")
+    @Column(name = "lecture_hours", nullable = false)
     private int lectureHours;
-    @Column(name = "taken_driving_hours")
+    @Column(name = "taken_driving_hours", nullable = false)
     private int takenDrivingHours;
 
     @OneToMany(cascade = {CascadeType.ALL})
