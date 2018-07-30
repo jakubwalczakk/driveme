@@ -24,22 +24,15 @@ public class TheoreticalExam extends Exam {
 
     }
 
-    public TheoreticalExam(Date dateOfExam, Student student, int scoredPoints) {
-        super(dateOfExam, student);
+    public TheoreticalExam(Date dateOfExam, int scoredPoints) {
+        super(dateOfExam);
         this.scoredPoints = scoredPoints;
         this.result = scoredPoints * 1.0 / MAXIMUM_POINTS_AMOUNT;
     }
 
-    public TheoreticalExam(int scoredPoints, double result, boolean status) {
+    public TheoreticalExam(Date dateOfExam, int scoredPoints, boolean status) {
+        super(dateOfExam);
         this.scoredPoints = scoredPoints;
-        this.result = result;
-        this.status = status;
-    }
-
-    public TheoreticalExam(Date dateOfExam, Student student, int scoredPoints, double result, boolean status) {
-        super(dateOfExam, student);
-        this.scoredPoints = scoredPoints;
-        this.result = result;
         this.status = status;
     }
 

@@ -9,11 +9,11 @@ import java.util.Date;
 public class Payment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Student student;
+//    @ManyToOne(cascade = CascadeType.REMOVE)
+//    private Student student;
 
     @Column(name = "amount", nullable = false)
     private double amount;
@@ -25,18 +25,9 @@ public class Payment {
 
     }
 
-    public Payment(Student student, double amount, Date paymentDate) {
-        this.student = student;
+    public Payment(double amount, Date paymentDate) {
         this.amount = amount;
         this.paymentDate = paymentDate;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
     }
 
     public double getAmount() {

@@ -13,14 +13,14 @@ public class Student extends User {
 
     @Column(name = "pesel", nullable = false)
     private String pesel;
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
     private Address address;
     @Column(name = "registration_date", nullable = false)
     private Date registrationDate;
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Payment> payments;
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = CascadeType.ALL)
     private Course course;
 
     public Student() {

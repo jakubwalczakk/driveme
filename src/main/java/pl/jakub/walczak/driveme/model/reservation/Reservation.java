@@ -12,19 +12,19 @@ import java.util.Date;
 public class Reservation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(cascade = {CascadeType.ALL} )
+    @ManyToOne(cascade = CascadeType.ALL )
     private Student student;
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = CascadeType.ALL)
     private Instructor instructor;
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = CascadeType.ALL)
     private Car car;
     @Column(name="reservation_date", nullable = false)
     private Date date;
     @Column(name = "driving_time", nullable = false)
     private double drivingTime;
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = CascadeType.ALL)
     private DrivingCity drivingCity;
 
     public Reservation(){

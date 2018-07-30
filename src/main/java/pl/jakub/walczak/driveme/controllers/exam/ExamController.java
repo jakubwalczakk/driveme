@@ -6,10 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.jakub.walczak.driveme.model.exam.Exam;
-import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
-import pl.jakub.walczak.driveme.repos.exam.ExamRepository;
-import pl.jakub.walczak.driveme.repos.user.StudentRepository;
+import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.services.exam.ExamService;
 import pl.jakub.walczak.driveme.services.user.StudentService;
 
@@ -32,7 +30,7 @@ public class ExamController {
         Student student = studentService
                 .findStudentByFirstName("Jakub").get();
 
-        Exam exam = new TheoreticalExam(new Date(), student, 54);
+        Exam exam = new TheoreticalExam(new Date(), 54);
 
         examService.save(exam);
 

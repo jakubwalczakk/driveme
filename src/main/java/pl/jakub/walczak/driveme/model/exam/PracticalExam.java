@@ -13,10 +13,10 @@ import java.util.Date;
 @Entity(name = "practical_exam")
 public class PracticalExam extends Exam {
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = CascadeType.ALL)
     private Car car;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = CascadeType.ALL)
     private Instructor instructor;
 
     public PracticalExam() {
@@ -27,8 +27,8 @@ public class PracticalExam extends Exam {
         this.instructor = instructor;
     }
 
-    public PracticalExam(Date dateOfExam, Student student, Car car, Instructor instructor) {
-        super(dateOfExam, student);
+    public PracticalExam(Date dateOfExam, Car car, Instructor instructor) {
+        super(dateOfExam);
         this.car = car;
         this.instructor = instructor;
     }

@@ -14,7 +14,7 @@ public class Course {
     private static final double price = 1500.0;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "start_date", nullable = false)
     private Date startDate;
@@ -25,10 +25,10 @@ public class Course {
     @Column(name = "taken_driving_hours", nullable = false)
     private int takenDrivingHours;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = CascadeType.ALL)
     private List<TheoreticalExam> theoreticalExams;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = CascadeType.ALL)
     private PracticalExam practicalExam;
 
     public Course() {
