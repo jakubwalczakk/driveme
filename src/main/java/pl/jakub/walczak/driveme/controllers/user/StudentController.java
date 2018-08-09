@@ -47,9 +47,9 @@ public class StudentController {
                                  @RequestParam int localNumber) {
 
         Address address = new Address(cityName, zipCode, street, houseNumber, localNumber);
-        Student student = new Student(firstName, lastName, phoneNumber, email, password, pesel, address);
+        Student student = new Student(firstName, lastName, phoneNumber, email, password, pesel, address, new Date());
         studentService.save(student);
-        return new ResponseEntity<>(student, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(student, HttpStatus.OK);
     }
 
     @GetMapping(path = "/all")
@@ -66,7 +66,7 @@ public class StudentController {
         Student student = new Student("imię", "nazwisko", "111111111", "email@o.pl", "password", "pesel", address,
                 new Date());
 
-        Instructor instructor = new Instructor("instrktor", "fajny", "1111", "ins@o2.pl", "passssss", 12, 18);
+        Instructor instructor = new Instructor("instruktor", "fajny", "1111", "ins@o2.pl", "passssss", 12, 18);
 
         List<Payment> payments = new ArrayList<>();
         Payment p1 = new Payment(15.0, new Date());

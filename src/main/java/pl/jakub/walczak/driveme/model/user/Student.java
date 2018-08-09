@@ -46,13 +46,6 @@ public class Student extends User {
     }
 
     public Student(String firstName, String lastName, String phoneNumber, String email, String password, String pesel,
-                   Address address) {
-        super(firstName, lastName, phoneNumber, email, password);
-        this.pesel = pesel;
-        this.address = address;
-    }
-
-    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String pesel,
                    Address address, Date registrationDate, List<Payment> payments) {
         super(firstName, lastName, phoneNumber, email, password);
         this.pesel = pesel;

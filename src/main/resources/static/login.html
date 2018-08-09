@@ -2,19 +2,32 @@
 <html lang="en">
 <head>
     <title>DriveMe - Login</title>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
 </head>
 
-<body>
-<div class="inputs">
-    <h2>ZALOGUJ SIĘ</h2>
-    <form action="http://localhost:8080/users/login" method="post">
-        Email:
-        <input type="email" name="email"><br><br>
-        Hasło:
-        <input type="password" name="password"><br><br>
+<body background="background.png">
 
-        <input type="submit" value="Zaloguj" name="login">
+
+<div class="modal">
+    <form class="modal-content" action="http://localhost:8080/users/login" method="post">
+        <div class="imagecontainer">
+            <img src="login_avatar.png" class="LoginAvatar">
+        </div>
+
+        <div class="login-container">
+            <label for="email"><b>Email</b></label>
+            <input type="email" placeholder="Podaj email" name="email" required>
+
+            <label for="password"><b>Hasło</b></label>
+            <input type="password" placeholder="Podaj hasło" name="password" required>
+
+            <button type="submit" class="loginbtn">Zaloguj</button>
+            <label>
+                <input type="checkbox" name="remember"> Zapamiętaj mnie
+            </label>
+            <span class="password"><a href="#">Zapomniałeś hasła?</a></span>
+        </div>
     </form>
 </div>
 

@@ -13,7 +13,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public Optional<User> findUserByEmailAndPassword(String email, String password) {
-        return userRepository.findUserByEmailAndPassword(email, password);
+    public Optional<User> findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
     }
 }
