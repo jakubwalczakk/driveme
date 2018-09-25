@@ -23,7 +23,7 @@ public class Reservation {
     @Column(name="reservation_date", nullable = false)
     private Date date;
     @Column(name = "driving_time", nullable = false)
-    private double drivingTime;
+    private Double drivingTime;
     @ManyToOne(cascade = CascadeType.ALL)
     private DrivingCity drivingCity;
 
@@ -31,7 +31,7 @@ public class Reservation {
 
     }
 
-    public Reservation(Student student, Instructor instructor, Car car, Date date, double drivingTime, DrivingCity drivingCity) {
+    public Reservation(Student student, Instructor instructor, Car car, Date date, Double drivingTime, DrivingCity drivingCity) {
         this.student = student;
         this.instructor = instructor;
         this.car = car;
@@ -72,11 +72,11 @@ public class Reservation {
         this.date = date;
     }
 
-    public double getDrivingTime() {
+    public Double getDrivingTime() {
         return drivingTime;
     }
 
-    public void setDrivingTime(double drivingTime) {
+    public void setDrivingTime(Double drivingTime) {
         this.drivingTime = drivingTime;
     }
 

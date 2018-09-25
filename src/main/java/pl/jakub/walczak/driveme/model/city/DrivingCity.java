@@ -2,7 +2,7 @@ package pl.jakub.walczak.driveme.model.city;
 
 import javax.persistence.*;
 
-@Entity(name = "cities")
+@Entity(name = "driving_cities")
 public class DrivingCity {
 
     @Id

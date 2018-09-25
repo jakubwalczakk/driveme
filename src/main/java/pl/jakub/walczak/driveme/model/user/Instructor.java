@@ -1,42 +1,47 @@
 package pl.jakub.walczak.driveme.model.user;
 
-import pl.jakub.walczak.driveme.model.user.User;
+import pl.jakub.walczak.driveme.model.course.Course;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.Set;
 
 @Entity(name = "instructors")
 public class Instructor extends User {
 
     @Column(name = "available_hours")
-    private int availableHours;
+    private Integer availableHours;
     @Column(name = "taken_hours")
-    private int takenHours;
+    private Integer takenHours;
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Course> courses;
 
-    public Instructor(){
+    public Instructor() {
 
     }
 
-    public Instructor(String firstName, String lastName, String phoneNumber, String email, String password, int availableHours, int
+    public Instructor(String name, String surname, String phoneNumber, String email, String password, int availableHours, int
             takenHours) {
-        super(firstName, lastName, phoneNumber, email, password);
+        super(name, surname, phoneNumber, email, password);
         this.availableHours = availableHours;
         this.takenHours = takenHours;
     }
 
-    public int getAvailableHours() {
+    public Integer getAvailableHours() {
         return availableHours;
     }
 
-    public void setAvailableHours(int availableHours) {
+    public void setAvailableHours(Integer availableHours) {
         this.availableHours = availableHours;
     }
 
-    public int getTakenHours() {
+    public Integer getTakenHours() {
         return takenHours;
     }
 
-    public void setTakenHours(int takenHours) {
+    public void setTakenHours(Integer takenHours) {
         this.takenHours = takenHours;
     }
 }

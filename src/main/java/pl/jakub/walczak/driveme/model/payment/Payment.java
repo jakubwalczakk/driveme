@@ -12,11 +12,11 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne(cascade = CascadeType.REMOVE)
-//    private Student student;
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    private Student student;
 
     @Column(name = "amount", nullable = false)
-    private double amount;
+    private Double amount;
 
     @Column(name = "payment_date", nullable = false)
     private Date paymentDate;
@@ -25,16 +25,16 @@ public class Payment {
 
     }
 
-    public Payment(double amount, Date paymentDate) {
+    public Payment(Double amount, Date paymentDate) {
         this.amount = amount;
         this.paymentDate = paymentDate;
     }
 
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

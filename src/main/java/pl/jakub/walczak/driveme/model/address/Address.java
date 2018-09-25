@@ -15,20 +15,17 @@ public class Address {
     @Column(name = "street", nullable = false)
     private String street;
     @Column(name = "house_number", nullable = false)
-    private int houseNumber;
-    @Column(name = "local_number")
-    private int localNumber;
+    private String houseNumber;
 
     public Address() {
 
     }
 
-    public Address(String city, String zipCode, String street, int houseNumber, int localNumber) {
+    public Address(String city, String zipCode, String street, String houseNumber) {
         this.city = city;
         this.zipCode = zipCode;
         this.street = street;
         this.houseNumber = houseNumber;
-        this.localNumber = localNumber;
     }
 
     public Long getId() {
@@ -63,19 +60,11 @@ public class Address {
         this.street = street;
     }
 
-    public int getHouseNumber() {
+    public String getHouseNumber() {
         return houseNumber;
     }
 
-    public void setHouseNumber(int houseNumber) {
+    public void setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
-    }
-
-    public int getLocalNumber() {
-        return localNumber;
-    }
-
-    public void setLocalNumber(int localNumber) {
-        this.localNumber = localNumber;
     }
 }

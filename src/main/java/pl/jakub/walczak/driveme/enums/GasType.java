@@ -1,5 +1,4 @@
-package pl.jakub.walczak.driveme.model.gastype;
-
+package pl.jakub.walczak.driveme.enums;
 
 public enum GasType {
     PETROL("Benzyna"),
@@ -10,7 +9,7 @@ public enum GasType {
 
     private String value;
 
-    private GasType(String value) {
+    GasType(String value) {
         this.value = value;
     }
 
@@ -18,4 +17,5 @@ public enum GasType {
     public String toString() {
         return value;
     }
+
 }

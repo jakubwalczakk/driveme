@@ -1,7 +1,5 @@
 package pl.jakub.walczak.driveme.model.exam;
 
-import pl.jakub.walczak.driveme.model.user.Student;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.util.Date;
@@ -9,58 +7,58 @@ import java.util.Date;
 @Entity(name = "theoretical_exam")
 public class TheoreticalExam extends Exam {
 
-    private static final int MAXIMUM_POINTS_AMOUNT = 74;
+    private static final Integer MAXIMUM_POINTS_AMOUNT = 74;
 
     @Column(name = "scored_points", nullable = false)
-    private int scoredPoints;
+    private Integer scoredPoints;
 
     @Column(name = "result", nullable = false)
-    private double result;
+    private Double result;
 
     @Column(name = "status", nullable = false)
-    private boolean status;
+    private Boolean status;
 
     public TheoreticalExam() {
 
     }
 
-    public TheoreticalExam(Date dateOfExam, int scoredPoints) {
+    public TheoreticalExam(Date dateOfExam, Integer scoredPoints) {
         super(dateOfExam);
         this.scoredPoints = scoredPoints;
         this.result = scoredPoints * 1.0 / MAXIMUM_POINTS_AMOUNT;
     }
 
-    public TheoreticalExam(Date dateOfExam, int scoredPoints, boolean status) {
+    public TheoreticalExam(Date dateOfExam, Integer scoredPoints, Boolean status) {
         super(dateOfExam);
         this.scoredPoints = scoredPoints;
         this.status = status;
     }
 
-    public int getScoredPoints() {
-        return scoredPoints;
-    }
-
-    public void setScoredPoints(int scoredPoints) {
-        this.scoredPoints = scoredPoints;
-    }
-
-    public static int getMaximumPointsAmount() {
+    public static Integer getMaximumPointsAmount() {
         return MAXIMUM_POINTS_AMOUNT;
     }
 
-    public double getResult() {
+    public Integer getScoredPoints() {
+        return scoredPoints;
+    }
+
+    public void setScoredPoints(Integer scoredPoints) {
+        this.scoredPoints = scoredPoints;
+    }
+
+    public Double getResult() {
         return result;
     }
 
-    public void setResult(double result) {
+    public void setResult(Double result) {
         this.result = result;
     }
 
-    public boolean isStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 }

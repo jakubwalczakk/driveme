@@ -27,9 +27,9 @@ public class Student extends User {
 
     }
 
-    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String pesel,
+    public Student(String name, String surname, String phoneNumber, String email, String password, String pesel,
                    Address address, Date registrationDate, List<Payment> payments, Course course) {
-        super(firstName, lastName, phoneNumber, email, password);
+        super(name, surname, phoneNumber, email, password);
         this.pesel = pesel;
         this.address = address;
         this.registrationDate = registrationDate;
@@ -37,17 +37,17 @@ public class Student extends User {
         this.course = course;
     }
 
-    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String pesel,
+    public Student(String name, String surname, String phoneNumber, String email, String password, String pesel,
                    Address address, Date date) {
-        super(firstName, lastName, phoneNumber, email, password);
+        super(name, surname, phoneNumber, email, password);
         this.pesel = pesel;
         this.address = address;
         this.registrationDate = date;
     }
 
-    public Student(String firstName, String lastName, String phoneNumber, String email, String password, String pesel,
+    public Student(String name, String surname, String phoneNumber, String email, String password, String pesel,
                    Address address, Date registrationDate, List<Payment> payments) {
-        super(firstName, lastName, phoneNumber, email, password);
+        super(name, surname, phoneNumber, email, password);
         this.pesel = pesel;
         this.address = address;
         this.registrationDate = registrationDate;

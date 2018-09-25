@@ -2,28 +2,32 @@ package pl.jakub.walczak.driveme.model.course;
 
 import pl.jakub.walczak.driveme.model.exam.PracticalExam;
 import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
+import pl.jakub.walczak.driveme.model.user.Student;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity(name = "courses")
 public class Course {
 
-
-    private static final double price = 1500.0;
+    private static final Double price = 1500.0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "start_date", nullable = false)
-    private Date startDate;
+    private LocalDate startDate;
     @Column(name = "driving_hours", nullable = false)
-    private int drivingHours;
+    private Integer drivingHours;
     @Column(name = "lecture_hours", nullable = false)
-    private int lectureHours;
+    private Integer lectureHours;
     @Column(name = "taken_driving_hours", nullable = false)
-    private int takenDrivingHours;
+    private Integer takenDrivingHours;
+    @Column(name = "current_payment")
+    private Double currentPayment;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Student student;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<TheoreticalExam> theoreticalExams;
@@ -34,7 +38,7 @@ public class Course {
     public Course() {
     }
 
-    public Course(Date startDate, int drivingHours, int lectureHours, int takenDrivingHours,
+    public Course(LocalDate startDate, Integer drivingHours, Integer lectureHours, Integer takenDrivingHours,
                   List<TheoreticalExam> theoreticalExams, PracticalExam practicalExam) {
         this.startDate = startDate;
         this.drivingHours = drivingHours;
@@ -44,7 +48,7 @@ public class Course {
         this.practicalExam = practicalExam;
     }
 
-    public static double getPrice() {
+    public static Double getPrice() {
         return price;
     }
 
@@ -56,35 +60,35 @@ public class Course {
         this.id = id;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public int getDrivingHours() {
+    public Integer getDrivingHours() {
         return drivingHours;
     }
 
-    public void setDrivingHours(int drivingHours) {
+    public void setDrivingHours(Integer drivingHours) {
         this.drivingHours = drivingHours;
     }
 
-    public int getLectureHours() {
+    public Integer getLectureHours() {
         return lectureHours;
     }
 
-    public void setLectureHours(int lectureHours) {
+    public void setLectureHours(Integer lectureHours) {
         this.lectureHours = lectureHours;
     }
 
-    public int getTakenDrivingHours() {
+    public Integer getTakenDrivingHours() {
         return takenDrivingHours;
     }
 
-    public void setTakenDrivingHours(int takenDrivingHours) {
+    public void setTakenDrivingHours(Integer takenDrivingHours) {
         this.takenDrivingHours = takenDrivingHours;
     }
 

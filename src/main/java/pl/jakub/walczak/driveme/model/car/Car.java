@@ -1,6 +1,6 @@
 package pl.jakub.walczak.driveme.model.car;
 
-import pl.jakub.walczak.driveme.model.gastype.GasType;
+import pl.jakub.walczak.driveme.enums.GasType;
 
 import javax.persistence.*;
 
@@ -18,7 +18,11 @@ public class Car {
     @JoinColumn(name = "gas_type", nullable = false)
     private GasType gasType;
 
-    public Car(){
+//    private String carPhoto;
+
+
+
+    public Car() {
 
     }
 

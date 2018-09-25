@@ -9,10 +9,10 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
+    @Column(name = "name", nullable = false)
+    private String name;
+    @Column(name = "surname", nullable = false)
+    private String surname;
     @Column(name = "phone_number", unique = true, nullable = false)
     private String phoneNumber;
     @Column(name = "email", unique = true, nullable = false)
@@ -20,7 +20,7 @@ public class User {
     //    @JsonIgnore
     //    @Transient
     // @NotEmpty
-    // @Length(min = 5)
+    // @Length(min = 8)
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -28,9 +28,9 @@ public class User {
 
     }
 
-    public User(String firstName, String lastName, String phoneNumber, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String name, String surname, String phoneNumber, String email, String password) {
+        this.name = name;
+        this.surname = surname;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
@@ -45,20 +45,20 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getPhoneNumber() {
