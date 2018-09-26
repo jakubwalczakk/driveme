@@ -17,10 +17,6 @@ public class User {
     private String phoneNumber;
     @Column(name = "email", unique = true, nullable = false)
     private String email;
-    //    @JsonIgnore
-    //    @Transient
-    // @NotEmpty
-    // @Length(min = 8)
     @Column(name = "password", nullable = false)
     private String password;
 

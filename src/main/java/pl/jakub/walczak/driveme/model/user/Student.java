@@ -3,10 +3,12 @@ package pl.jakub.walczak.driveme.model.user;
 import pl.jakub.walczak.driveme.model.address.Address;
 import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.payment.Payment;
+import pl.jakub.walczak.driveme.model.reservation.Reservation;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "students")
 public class Student extends User {
@@ -18,17 +20,19 @@ public class Student extends User {
     private Address address;
     @Column(name = "registration_date", nullable = false)
     private Date registrationDate;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Payment> payments;
+    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
+    private Set<Payment> payments;
     @OneToOne(cascade = CascadeType.ALL)
     private Course course;
+    @OneToMany(mappedBy = "student")
+    private Set<Reservation> reservations;
 
     public Student() {
 
     }
 
     public Student(String name, String surname, String phoneNumber, String email, String password, String pesel,
-                   Address address, Date registrationDate, List<Payment> payments, Course course) {
+                   Address address, Date registrationDate, Set<Payment> payments, Course course) {
         super(name, surname, phoneNumber, email, password);
         this.pesel = pesel;
         this.address = address;
@@ -46,7 +50,7 @@ public class Student extends User {
     }
 
     public Student(String name, String surname, String phoneNumber, String email, String password, String pesel,
-                   Address address, Date registrationDate, List<Payment> payments) {
+                   Address address, Date registrationDate, Set<Payment> payments) {
         super(name, surname, phoneNumber, email, password);
         this.pesel = pesel;
         this.address = address;
@@ -78,11 +82,11 @@ public class Student extends User {
         this.registrationDate = registrationDate;
     }
 
-    public List<Payment> getPayments() {
+    public Set<Payment> getPayments() {
         return payments;
     }
 
-    public void setPayments(List<Payment> payments) {
+    public void setPayments(Set<Payment> payments) {
         this.payments = payments;
     }
 

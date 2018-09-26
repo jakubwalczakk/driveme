@@ -1,5 +1,7 @@
 package pl.jakub.walczak.driveme.model.exam;
 
+import pl.jakub.walczak.driveme.model.course.Course;
+
 import javax.persistence.*;
 import java.util.Date;
 

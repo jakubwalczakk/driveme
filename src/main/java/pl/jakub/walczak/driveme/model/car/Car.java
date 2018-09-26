@@ -1,58 +1,40 @@
 package pl.jakub.walczak.driveme.model.car;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.enums.GasType;
+import pl.jakub.walczak.driveme.model.exam.PracticalExam;
+import pl.jakub.walczak.driveme.model.reservation.Reservation;
 
 import javax.persistence.*;
+import java.util.Set;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "cars")
 public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Enumerated
     @Column(name = "brand", nullable = false)
-    private String brand;
+    private CarBrand brand;
+    @Column(name="model", nullable = false)
+    private String model;
     @Column(name = "license_plate_number", nullable = false)
     private String licensePlateNumber;
     @Enumerated
-    @JoinColumn(name = "gas_type", nullable = false)
+    @Column(name = "gas_type", nullable = false)
     private GasType gasType;
-
+    @OneToMany(mappedBy = "car")
+    private Set<PracticalExam> practicalExams;
+    @OneToMany(mappedBy = "car")
+    private Set<Reservation>reservations;
 //    private String carPhoto;
-
-
-
-    public Car() {
-
-    }
-
-    public Car(String brand, String licensePlateNumber, GasType gasType) {
-        this.brand = brand;
-        this.licensePlateNumber = licensePlateNumber;
-        this.gasType = gasType;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getLicensePlateNumber() {
-        return licensePlateNumber;
-    }
-
-    public void setLicensePlateNumber(String licensePlateNumber) {
-        this.licensePlateNumber = licensePlateNumber;
-    }
-
-    public GasType getGasType() {
-        return gasType;
-    }
-
-    public void setGasType(GasType gasType) {
-        this.gasType = gasType;
-    }
 }

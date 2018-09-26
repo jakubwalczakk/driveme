@@ -3,7 +3,7 @@ spring:
     hibernate:
       ddl-auto: create
   datasource:
-    url: jdbc:mysql://localhost:3306/drive_me_db?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/drive_me_db?createDatabaseIfNotExist=true&characterEncoding=utf8&amp;characterSetResults=utf8mb4
     username: user
     password: password
     driver-class-name: com.mysql.jdbc.Driver

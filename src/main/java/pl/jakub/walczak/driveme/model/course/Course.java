@@ -28,10 +28,8 @@ public class Course {
     private Double currentPayment;
     @OneToOne(cascade = CascadeType.ALL)
     private Student student;
-
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
     private List<TheoreticalExam> theoreticalExams;
-
     @OneToOne(cascade = CascadeType.ALL)
     private PracticalExam practicalExam;
 

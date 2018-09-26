@@ -1,7 +1,10 @@
 package pl.jakub.walczak.driveme.model.exam;
 
+import pl.jakub.walczak.driveme.model.course.Course;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @Entity(name = "theoretical_exam")
@@ -17,6 +20,9 @@ public class TheoreticalExam extends Exam {
 
     @Column(name = "status", nullable = false)
     private Boolean status;
+
+    @ManyToOne
+    private Course course;
 
     public TheoreticalExam() {
 

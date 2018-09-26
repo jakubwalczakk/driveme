@@ -1,7 +1,16 @@
 package pl.jakub.walczak.driveme.model.city;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "driving_cities")
 public class DrivingCity {
 
@@ -11,20 +20,4 @@ public class DrivingCity {
 
     @Column(name = "name", nullable = false)
     private String name;
-
-    public DrivingCity(){
-
-    }
-
-    public DrivingCity(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
