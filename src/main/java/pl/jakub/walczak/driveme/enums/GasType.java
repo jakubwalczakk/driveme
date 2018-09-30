@@ -3,9 +3,7 @@ package pl.jakub.walczak.driveme.enums;
 public enum GasType {
     PETROL("Benzyna"),
     GAS("Gaz"),
-    OIL("Ropa naftowa"),
-    ELECTRIC("Elektryczny"),
-    HYBRID("Hybryda");
+    OIL("Ropa naftowa");
 
     private String value;
 

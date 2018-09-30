@@ -1,5 +1,9 @@
 package pl.jakub.walczak.driveme.model.course;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import pl.jakub.walczak.driveme.model.exam.PracticalExam;
 import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
 import pl.jakub.walczak.driveme.model.user.Student;
@@ -8,6 +12,10 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "courses")
 public class Course {
 
@@ -28,81 +36,9 @@ public class Course {
     private Double currentPayment;
     @OneToOne(cascade = CascadeType.ALL)
     private Student student;
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<TheoreticalExam> theoreticalExams;
     @OneToOne(cascade = CascadeType.ALL)
     private PracticalExam practicalExam;
 
-    public Course() {
-    }
-
-    public Course(LocalDate startDate, Integer drivingHours, Integer lectureHours, Integer takenDrivingHours,
-                  List<TheoreticalExam> theoreticalExams, PracticalExam practicalExam) {
-        this.startDate = startDate;
-        this.drivingHours = drivingHours;
-        this.lectureHours = lectureHours;
-        this.takenDrivingHours = takenDrivingHours;
-        this.theoreticalExams = theoreticalExams;
-        this.practicalExam = practicalExam;
-    }
-
-    public static Double getPrice() {
-        return price;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public Integer getDrivingHours() {
-        return drivingHours;
-    }
-
-    public void setDrivingHours(Integer drivingHours) {
-        this.drivingHours = drivingHours;
-    }
-
-    public Integer getLectureHours() {
-        return lectureHours;
-    }
-
-    public void setLectureHours(Integer lectureHours) {
-        this.lectureHours = lectureHours;
-    }
-
-    public Integer getTakenDrivingHours() {
-        return takenDrivingHours;
-    }
-
-    public void setTakenDrivingHours(Integer takenDrivingHours) {
-        this.takenDrivingHours = takenDrivingHours;
-    }
-
-    public List<TheoreticalExam> getTheoreticalExams() {
-        return theoreticalExams;
-    }
-
-    public void setTheoreticalExams(List<TheoreticalExam> theoreticalExams) {
-        this.theoreticalExams = theoreticalExams;
-    }
-
-    public PracticalExam getPracticalExam() {
-        return practicalExam;
-    }
-
-    public void setPracticalExam(PracticalExam practicalExam) {
-        this.practicalExam = practicalExam;
-    }
 }

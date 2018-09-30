@@ -8,8 +8,6 @@ public enum CarBrand {
     OPEL("OPEL"),
     RENAULT("RENAULT"),
     KIA("KIA"),
-    SUZUKI("SUZUKI"),
-    CHEVROLET("CHEVROLET"),
     HYUNDAI("HYUNDAI"),
     MITSHUBISHI("MITSUBISHI");
 

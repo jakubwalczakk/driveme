@@ -1,10 +1,18 @@
 package pl.jakub.walczak.driveme.model.payment;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import pl.jakub.walczak.driveme.model.user.Student;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "payments")
 public class Payment {
 
@@ -21,28 +29,4 @@ public class Payment {
     @Column(name = "payment_date", nullable = false)
     private Date paymentDate;
 
-    public Payment() {
-
-    }
-
-    public Payment(Double amount, Date paymentDate) {
-        this.amount = amount;
-        this.paymentDate = paymentDate;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public Date getPaymentDate() {
-        return paymentDate;
-    }
-
-    public void setPaymentDate(Date paymentDate) {
-        this.paymentDate = paymentDate;
-    }
 }

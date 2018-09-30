@@ -1,7 +1,16 @@
 package pl.jakub.walczak.driveme.model.address;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "adresses")
 public class Address {
 
@@ -16,55 +25,4 @@ public class Address {
     private String street;
     @Column(name = "house_number", nullable = false)
     private String houseNumber;
-
-    public Address() {
-
-    }
-
-    public Address(String city, String zipCode, String street, String houseNumber) {
-        this.city = city;
-        this.zipCode = zipCode;
-        this.street = street;
-        this.houseNumber = houseNumber;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getHouseNumber() {
-        return houseNumber;
-    }
-
-    public void setHouseNumber(String houseNumber) {
-        this.houseNumber = houseNumber;
-    }
 }

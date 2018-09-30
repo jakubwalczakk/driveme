@@ -1,5 +1,9 @@
 package pl.jakub.walczak.driveme.model.user;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.exam.PracticalExam;
 import pl.jakub.walczak.driveme.model.reservation.Reservation;
@@ -10,6 +14,10 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.Set;
 
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "instructors")
 public class Instructor extends User {
 
@@ -20,34 +28,8 @@ public class Instructor extends User {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Course> courses;
     @OneToMany(mappedBy = "instructor")
-    private Set<PracticalExam>practicalExams;
+    private Set<PracticalExam> practicalExams;
     @OneToMany(mappedBy = "instructor")
-    private Set<Reservation>reservations;
+    private Set<Reservation> reservations;
 
-    public Instructor() {
-
-    }
-
-    public Instructor(String name, String surname, String phoneNumber, String email, String password, int availableHours, int
-            takenHours) {
-        super(name, surname, phoneNumber, email, password);
-        this.availableHours = availableHours;
-        this.takenHours = takenHours;
-    }
-
-    public Integer getAvailableHours() {
-        return availableHours;
-    }
-
-    public void setAvailableHours(Integer availableHours) {
-        this.availableHours = availableHours;
-    }
-
-    public Integer getTakenHours() {
-        return takenHours;
-    }
-
-    public void setTakenHours(Integer takenHours) {
-        this.takenHours = takenHours;
-    }
 }
