@@ -1,9 +1,9 @@
 package pl.jakub.walczak.driveme.model.user;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.exam.PracticalExam;
 import pl.jakub.walczak.driveme.model.reservation.Reservation;
@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 import java.util.Set;
 
 @Data
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "instructors")

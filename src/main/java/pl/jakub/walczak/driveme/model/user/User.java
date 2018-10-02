@@ -1,14 +1,15 @@
 package pl.jakub.walczak.driveme.model.user;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import pl.jakub.walczak.driveme.enums.UserRole;
 
 import javax.persistence.*;
 
 @Data
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "users")
@@ -28,5 +29,8 @@ public class User {
     private String email;
     @Column(name = "password", nullable = false)
     private String password;
+    @Enumerated
+    @Column(name = "user_role", nullable = false)
+    private UserRole userRole;
 
 }

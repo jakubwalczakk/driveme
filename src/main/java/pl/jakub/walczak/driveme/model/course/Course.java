@@ -29,11 +29,11 @@ public class Course {
     @Column(name = "driving_hours", nullable = false)
     private Integer drivingHours;
     @Column(name = "lecture_hours", nullable = false)
-    private Integer lectureHours;
+    private Integer lectureHours = 30;
     @Column(name = "taken_driving_hours", nullable = false)
     private Integer takenDrivingHours;
-    @Column(name = "current_payment")
-    private Double currentPayment;
+//    @Column(name = "current_payment")
+//    private Double currentPayment;
     @OneToOne(cascade = CascadeType.ALL)
     private Student student;
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)

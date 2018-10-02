@@ -4,42 +4,61 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.enums.GasType;
+import pl.jakub.walczak.driveme.enums.UserRole;
 import pl.jakub.walczak.driveme.model.address.Address;
 import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.city.DrivingCity;
+import pl.jakub.walczak.driveme.model.user.Instructor;
+import pl.jakub.walczak.driveme.model.user.Student;
+import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.address.AddressRepository;
 import pl.jakub.walczak.driveme.repos.car.CarRepository;
 import pl.jakub.walczak.driveme.repos.city.DrivingCityRepository;
+import pl.jakub.walczak.driveme.repos.user.InstructorRepository;
+import pl.jakub.walczak.driveme.repos.user.StudentRepository;
+import pl.jakub.walczak.driveme.repos.user.UserRepository;
 
 import javax.annotation.PostConstruct;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Component
 public class DBInitialization {
 
-    private LicensePlateGenerator licensePlateGenerator;
+    private final static String DEFAULT_PASSWORD = "password";
+
+    private Generator generator;
 
     private DrivingCityRepository drivingCityRepository;
     private CarRepository carRepository;
     private AddressRepository addressRepository;
+    private UserRepository userRepository;
+    private InstructorRepository instructorRepository;
+    private StudentRepository studentRepository;
 
     private Set<DrivingCity> drivingCities;
     private Set<Car> cars;
     private Set<Address> addresses;
+    private Set<Instructor> instructors;
 
     @Autowired
-    public DBInitialization(LicensePlateGenerator licensePlateGenerator, DrivingCityRepository drivingCityRepository,
-                            CarRepository carRepository,
-                            AddressRepository addressRepository) {
-        this.licensePlateGenerator = licensePlateGenerator;
+    public DBInitialization(Generator generator, DrivingCityRepository drivingCityRepository, CarRepository carRepository,
+                            AddressRepository addressRepository, UserRepository userRepository,
+                            InstructorRepository instructorRepository, StudentRepository studentRepository) {
+        this.generator = generator;
+
         this.drivingCityRepository = drivingCityRepository;
         this.carRepository = carRepository;
         this.addressRepository = addressRepository;
+        this.userRepository = userRepository;
+        this.instructorRepository = instructorRepository;
+        this.studentRepository=studentRepository;
 
         this.drivingCities = new HashSet<>();
         this.cars = new HashSet<>();
         this.addresses = new HashSet<>();
+        this.instructors = new HashSet<>();
     }
 
     @PostConstruct
@@ -47,6 +66,7 @@ public class DBInitialization {
         initializeDrivingCities();
         initializeCars();
         initializeAddresses();
+        initializeUsers();
     }
 
     private void initializeDrivingCities() {
@@ -77,76 +97,76 @@ public class DBInitialization {
 
     private void initializeCars() {
         Car punto =
-                Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.GAS).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.GAS).licensePlate(generator.generateLicensePlate()).build();
         cars.add(punto);
         Car punto2 =
-                Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.GAS).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.GAS).licensePlate(generator.generateLicensePlate()).build();
         cars.add(punto2);
         Car punto3 =
-                Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.PETROL).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.PETROL).licensePlate(generator.generateLicensePlate()).build();
         cars.add(punto3);
         Car micra =
-                Car.builder().brand(CarBrand.NISSAN).model("Micra").gasType(GasType.GAS).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.NISSAN).model("Micra").gasType(GasType.GAS).licensePlate(generator.generateLicensePlate()).build();
         cars.add(micra);
         Car micra2 =
-                Car.builder().brand(CarBrand.NISSAN).model("Micra").gasType(GasType.OIL).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.NISSAN).model("Micra").gasType(GasType.OIL).licensePlate(generator.generateLicensePlate()).build();
         cars.add(micra2);
         Car colt =
-                Car.builder().brand(CarBrand.MITSHUBISHI).model("Colt").gasType(GasType.GAS).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.MITSHUBISHI).model("Colt").gasType(GasType.GAS).licensePlate(generator.generateLicensePlate()).build();
         cars.add(colt);
         Car colt2 =
-                Car.builder().brand(CarBrand.MITSHUBISHI).model("Colt").gasType(GasType.PETROL).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.MITSHUBISHI).model("Colt").gasType(GasType.PETROL).licensePlate(generator.generateLicensePlate()).build();
         cars.add(colt2);
         Car yaris =
-                Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.GAS).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.GAS).licensePlate(generator.generateLicensePlate()).build();
         cars.add(yaris);
         Car yaris2 =
-                Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.GAS).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.GAS).licensePlate(generator.generateLicensePlate()).build();
         cars.add(yaris2);
         Car yaris3 =
-                Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.OIL).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.OIL).licensePlate(generator.generateLicensePlate()).build();
         cars.add(yaris3);
         Car yaris4 =
-                Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.OIL).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.OIL).licensePlate(generator.generateLicensePlate()).build();
         cars.add(yaris4);
         Car yaris5 =
-                Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.PETROL).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.PETROL).licensePlate(generator.generateLicensePlate()).build();
         cars.add(yaris5);
         Car yaris6 =
-                Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.PETROL).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.PETROL).licensePlate(generator.generateLicensePlate()).build();
         cars.add(yaris6);
         Car corsa =
-                Car.builder().brand(CarBrand.OPEL).model("Corsa").gasType(GasType.PETROL).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.OPEL).model("Corsa").gasType(GasType.PETROL).licensePlate(generator.generateLicensePlate()).build();
         cars.add(corsa);
         Car corsa2 =
-                Car.builder().brand(CarBrand.OPEL).model("Corsa").gasType(GasType.GAS).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.OPEL).model("Corsa").gasType(GasType.GAS).licensePlate(generator.generateLicensePlate()).build();
         cars.add(corsa2);
         Car clio =
-                Car.builder().brand(CarBrand.RENAULT).model("Clio").gasType(GasType.OIL).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.RENAULT).model("Clio").gasType(GasType.OIL).licensePlate(generator.generateLicensePlate()).build();
         cars.add(clio);
         Car clio2 =
-                Car.builder().brand(CarBrand.RENAULT).model("Clio").gasType(GasType.GAS).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.RENAULT).model("Clio").gasType(GasType.GAS).licensePlate(generator.generateLicensePlate()).build();
         cars.add(clio2);
         Car hyundai =
-                Car.builder().brand(CarBrand.HYUNDAI).model("i20").gasType(GasType.PETROL).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.HYUNDAI).model("i20").gasType(GasType.PETROL).licensePlate(generator.generateLicensePlate()).build();
         cars.add(hyundai);
         Car hyundai2 =
-                Car.builder().brand(CarBrand.HYUNDAI).model("i20").gasType(GasType.OIL).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.HYUNDAI).model("i20").gasType(GasType.OIL).licensePlate(generator.generateLicensePlate()).build();
         cars.add(hyundai2);
         Car rio =
-                Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.OIL).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.OIL).licensePlate(generator.generateLicensePlate()).build();
         cars.add(rio);
         Car rio2 =
-                Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.OIL).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.OIL).licensePlate(generator.generateLicensePlate()).build();
         cars.add(rio2);
         Car rio3 =
-                Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.PETROL).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.PETROL).licensePlate(generator.generateLicensePlate()).build();
         cars.add(rio3);
         Car rio4 =
-                Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.PETROL).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.PETROL).licensePlate(generator.generateLicensePlate()).build();
         cars.add(rio4);
         Car rio5 =
-                Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.GAS).licensePlate(licensePlateGenerator.generateLicensePlate()).build();
+                Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.GAS).licensePlate(generator.generateLicensePlate()).build();
         cars.add(rio5);
 
         carRepository.saveAll(cars);
@@ -157,10 +177,92 @@ public class DBInitialization {
         Address address = Address.builder().city("Gliwice").street("Kujawska").zipCode("44-100").houseNumber("142").build();
         addresses.add(address);
 
-        addressRepository.saveAll(addresses);
+        Address address2 = Address.builder().city("Katowice").street("Szewska").zipCode("40-320").houseNumber("11").build();
+        addresses.add(address2);
+
+        Address address3 = Address.builder().city("Bytom").street("Radowska").zipCode("41-600").houseNumber("15").build();
+        addresses.add(address3);
+
+        Address address4 = Address.builder().city("Zabrze").street("Gliwicka").zipCode("41-800").houseNumber("219").build();
+        addresses.add(address4);
+
+        Address address5 = Address.builder().city("Rybnik").street("Miejska").zipCode("44-200").houseNumber("2").build();
+        addresses.add(address5);
+
+        Address address6 = Address.builder().city("Chorzów").street("Krzywa").zipCode("40-100").houseNumber("12").build();
+        addresses.add(address6);
+
+        Address address7 = Address.builder().city("Sosnowiec").street("Środuli").zipCode("40-200").houseNumber("148").build();
+        addresses.add(address7);
+
+        Address address8 = Address.builder().city("Gliwice").street("Chorzowska").zipCode("44-100").houseNumber("200").build();
+        addresses.add(address8);
+
+        Address address9 = Address.builder().city("Zabrze").street("Wolności").zipCode("41-800").houseNumber("49").build();
+        addresses.add(address9);
+
+        Address address10 = Address.builder().city("Pszczyna").street("Wiejska").zipCode("43-200").houseNumber("73").build();
+        addresses.add(address10);
+
+        //addressRepository.saveAll(addresses);
     }
 
+    private void initializeUsers() {
+        initializeAdministrators();
+        initializeInstructors();
+        initializeStudents();
+    }
+
+    //2
+    private void initializeAdministrators() {
+
+        User admin1 = User.builder().name("Jadwiga").surname("Bąk").email("jadwiga.bak@driveme.pl").password(DEFAULT_PASSWORD)
+                .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.ADMINISTRATOR).build();
+        userRepository.save(admin1);
+
+        User admin2 = User.builder().name("Monika").surname("Krajewska").email("monika.krajewska@driveme.pl").password(DEFAULT_PASSWORD)
+                .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.ADMINISTRATOR).build();
+        userRepository.save(admin2);
+    }
+
+    //5
+    private void initializeInstructors() {
+
+        Instructor instructor1 = Instructor.builder().name("Jerzy").surname("Kowalski").email("jerzy.kowalski@driveme.pl")
+                .availableHours(30).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
+                .userRole(UserRole.INSTRUCTOR).build();
+        instructors.add(instructor1);
+
+        Instructor instructor2 = Instructor.builder().name("Edward").surname("Majewski").email("edward.majewski@driveme.pl")
+                .availableHours(40).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
+                .userRole(UserRole.INSTRUCTOR).build();
+        instructors.add(instructor2);
+
+        Instructor instructor3 = Instructor.builder().name("Tomasz").surname("Majewski").email("tomasz.majewski@driveme.pl")
+                .availableHours(20).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
+                .userRole(UserRole.INSTRUCTOR).build();
+        instructors.add(instructor3);
+
+        Instructor instructor4 = Instructor.builder().name("Karol").surname("Gaj").email("karol.gaj@driveme.pl")
+                .availableHours(30).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
+                .userRole(UserRole.INSTRUCTOR).build();
+        instructors.add(instructor4);
+
+        Instructor instructor5 = Instructor.builder().name("Bartosz").surname("Bielski").email("bartosz.bielski@driveme.pl")
+                .availableHours(40).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
+                .userRole(UserRole.INSTRUCTOR).build();
+        instructors.add(instructor5);
+
+        instructorRepository.saveAll(instructors);
+    }
+
+    //10
     private void initializeStudents() {
 
+        Student student1 = Student.builder().name("Jakub").surname("Walczak").email("jakub.walczak@driveme.pl")
+                .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
+                .pesel(generator.generatePesel()).address(addresses.iterator().next()).registrationDate(new Date()).build();
+
+        studentRepository.save(student1);
     }
 }

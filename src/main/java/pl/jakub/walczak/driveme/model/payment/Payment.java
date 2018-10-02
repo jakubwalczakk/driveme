@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.jakub.walczak.driveme.model.user.Student;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,8 +19,8 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Student student;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    private Student student;
 
     @Column(name = "amount", nullable = false)
     private Double amount;
