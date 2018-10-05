@@ -9,8 +9,10 @@ import pl.jakub.walczak.driveme.model.address.Address;
 import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.model.course.Course;
+import pl.jakub.walczak.driveme.model.driving.Driving;
 import pl.jakub.walczak.driveme.model.exam.PracticalExam;
 import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
+import pl.jakub.walczak.driveme.model.reservation.Reservation;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
@@ -23,14 +25,18 @@ import pl.jakub.walczak.driveme.repos.user.StudentRepository;
 import pl.jakub.walczak.driveme.repos.user.UserRepository;
 
 import javax.annotation.PostConstruct;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 @Component
 public class DBInitialization {
 
     private final static String DEFAULT_PASSWORD = "password";
-    private final static Random random = new Random();
+    private final static Random RANDOM = new Random();
+    private final static Long ONE_DAY_IN_SECONDS = 24 * 60 * 60L;
+    private final static ZoneId DEFAULT_ZONE_ID = ZoneId.systemDefault();
 
     private Generator generator;
 
@@ -229,11 +235,11 @@ public class DBInitialization {
     private void initializeAdministrators() {
 
         User admin1 = User.builder().name("Jadwiga").surname("Bąk").email("jadwiga.bak@driveme.pl").password(DEFAULT_PASSWORD)
-                .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.ADMINISTRATOR).build();
+                .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.ADMINISTRATOR).active(true).build();
         userRepository.save(admin1);
 
         User admin2 = User.builder().name("Monika").surname("Krajewska").email("monika.krajewska@driveme.pl").password(DEFAULT_PASSWORD)
-                .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.ADMINISTRATOR).build();
+                .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.ADMINISTRATOR).active(true).build();
         userRepository.save(admin2);
     }
 
@@ -242,83 +248,118 @@ public class DBInitialization {
 
         Instructor instructor1 = Instructor.builder().name("Jerzy").surname("Kowalski").email("jerzy.kowalski@driveme.pl")
                 .availableHours(30).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.INSTRUCTOR).build();
+                .userRole(UserRole.INSTRUCTOR).active(true).build();
         instructors.add(instructor1);
+        instructorRepository.save(instructor1);
 
         Instructor instructor2 = Instructor.builder().name("Edward").surname("Majewski").email("edward.majewski@driveme.pl")
                 .availableHours(40).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.INSTRUCTOR).build();
+                .userRole(UserRole.INSTRUCTOR).active(true).build();
         instructors.add(instructor2);
+        instructorRepository.save(instructor2);
 
         Instructor instructor3 = Instructor.builder().name("Tomasz").surname("Majewski").email("tomasz.majewski@driveme.pl")
                 .availableHours(20).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.INSTRUCTOR).build();
+                .userRole(UserRole.INSTRUCTOR).active(true).build();
         instructors.add(instructor3);
+        instructorRepository.save(instructor3);
 
         Instructor instructor4 = Instructor.builder().name("Karol").surname("Gaj").email("karol.gaj@driveme.pl")
                 .availableHours(30).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.INSTRUCTOR).build();
+                .userRole(UserRole.INSTRUCTOR).active(true).build();
         instructors.add(instructor4);
+        instructorRepository.save(instructor4);
 
         Instructor instructor5 = Instructor.builder().name("Bartosz").surname("Bielski").email("bartosz.bielski@driveme.pl")
                 .availableHours(40).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.INSTRUCTOR).build();
+                .userRole(UserRole.INSTRUCTOR).active(true).build();
         instructors.add(instructor5);
-
-        instructorRepository.saveAll(instructors);
+        instructorRepository.save(instructor5);
     }
 
     //10
     private void initializeStudents() {
 
-        Student student1 = Student.builder().name("Jakub").surname("Walczak").email("jakub.walczak@driveme.pl")
-                .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
-                .pesel(generator.generatePesel()).address(addresses.iterator().next()).registrationDate(new Date()).build();
+        List<Address> addressList = new ArrayList<>(addresses);
+
+        Student student1 = Student.builder()
+                .name("Jakub").surname("Walczak").email("jakub.walczak@driveme.pl").password(DEFAULT_PASSWORD)
+                .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
+                .pesel(generator.generatePesel()).address(addressList.get(0)).active(true)
+                .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .build();
         students.add(student1);
 
-        Student student2 = Student.builder().name("Patrycja").surname("Dąb").email("patrycja.dab@driveme.pl")
-                .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
-                .pesel(generator.generatePesel()).address(addresses.iterator().next()).registrationDate(new Date()).build();
+        Student student2 = Student.builder()
+                .name("Patrycja").surname("Dąb").email("patrycja.dab@driveme.pl").password(DEFAULT_PASSWORD)
+                .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
+                .pesel(generator.generatePesel()).address(addressList.get(1)).active(true)
+                .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .build();
         students.add(student2);
 
-        Student student3 = Student.builder().name("Dawid").surname("Pobierny").email("dawid.pobierny@driveme.pl")
+        Student student3 = Student.builder()
+                .name("Dawid").surname("Pobierny").email("dawid.pobierny@driveme.pl")
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
-                .pesel(generator.generatePesel()).address(addresses.iterator().next()).registrationDate(new Date()).build();
+                .pesel(generator.generatePesel()).address(addressList.get(2)).active(true)
+                .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .build();
         students.add(student3);
 
-        Student student4 = Student.builder().name("Magda").surname("Król").email("magda.krol@driveme.pl")
+        Student student4 = Student.builder()
+                .name("Magda").surname("Król").email("magda.krol@driveme.pl")
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
-                .pesel(generator.generatePesel()).address(addresses.iterator().next()).registrationDate(new Date()).build();
+                .pesel(generator.generatePesel()).address(addressList.get(3)).active(true)
+                .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .build();
         students.add(student4);
 
-        Student student5 = Student.builder().name("Adam").surname("Mamrot").email("adam.mamrot@driveme.pl")
+        Student student5 = Student.builder()
+                .name("Adam").surname("Mamrot").email("adam.mamrot@driveme.pl")
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
-                .pesel(generator.generatePesel()).address(addresses.iterator().next()).registrationDate(new Date()).build();
+                .pesel(generator.generatePesel()).address(addressList.get(4)).active(true)
+                .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .build();
         students.add(student5);
 
-        Student student6 = Student.builder().name("Marcel").surname("Zelek").email("marcel.zelek@driveme.pl")
+        Student student6 = Student.builder()
+                .name("Marcel").surname("Zelek").email("marcel.zelek@driveme.pl")
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
-                .pesel(generator.generatePesel()).address(addresses.iterator().next()).registrationDate(new Date()).build();
+                .pesel(generator.generatePesel()).address(addressList.get(5)).active(true)
+                .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .build();
         students.add(student6);
 
-        Student student7 = Student.builder().name("Agnieszka").surname("Chmura").email("agnieszka.chmura@driveme.pl")
+        Student student7 = Student.builder()
+                .name("Agnieszka").surname("Chmura").email("agnieszka.chmura@driveme.pl")
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
-                .pesel(generator.generatePesel()).address(addresses.iterator().next()).registrationDate(new Date()).build();
+                .pesel(generator.generatePesel()).address(addressList.get(6)).active(true)
+                .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .build();
         students.add(student7);
 
-        Student student8 = Student.builder().name("Natalia").surname("Szewczyk").email("natalia.szewczyk@driveme.pl")
+        Student student8 = Student.builder()
+                .name("Natalia").surname("Szewczyk").email("natalia.szewczyk@driveme.pl")
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
-                .pesel(generator.generatePesel()).address(addresses.iterator().next()).registrationDate(new Date()).build();
+                .pesel(generator.generatePesel()).address(addressList.get(7)).active(true)
+                .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .build();
         students.add(student8);
 
-        Student student9 = Student.builder().name("Bartłomiej").surname("Kawka").email("bartlomiej.kawka@driveme.pl")
-                .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
-                .pesel(generator.generatePesel()).address(addresses.iterator().next()).registrationDate(new Date()).build();
+        Student student9 = Student.builder()
+                .name("Bartłomiej").surname("Kawka").email("bartlomiej.kawka@driveme.pl").password(DEFAULT_PASSWORD)
+                .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
+                .pesel(generator.generatePesel()).address(addressList.get(8)).active(true)
+                .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .build();
         students.add(student9);
 
-        Student student10 = Student.builder().name("Karolina").surname("Słoik").email("karolina.sloik@driveme.pl")
-                .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
-                .pesel(generator.generatePesel()).address(addresses.iterator().next()).registrationDate(new Date()).build();
+        Student student10 = Student.builder()
+                .name("Karolina").surname("Słoik").email("karolina.sloik@driveme.pl").password(DEFAULT_PASSWORD)
+                .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
+                .pesel(generator.generatePesel()).address(addressList.get(9)).active(true)
+                .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .build();
         students.add(student10);
 
         studentRepository.saveAll(students);
@@ -332,24 +373,32 @@ public class DBInitialization {
 
             PracticalExam practicalExam = initializePracticalExam();
 
-            LocalDate startDate = LocalDate.now().minusDays(random.nextInt(60));
-            //TODO
-            //ADJUST TAKEN HOURS BY START DATE
-            int takenDrivingHours = 15;
+            Instant registrationDate = student.getRegistrationDate();
+            Instant courseStartDate = registrationDate.plusSeconds(RANDOM.nextInt(8) * ONE_DAY_IN_SECONDS);
+            LocalDate startDate = courseStartDate.atZone(DEFAULT_ZONE_ID).toLocalDate();
+
+            int takenDrivingHours;
+            if (courseStartDate.isAfter(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * 7))) {
+                takenDrivingHours = RANDOM.nextInt(12);
+            } else if (courseStartDate.isAfter(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * 14))) {
+                takenDrivingHours = RANDOM.nextInt(12) + 10;
+            } else {
+                takenDrivingHours = RANDOM.nextInt(16) + 15;
+            }
+
 
             Course course = Course.builder()
-                    //.student(student)
+                    .student(student)
                     .takenDrivingHours(takenDrivingHours)
                     .startDate(startDate)
                     .practicalExam(practicalExam)
                     .theoreticalExams(theoreticalExams)
                     .build();
-            student.setCourse(course);
 
             courses.add(course);
-            studentRepository.save(student);
+            //studentRepository.save(student);
         }
-        //courseRepository.saveAll(courses);
+        courseRepository.saveAll(courses);
     }
 
     private PracticalExam initializePracticalExam() {
@@ -358,9 +407,9 @@ public class DBInitialization {
         List<Car> carList = new ArrayList<>(cars);
 
         return PracticalExam.builder()
-                .car(carList.get(random.nextInt(carList.size())))
-                .instructor(instructorList.get(random.nextInt(instructorList.size())))
-                .dateOfExam(new Date())
+                .car(carList.get(RANDOM.nextInt(carList.size())))
+                .instructor(instructorList.get(RANDOM.nextInt(instructorList.size())))
+                .dateOfExam(Instant.now().minusSeconds(RANDOM.nextInt(4) * ONE_DAY_IN_SECONDS))
                 .build();
     }
 
@@ -368,7 +417,7 @@ public class DBInitialization {
         Set<TheoreticalExam> theoreticalExams = new HashSet<>();
         boolean status = false;
         while (status == false) {
-            final int scoredPoints = 60 + random.nextInt(15);
+            final int scoredPoints = 60 + RANDOM.nextInt(15);
             if (scoredPoints >= 68) {
                 status = true;
             }
@@ -376,11 +425,21 @@ public class DBInitialization {
                     .scoredPoints(scoredPoints)
                     .result(scoredPoints * 1.0 / TheoreticalExam.MAXIMUM_POINTS_AMOUNT)
                     .passed(status)
-                    .dateOfExam(new Date())
+                    .dateOfExam(Instant.now().minusSeconds(RANDOM.nextInt(6) * ONE_DAY_IN_SECONDS))
                     .build();
             theoreticalExams.add(theoreticalExam);
         }
 
         return theoreticalExams;
+    }
+
+    private Set<Reservation> initializeReservationsOfStudent(Student student) {
+        Set<Reservation> reservations = new HashSet<>();
+        return reservations;
+    }
+
+    private Set<Driving> initializeDrivingsOfStudent(Student student) {
+        Set<Driving> drivings = new HashSet<>();
+        return drivings;
     }
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.Date;
 
 @Data
@@ -26,6 +27,6 @@ public class Payment {
     private Double amount;
 
     @Column(name = "payment_date", nullable = false)
-    private Date paymentDate;
+    private Instant paymentDate;
 
 }

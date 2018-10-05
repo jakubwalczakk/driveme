@@ -28,9 +28,9 @@ public class Instructor extends User {
     private Integer takenHours;
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private Set<Course> courses;
-    @OneToMany(mappedBy = "instructor")
+    @OneToMany(mappedBy = "instructor", orphanRemoval = true)
     private Set<PracticalExam> practicalExams;
-    @OneToMany(mappedBy = "instructor")
+    @OneToMany(mappedBy = "instructor", orphanRemoval = true)
     private Set<Reservation> reservations;
 
 }

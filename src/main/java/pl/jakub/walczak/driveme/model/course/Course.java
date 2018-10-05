@@ -34,8 +34,8 @@ public class Course {
     private Integer takenDrivingHours;
     //    @Column(name = "current_payment")
 //    private Double currentPayment;
-//    @OneToOne//(cascade = CascadeType.ALL)
-//    private Student student;
+    @OneToOne//(cascade = CascadeType.ALL)
+    private Student student;
     @OneToMany(cascade = CascadeType.ALL)
 //    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<TheoreticalExam> theoreticalExams;

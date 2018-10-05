@@ -1,4 +1,4 @@
-package pl.jakub.walczak.driveme.model.reservation;
+package pl.jakub.walczak.driveme.model.driving;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,14 +11,13 @@ import pl.jakub.walczak.driveme.model.user.Student;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.Date;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "reservations")
-public class Reservation {
+@Entity(name = "drivings")
+public class Driving {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,12 +28,11 @@ public class Reservation {
     private Instructor instructor;
     @ManyToOne(cascade = CascadeType.ALL)
     private Car car;
-    @Column(name = "reservation_date", nullable = false)
+    @Column(name = "driving_date", nullable = false)
     private Instant date;
     @Column(name = "driving_time", nullable = false)
     private Double drivingTime;
     @ManyToOne(cascade = CascadeType.ALL)
     private DrivingCity drivingCity;
-    @Column(name = "status")
-    private Boolean status;
 }
+
