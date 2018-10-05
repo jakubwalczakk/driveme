@@ -17,14 +17,14 @@ import javax.persistence.ManyToOne;
 @Entity(name = "theoretical_exam")
 public class TheoreticalExam extends Exam {
 
-    private static final Integer MAXIMUM_POINTS_AMOUNT = 74;
+    public static final Integer MAXIMUM_POINTS_AMOUNT = 74;
 
     @Column(name = "scored_points", nullable = false)
     private Integer scoredPoints;
     @Column(name = "result", nullable = false)
     private Double result;
     @Column(name = "status", nullable = false)
-    private Boolean status;
+    private Boolean passed;
     @ManyToOne
     private Course course;
 

@@ -32,7 +32,8 @@ public class Generator {
     }
 
     public String generatePhoneNumber() {
-        StringBuilder phoneNumber = new StringBuilder(random.nextInt(9) + 1);
+        int initial = random.nextInt(9)+1;
+        StringBuilder phoneNumber = new StringBuilder(initial);
         for (int i = 0; i < 8; i++) {
             phoneNumber.append(numbers[random.nextInt(numbers.length)]);
         }
@@ -40,7 +41,8 @@ public class Generator {
     }
 
     public String generatePesel(){
-        StringBuilder pesel=new StringBuilder(random.nextInt(9)+1);
+        int initial = random.nextInt(9)+1;
+        StringBuilder pesel=new StringBuilder(initial);
         for(int i=0;i<10;i++){
             pesel.append(numbers[random.nextInt(numbers.length)]);
         }

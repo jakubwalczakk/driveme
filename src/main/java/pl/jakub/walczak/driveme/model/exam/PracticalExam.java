@@ -18,9 +18,9 @@ import javax.persistence.ManyToOne;
 @Entity(name = "practical_exam")
 public class PracticalExam extends Exam {
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne//(cascade = CascadeType.ALL)
     private Car car;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne//(cascade = CascadeType.ALL)
     private Instructor instructor;
 
 }
