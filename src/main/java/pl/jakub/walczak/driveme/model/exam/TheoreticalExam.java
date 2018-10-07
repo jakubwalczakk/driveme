@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import pl.jakub.walczak.driveme.model.course.Course;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 
 @Data
 @SuperBuilder
@@ -25,7 +23,7 @@ public class TheoreticalExam extends Exam {
     private Double result;
     @Column(name = "status", nullable = false)
     private Boolean passed;
-    @ManyToOne
-    private Course course;
+//    @ManyToOne
+//    private Course course;
 
 }

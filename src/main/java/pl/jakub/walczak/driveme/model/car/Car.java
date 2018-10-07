@@ -6,11 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.enums.GasType;
-import pl.jakub.walczak.driveme.model.event.Reservation;
-import pl.jakub.walczak.driveme.model.exam.PracticalExam;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Data
 @Builder
@@ -32,9 +29,9 @@ public class Car {
     @Enumerated
     @Column(name = "gas_type", nullable = false)
     private GasType gasType;
-    @OneToMany(mappedBy = "car")
-    private Set<PracticalExam> practicalExams;
-    @OneToMany(mappedBy = "car")
-    private Set<Reservation>reservations;
+//    @OneToMany(mappedBy = "car")
+//    private Set<PracticalExam> practicalExams;
+//    @OneToMany(mappedBy = "car")
+//    private Set<Reservation>reservations;
 //    private String carPhoto;
 }

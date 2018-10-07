@@ -22,6 +22,6 @@ public class Address {
     private String zipCode;
     @Column(name = "street", nullable = false)
     private String street;
-    @Column(name = "house_number", nullable = false)
-    private String houseNumber;
+    @Column(name = "house_no", nullable = false)
+    private String houseNo;
 }

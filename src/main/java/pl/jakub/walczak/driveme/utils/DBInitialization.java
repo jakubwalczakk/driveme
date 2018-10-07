@@ -201,34 +201,34 @@ public class DBInitialization {
 
     private void initializeAddresses() {
 
-        Address address = Address.builder().city("Gliwice").street("Kujawska").zipCode("44-100").houseNumber("142").build();
+        Address address = Address.builder().city("Gliwice").street("Kujawska").zipCode("44-100").houseNo("142").build();
         addresses.add(address);
 
-        Address address2 = Address.builder().city("Katowice").street("Szewska").zipCode("40-320").houseNumber("11").build();
+        Address address2 = Address.builder().city("Katowice").street("Szewska").zipCode("40-320").houseNo("11").build();
         addresses.add(address2);
 
-        Address address3 = Address.builder().city("Bytom").street("Radowska").zipCode("41-600").houseNumber("15").build();
+        Address address3 = Address.builder().city("Bytom").street("Radowska").zipCode("41-600").houseNo("15").build();
         addresses.add(address3);
 
-        Address address4 = Address.builder().city("Zabrze").street("Gliwicka").zipCode("41-800").houseNumber("219").build();
+        Address address4 = Address.builder().city("Zabrze").street("Gliwicka").zipCode("41-800").houseNo("219").build();
         addresses.add(address4);
 
-        Address address5 = Address.builder().city("Rybnik").street("Miejska").zipCode("44-200").houseNumber("2").build();
+        Address address5 = Address.builder().city("Rybnik").street("Miejska").zipCode("44-200").houseNo("2").build();
         addresses.add(address5);
 
-        Address address6 = Address.builder().city("Chorzów").street("Krzywa").zipCode("40-100").houseNumber("12").build();
+        Address address6 = Address.builder().city("Chorzów").street("Krzywa").zipCode("40-100").houseNo("12").build();
         addresses.add(address6);
 
-        Address address7 = Address.builder().city("Sosnowiec").street("Środuli").zipCode("40-200").houseNumber("148").build();
+        Address address7 = Address.builder().city("Sosnowiec").street("Środuli").zipCode("40-200").houseNo("148").build();
         addresses.add(address7);
 
-        Address address8 = Address.builder().city("Gliwice").street("Chorzowska").zipCode("44-100").houseNumber("200").build();
+        Address address8 = Address.builder().city("Gliwice").street("Chorzowska").zipCode("44-100").houseNo("200").build();
         addresses.add(address8);
 
-        Address address9 = Address.builder().city("Zabrze").street("Wolności").zipCode("41-800").houseNumber("49").build();
+        Address address9 = Address.builder().city("Zabrze").street("Wolności").zipCode("41-800").houseNo("49").build();
         addresses.add(address9);
 
-        Address address10 = Address.builder().city("Pszczyna").street("Wiejska").zipCode("43-200").houseNumber("73").build();
+        Address address10 = Address.builder().city("Pszczyna").street("Wiejska").zipCode("43-200").houseNo("73").build();
         addresses.add(address10);
 
         addressRepository.saveAll(addresses);

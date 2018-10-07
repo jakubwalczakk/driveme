@@ -2,18 +2,42 @@ package pl.jakub.walczak.driveme.services.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.jakub.walczak.driveme.dto.event.CalendarEventDTO;
+import pl.jakub.walczak.driveme.mappers.event.CalendarEventMapper;
 import pl.jakub.walczak.driveme.model.event.CalendarEvent;
 import pl.jakub.walczak.driveme.repos.event.CalendarEventRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CalendarEventService {
 
-    @Autowired
     private CalendarEventRepository calendarEventRepository;
+    private CalendarEventMapper calendarEventMapper;
+
+    @Autowired
+    public CalendarEventService(CalendarEventRepository calendarEventRepository, CalendarEventMapper calendarEventMapper) {
+        this.calendarEventRepository = calendarEventRepository;
+        this.calendarEventMapper = calendarEventMapper;
+    }
 
     public List<CalendarEvent> findAll() {
         return calendarEventRepository.findAll();
+    }
+
+    public CalendarEventDTO mapModelToDTO(CalendarEvent model, CalendarEventDTO dto) {
+        return calendarEventMapper.mapModelToDTO(model, dto);
+    }
+
+    public CalendarEvent mapDTOToModel(CalendarEventDTO dto, CalendarEvent model) {
+        if (dto.getId() != null) {
+            Optional<CalendarEvent> optionalCalendarEvent = calendarEventRepository.findById(dto.getId());
+            if (optionalCalendarEvent.isPresent()) {
+                model = optionalCalendarEvent.get();
+            }
+        }
+        model = calendarEventMapper.mapDTOToModel(dto, model);
+        return calendarEventRepository.save(model);
     }
 }

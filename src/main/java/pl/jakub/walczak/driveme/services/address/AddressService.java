@@ -2,18 +2,42 @@ package pl.jakub.walczak.driveme.services.address;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.jakub.walczak.driveme.dto.address.AddressDTO;
+import pl.jakub.walczak.driveme.mappers.address.AddressMapper;
 import pl.jakub.walczak.driveme.model.address.Address;
 import pl.jakub.walczak.driveme.repos.address.AddressRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AddressService {
 
-    @Autowired
     private AddressRepository addressRepository;
+    private AddressMapper addressMapper;
+
+    @Autowired
+    public AddressService(AddressRepository addressRepository, AddressMapper addressMapper) {
+        this.addressRepository = addressRepository;
+        this.addressMapper = addressMapper;
+    }
 
     public List<Address> findAll() {
         return addressRepository.findAll();
+    }
+
+    public AddressDTO mapModelToDTO(Address model, AddressDTO dto) {
+        return addressMapper.mapModelToDTO(model, dto);
+    }
+
+    public Address mapDTOToModel(AddressDTO dto, Address model) {
+        if (dto.getId() != null) {
+            Optional<Address> optionalAddress = addressRepository.findById(dto.getId());
+            if (optionalAddress.isPresent()) {
+                model = optionalAddress.get();
+            }
+        }
+        model = addressMapper.mapDTOToModel(dto, model);
+        return addressRepository.save(model);
     }
 }
