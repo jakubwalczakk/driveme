@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.enums.GasType;
+import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.model.exam.PracticalExam;
-import pl.jakub.walczak.driveme.model.reservation.Reservation;
 
 import javax.persistence.*;
 import java.util.Set;

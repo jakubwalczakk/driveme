@@ -36,8 +36,8 @@ public class Course {
 //    private Double currentPayment;
     @OneToOne//(cascade = CascadeType.ALL)
     private Student student;
+    //    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     @OneToMany(cascade = CascadeType.ALL)
-//    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<TheoreticalExam> theoreticalExams;
     @OneToOne(cascade = CascadeType.ALL)
     private PracticalExam practicalExam;

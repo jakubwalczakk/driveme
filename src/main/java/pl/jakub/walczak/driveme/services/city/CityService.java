@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.repos.city.DrivingCityRepository;
 
+import java.util.List;
+
 @Service
 public class CityService {
 
@@ -15,7 +17,7 @@ public class CityService {
         return drivingCityRepository.save(drivingCity);
     }
 
-    public Iterable<DrivingCity> findAll() {
+    public List<DrivingCity> findAll() {
         return drivingCityRepository.findAll();
     }
 }

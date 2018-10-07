@@ -19,7 +19,6 @@ public class Address {
     private Long id;
     @Column(name = "city", nullable = false)
     private String city;
-    @Column(name = "zip_code")
     private String zipCode;
     @Column(name = "street", nullable = false)
     private String street;

@@ -4,15 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.enums.GasType;
+import pl.jakub.walczak.driveme.enums.Rating;
 import pl.jakub.walczak.driveme.enums.UserRole;
 import pl.jakub.walczak.driveme.model.address.Address;
 import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.model.course.Course;
-import pl.jakub.walczak.driveme.model.driving.Driving;
+import pl.jakub.walczak.driveme.model.event.Driving;
+import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.model.exam.PracticalExam;
 import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
-import pl.jakub.walczak.driveme.model.reservation.Reservation;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
@@ -20,6 +21,8 @@ import pl.jakub.walczak.driveme.repos.address.AddressRepository;
 import pl.jakub.walczak.driveme.repos.car.CarRepository;
 import pl.jakub.walczak.driveme.repos.city.DrivingCityRepository;
 import pl.jakub.walczak.driveme.repos.course.CourseRepository;
+import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
+import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
 import pl.jakub.walczak.driveme.repos.user.InstructorRepository;
 import pl.jakub.walczak.driveme.repos.user.StudentRepository;
 import pl.jakub.walczak.driveme.repos.user.UserRepository;
@@ -47,19 +50,22 @@ public class DBInitialization {
     private InstructorRepository instructorRepository;
     private StudentRepository studentRepository;
     private CourseRepository courseRepository;
+    private DrivingRepository drivingRepository;
+    private ReservationRepository reservationRepository;
 
-    private Set<DrivingCity> drivingCities;
-    private Set<Car> cars;
-    private Set<Address> addresses;
-    private Set<Instructor> instructors;
-    private Set<Student> students;
-    private Set<Course> courses;
+    private List<DrivingCity> drivingCities;
+    private List<Car> cars;
+    private List<Address> addresses;
+    private List<Instructor> instructors;
+    private List<Student> students;
+    private List<Course> courses;
 
     @Autowired
     public DBInitialization(Generator generator, DrivingCityRepository drivingCityRepository, CarRepository carRepository,
                             AddressRepository addressRepository, UserRepository userRepository,
                             InstructorRepository instructorRepository, StudentRepository studentRepository,
-                            CourseRepository courseRepository) {
+                            CourseRepository courseRepository, DrivingRepository drivingRepository,
+                            ReservationRepository reservationRepository) {
         this.generator = generator;
 
         this.drivingCityRepository = drivingCityRepository;
@@ -69,13 +75,15 @@ public class DBInitialization {
         this.instructorRepository = instructorRepository;
         this.studentRepository = studentRepository;
         this.courseRepository = courseRepository;
+        this.drivingRepository = drivingRepository;
+        this.reservationRepository = reservationRepository;
 
-        this.drivingCities = new HashSet<>();
-        this.cars = new HashSet<>();
-        this.addresses = new HashSet<>();
-        this.instructors = new HashSet<>();
-        this.students = new HashSet<>();
-        this.courses = new HashSet<>();
+        this.drivingCities = new ArrayList<>();
+        this.cars = new ArrayList<>();
+        this.addresses = new ArrayList<>();
+        this.instructors = new ArrayList<>();
+        this.students = new ArrayList<>();
+        this.courses = new ArrayList<>();
     }
 
     @PostConstruct
@@ -85,6 +93,7 @@ public class DBInitialization {
         initializeAddresses();
         initializeUsers();
         initializeCourses();
+        testInit();
     }
 
     private void initializeDrivingCities() {
@@ -238,8 +247,9 @@ public class DBInitialization {
                 .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.ADMINISTRATOR).active(true).build();
         userRepository.save(admin1);
 
-        User admin2 = User.builder().name("Monika").surname("Krajewska").email("monika.krajewska@driveme.pl").password(DEFAULT_PASSWORD)
-                .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.ADMINISTRATOR).active(true).build();
+        User admin2 =
+                User.builder().name("Monika").surname("Krajewska").email("monika.krajewska@driveme.pl").password(DEFAULT_PASSWORD)
+                        .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.ADMINISTRATOR).active(true).build();
         userRepository.save(admin2);
     }
 
@@ -403,12 +413,9 @@ public class DBInitialization {
 
     private PracticalExam initializePracticalExam() {
 
-        List<Instructor> instructorList = new ArrayList<>(instructors);
-        List<Car> carList = new ArrayList<>(cars);
-
         return PracticalExam.builder()
-                .car(carList.get(RANDOM.nextInt(carList.size())))
-                .instructor(instructorList.get(RANDOM.nextInt(instructorList.size())))
+                .car(cars.get(RANDOM.nextInt(cars.size())))
+                .instructor(instructors.get(RANDOM.nextInt(instructors.size())))
                 .dateOfExam(Instant.now().minusSeconds(RANDOM.nextInt(4) * ONE_DAY_IN_SECONDS))
                 .build();
     }
@@ -442,4 +449,24 @@ public class DBInitialization {
         Set<Driving> drivings = new HashSet<>();
         return drivings;
     }
+
+
+    private void testInit() {
+        Driving driving1 =
+                Driving.builder().student(students.get(0)).instructor(instructors.get(1)).car(cars.get(1)).date(Instant.now()).eventDuration(1.50).drivingCity(drivingCities.get(0)).rating(Rating.AVERAGE).build();
+        drivingRepository.save(driving1);
+
+        Driving driving2 =
+                Driving.builder().student(students.get(1)).instructor(instructors.get(0)).car(cars.get(0)).date(Instant.now()).eventDuration(2.20).drivingCity(drivingCities.get(1)).rating(Rating.AVERAGE).build();
+        drivingRepository.save(driving2);
+
+        Reservation reservation1 =
+                Reservation.builder().student(students.get(2)).instructor(instructors.get(1)).car(cars.get(2)).date(Instant.now()).eventDuration(1.58).drivingCity(drivingCities.get(1)).status(true).build();
+        reservationRepository.save(reservation1);
+
+        Reservation reservation2 =
+                Reservation.builder().student(students.get(4)).instructor(instructors.get(3)).car(cars.get(2)).date(Instant.now()).eventDuration(1.89).drivingCity(drivingCities.get(4)).status(false).build();
+        reservationRepository.save(reservation2);
+    }
+
 }

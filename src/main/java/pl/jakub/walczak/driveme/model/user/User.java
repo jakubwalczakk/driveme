@@ -1,11 +1,9 @@
 package pl.jakub.walczak.driveme.model.user;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.ColumnDefault;
 import pl.jakub.walczak.driveme.enums.UserRole;
 
 import javax.persistence.*;
@@ -14,8 +12,8 @@ import javax.persistence.*;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
+@Entity(name = "users")
 public class User {
 
     @Id

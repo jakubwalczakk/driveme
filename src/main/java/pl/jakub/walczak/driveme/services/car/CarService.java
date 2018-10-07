@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.repos.car.CarRepository;
 
+import java.util.List;
+
 @Service
 public class CarService {
 
@@ -13,5 +15,9 @@ public class CarService {
 
     public Car save(Car car) {
         return carRepository.save(car);
+    }
+
+    public List<Car> findAll() {
+        return carRepository.findAll();
     }
 }
