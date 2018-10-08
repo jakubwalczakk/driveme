@@ -4,7 +4,8 @@ public enum UserRole {
 
     ADMINISTRATOR("Administrator"),
     INSTRUCTOR("Instructor"),
-    STUDENT("Student");
+    STUDENT("Student"),
+    DEFAULT("Brak informacji");
 
     private String value;
 

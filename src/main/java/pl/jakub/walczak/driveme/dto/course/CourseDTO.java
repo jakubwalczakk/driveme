@@ -20,7 +20,7 @@ public class CourseDTO {
     private Long id;
     private LocalDate startDate;
     private Integer takenDrivingHours;
-    private StudentDTO student;
+//    private StudentDTO student;
     private PracticalExamDTO practicalExam;
     private Set<TheoreticalExamDTO> theoreticalExams;
 }

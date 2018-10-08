@@ -25,14 +25,15 @@ public class Generator {
         StringBuilder licensePlate = new StringBuilder("S");
         licensePlate.append(licensePlateAppendix[random.nextInt(licensePlateAppendix.length)]);
         licensePlate.append(' ');
-        for (int i = 0; i < 5; i++) {
+        int length = random.nextInt(2) + 4;
+        for (int i = 0; i < length; i++) {
             licensePlate.append(licensePlateSecondsPart[random.nextInt(licensePlateSecondsPart.length)]);
         }
         return licensePlate.toString();
     }
 
     public String generatePhoneNumber() {
-        int initial = random.nextInt(9)+1;
+        int initial = random.nextInt(9) + 1;
         StringBuilder phoneNumber = new StringBuilder(initial);
         for (int i = 0; i < 8; i++) {
             phoneNumber.append(numbers[random.nextInt(numbers.length)]);
@@ -40,10 +41,10 @@ public class Generator {
         return phoneNumber.toString();
     }
 
-    public String generatePesel(){
-        int initial = random.nextInt(9)+1;
-        StringBuilder pesel=new StringBuilder(initial);
-        for(int i=0;i<10;i++){
+    public String generatePesel() {
+        int initial = random.nextInt(9) + 1;
+        StringBuilder pesel = new StringBuilder(initial);
+        for (int i = 0; i < 10; i++) {
             pesel.append(numbers[random.nextInt(numbers.length)]);
         }
         return pesel.toString();

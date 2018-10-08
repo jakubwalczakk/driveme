@@ -8,10 +8,14 @@ import pl.jakub.walczak.driveme.model.city.DrivingCity;
 public class DrivingCityMapper {
 
     public DrivingCityDTO mapModelToDTO(DrivingCity model, DrivingCityDTO dto) {
+        dto.setId(model.getId());
+        dto.setName(model.getName());
         return dto;
     }
 
     public DrivingCity mapDTOToModel(DrivingCityDTO dto, DrivingCity model) {
+        model.setId(dto.getId());
+        model.setName(dto.getName());
         return model;
     }
 }

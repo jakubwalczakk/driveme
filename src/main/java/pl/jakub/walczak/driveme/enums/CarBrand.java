@@ -9,7 +9,8 @@ public enum CarBrand {
     RENAULT("RENAULT"),
     KIA("KIA"),
     HYUNDAI("HYUNDAI"),
-    MITSHUBISHI("MITSUBISHI");
+    MITSHUBISHI("MITSUBISHI"),
+    DEFAULT("Brak informacji");
 
     private String value;
 
