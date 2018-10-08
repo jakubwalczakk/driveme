@@ -1,6 +1,7 @@
 package pl.jakub.walczak.driveme.controllers.exam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,7 @@ public class ExamController {
     private StudentService studentService;
 
     @GetMapping
-    public List<ExamDTO> getAll(){
-        return  examService.getAll();
+    public ResponseEntity<List<ExamDTO>> getAll() {
+        return ResponseEntity.ok(examService.getAll());
     }
 }

@@ -1,6 +1,7 @@
 package pl.jakub.walczak.driveme.controllers.city;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +18,8 @@ public class CityController {
     private CityService cityService;
 
     @GetMapping
-    public List<DrivingCityDTO> getAll(){
-        return cityService.getAll();
+    public ResponseEntity<List<DrivingCityDTO>> getAll() {
+        return ResponseEntity.ok(cityService.getAll());
     }
 
 }

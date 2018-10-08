@@ -1,6 +1,7 @@
 package pl.jakub.walczak.driveme.controllers.address;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,7 @@ public class AddressController {
     private AddressService addressService;
 
     @GetMapping
-    public List<AddressDTO> getAll(){
-        return addressService.getAll();
+    public ResponseEntity<List<AddressDTO>> getAll() {
+        return ResponseEntity.ok(addressService.getAll());
     }
 }
