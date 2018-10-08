@@ -9,6 +9,7 @@ import pl.jakub.walczak.driveme.repos.car.CarRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CarService {
@@ -45,4 +46,7 @@ public class CarService {
         return carRepository.save(model);
     }
 
+    public List<CarDTO> getAll() {
+        return findAll().stream().map(car -> mapModelToDTO(car, CarDTO.builder().build())).collect(Collectors.toList());
+    }
 }

@@ -9,6 +9,7 @@ import pl.jakub.walczak.driveme.repos.user.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -43,5 +44,9 @@ public class UserService {
         }
         model = userMapper.mapDTOToModel(dto, model);
         return userRepository.save(model);
+    }
+
+    public List<UserDTO> getAll() {
+        return findAll().stream().map(user -> mapModelToDTO(user, UserDTO.builder().build())).collect(Collectors.toList());
     }
 }

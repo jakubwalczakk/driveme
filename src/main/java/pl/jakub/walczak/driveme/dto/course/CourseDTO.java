@@ -1,9 +1,9 @@
 package pl.jakub.walczak.driveme.dto.course;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import pl.jakub.walczak.driveme.dto.exam.PracticalExamDTO;
 import pl.jakub.walczak.driveme.dto.exam.TheoreticalExamDTO;
 import pl.jakub.walczak.driveme.dto.user.StudentDTO;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseDTO {

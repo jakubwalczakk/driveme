@@ -9,6 +9,7 @@ import pl.jakub.walczak.driveme.repos.address.AddressRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AddressService {
@@ -39,5 +40,9 @@ public class AddressService {
         }
         model = addressMapper.mapDTOToModel(dto, model);
         return addressRepository.save(model);
+    }
+
+    public List<AddressDTO> getAll() {
+        return findAll().stream().map(address -> mapModelToDTO(address, AddressDTO.builder().build())).collect(Collectors.toList());
     }
 }

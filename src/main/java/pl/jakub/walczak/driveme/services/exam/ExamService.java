@@ -9,6 +9,7 @@ import pl.jakub.walczak.driveme.repos.exam.ExamRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ExamService {
@@ -43,5 +44,9 @@ public class ExamService {
         }
         model = examMapper.mapDTOToModel(dto, model);
         return examRepository.save(model);
+    }
+
+    public List<ExamDTO> getAll() {
+        return findAll().stream().map(exam -> mapModelToDTO(exam, ExamDTO.builder().build())).collect(Collectors.toList());
     }
 }

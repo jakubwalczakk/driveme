@@ -1,9 +1,9 @@
 package pl.jakub.walczak.driveme.dto.user;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
 import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
 import pl.jakub.walczak.driveme.dto.exam.PracticalExamDTO;
@@ -11,7 +11,7 @@ import pl.jakub.walczak.driveme.dto.exam.PracticalExamDTO;
 import java.util.Set;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class InstructorDTO extends UserDTO {

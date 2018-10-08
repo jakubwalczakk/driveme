@@ -9,6 +9,7 @@ import pl.jakub.walczak.driveme.repos.city.DrivingCityRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CityService {
@@ -43,5 +44,9 @@ public class CityService {
         }
         model = drivingCityMapper.mapDTOToModel(dto, model);
         return drivingCityRepository.save(model);
+    }
+
+    public List<DrivingCityDTO> getAll() {
+        return findAll().stream().map(city -> mapModelToDTO(city, DrivingCityDTO.builder().build())).collect(Collectors.toList());
     }
 }

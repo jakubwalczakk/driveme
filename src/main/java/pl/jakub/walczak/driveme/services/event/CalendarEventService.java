@@ -9,6 +9,7 @@ import pl.jakub.walczak.driveme.repos.event.CalendarEventRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CalendarEventService {
@@ -39,5 +40,9 @@ public class CalendarEventService {
         }
         model = calendarEventMapper.mapDTOToModel(dto, model);
         return calendarEventRepository.save(model);
+    }
+
+    public List<CalendarEventDTO> getAll() {
+        return findAll().stream().map(event -> mapModelToDTO(event, CalendarEventDTO.builder().build())).collect(Collectors.toList());
     }
 }

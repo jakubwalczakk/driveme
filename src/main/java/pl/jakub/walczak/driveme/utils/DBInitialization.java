@@ -404,11 +404,12 @@ public class DBInitialization {
                     .practicalExam(practicalExam)
                     .theoreticalExams(theoreticalExams)
                     .build();
+            student.setCourse(course);
 
             courses.add(course);
-            //studentRepository.save(student);
+            studentRepository.save(student);
         }
-        courseRepository.saveAll(courses);
+//        courseRepository.saveAll(courses);
     }
 
     private PracticalExam initializePracticalExam() {
