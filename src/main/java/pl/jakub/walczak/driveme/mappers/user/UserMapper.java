@@ -27,7 +27,8 @@ public class UserMapper {
         model.setPassword(dto.getPasword());
         try{
             model.setUserRole(UserRole.valueOf(dto.getUserRole()));
-        }catch (Exception e){
+        } catch (IllegalArgumentException | NullPointerException e) {
+            e.printStackTrace();
             model.setUserRole(UserRole.DEFAULT);
         }
         model.setActive(dto.getActive());

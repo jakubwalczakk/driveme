@@ -21,6 +21,9 @@ public class StudentService {
         this.studentMapper = studentMapper;
     }
 
+    // -- methods for controller --
+
+    // -- dao methods --
     public Iterable<Student> findAll() {
         return studentRepository.findAll();
     }
@@ -29,6 +32,7 @@ public class StudentService {
         return studentRepository.findStudentByName(name);
     }
 
+    // -- mapper methods --
     public StudentDTO mapModelToDTO(Student model, StudentDTO dto) {
         return studentMapper.mapModelToDTO(model, dto);
     }

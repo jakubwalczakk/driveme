@@ -22,10 +22,14 @@ public class PracticalExamService {
         this.practicalExamMapper = practicalExamMapper;
     }
 
+    // -- methods for controller
+
+    // -- dao methods --
     public List<PracticalExam> findAll() {
         return practicalExamRepository.findAll();
     }
 
+    // -- mapper methods --
     public PracticalExamDTO mapModelToDTO(PracticalExam model, PracticalExamDTO dto) {
         return practicalExamMapper.mapModelToDTO(model, dto);
     }

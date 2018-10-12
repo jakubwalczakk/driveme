@@ -22,13 +22,14 @@ public class CourseService {
         this.courseMapper = courseMapper;
     }
 
-    public Course save(Course course) {
-        return courseRepository.save(course);
-    }
+    // -- methods for controller --
 
+    // -- dao methods --
     public List<Course> findAll() {
         return courseRepository.findAll();
     }
+
+    // -- mapper methods --
 
     public CourseDTO mapModelToDTO(Course model, CourseDTO dto) {
         return courseMapper.mapModelToDTO(model, dto);

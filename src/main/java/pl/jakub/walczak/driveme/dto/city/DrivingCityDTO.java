@@ -13,4 +13,5 @@ public class DrivingCityDTO {
 
     private Long id;
     private String name;
+    private Boolean active;
 }

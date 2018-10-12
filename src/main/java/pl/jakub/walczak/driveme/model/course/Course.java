@@ -41,5 +41,8 @@ public class Course {
     private Set<TheoreticalExam> theoreticalExams;
     @OneToOne(cascade = CascadeType.ALL)
     private PracticalExam practicalExam;
+    // maybe an enum? "ZAWIESZONY", "W TRAKCIE", "UKOŃCZONY" (?)
+    @Column(name = "status")
+    private Boolean status;
 
 }

@@ -29,6 +29,8 @@ public class Car {
     @Enumerated
     @Column(name = "gas_type", nullable = false)
     private GasType gasType;
+    @Column(name = "activity")
+    private Boolean active;
 //    @OneToMany(mappedBy = "car")
 //    private Set<PracticalExam> practicalExams;
 //    @OneToMany(mappedBy = "car")

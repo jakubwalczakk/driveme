@@ -8,6 +8,7 @@ import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.repos.car.CarRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,14 +24,33 @@ public class CarService {
         this.carMapper = carMapper;
     }
 
-    public Car save(Car car) {
+    // -- methods for controller --
+    public Car addCar(CarDTO carDTO) {
+        Car car = mapDTOToModel(carDTO, Car.builder().build());
         return carRepository.save(car);
     }
 
+    public void deleteCar(Long id) {
+        Optional<Car> carToDelete = carRepository.findById(id);
+        if (carToDelete.isPresent()) {
+            Car car = carToDelete.get();
+            car.setActive(false);
+            carRepository.save(car);
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public List<CarDTO> getAll() {
+        return findAll().stream().map(car -> mapModelToDTO(car, CarDTO.builder().build())).collect(Collectors.toList());
+    }
+
+    // -- dao methods --
     public List<Car> findAll() {
         return carRepository.findAll();
     }
 
+    // -- mapper methods --
     public CarDTO mapModelToDTO(Car model, CarDTO dto) {
         return carMapper.mapModelToDTO(model, dto);
     }
@@ -44,9 +64,5 @@ public class CarService {
         }
         model = carMapper.mapDTOToModel(dto, model);
         return carRepository.save(model);
-    }
-
-    public List<CarDTO> getAll() {
-        return findAll().stream().map(car -> mapModelToDTO(car, CarDTO.builder().build())).collect(Collectors.toList());
     }
 }

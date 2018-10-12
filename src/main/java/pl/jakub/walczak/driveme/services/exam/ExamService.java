@@ -23,14 +23,17 @@ public class ExamService {
         this.examMapper = examMapper;
     }
 
-    public Exam save(Exam exam) {
-        return examRepository.save(exam);
+    // -- methods for controller --
+    public List<ExamDTO> getAll() {
+        return findAll().stream().map(exam -> mapModelToDTO(exam, ExamDTO.builder().build())).collect(Collectors.toList());
     }
 
+    // -- dao methods --
     public List<Exam> findAll() {
         return examRepository.findAll();
     }
 
+    // -- mapper methods --
     public ExamDTO mapModelToDTO(Exam model, ExamDTO dto) {
         return examMapper.mapModelToDTO(model, dto);
     }
@@ -44,9 +47,5 @@ public class ExamService {
         }
         model = examMapper.mapDTOToModel(dto, model);
         return examRepository.save(model);
-    }
-
-    public List<ExamDTO> getAll() {
-        return findAll().stream().map(exam -> mapModelToDTO(exam, ExamDTO.builder().build())).collect(Collectors.toList());
     }
 }

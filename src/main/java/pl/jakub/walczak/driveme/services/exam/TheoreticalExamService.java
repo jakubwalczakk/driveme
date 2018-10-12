@@ -22,10 +22,14 @@ public class TheoreticalExamService {
         this.theoreticalExamMapper = theoreticalExamMapper;
     }
 
+    // -- methods for controller --
+
+    // -- dao methods --
     public List<TheoreticalExam> findAll() {
         return theoreticalExamRepository.findAll();
     }
 
+    // -- mapper methods --
     public TheoreticalExamDTO mapModelToDTO(TheoreticalExam model, TheoreticalExamDTO dto) {
         return theoreticalExamMapper.mapModelToDTO(model, dto);
     }

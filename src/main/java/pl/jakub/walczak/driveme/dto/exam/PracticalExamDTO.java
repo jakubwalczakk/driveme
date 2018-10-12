@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
-import pl.jakub.walczak.driveme.dto.user.InstructorDTO;
+import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 
 @Data
 @SuperBuilder
@@ -14,5 +14,5 @@ import pl.jakub.walczak.driveme.dto.user.InstructorDTO;
 public class PracticalExamDTO extends ExamDTO {
 
     private CarDTO car;
-    private InstructorDTO instructor;
+    private UserBasicDTO instructor;
 }

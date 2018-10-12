@@ -23,10 +23,22 @@ public class AddressService {
         this.addressMapper = addressMapper;
     }
 
+    // -- methods for controller --
+    public Address addAddress(AddressDTO addressDTO) {
+        Address address = mapDTOToModel(addressDTO, Address.builder().build());
+        return addressRepository.save(address);
+    }
+
+    public List<AddressDTO> getAll() {
+        return findAll().stream().map(address -> mapModelToDTO(address, AddressDTO.builder().build())).collect(Collectors.toList());
+    }
+
+    // -- dao methods --
     public List<Address> findAll() {
         return addressRepository.findAll();
     }
 
+    // -- mapper methods --
     public AddressDTO mapModelToDTO(Address model, AddressDTO dto) {
         return addressMapper.mapModelToDTO(model, dto);
     }
@@ -40,9 +52,5 @@ public class AddressService {
         }
         model = addressMapper.mapDTOToModel(dto, model);
         return addressRepository.save(model);
-    }
-
-    public List<AddressDTO> getAll() {
-        return findAll().stream().map(address -> mapModelToDTO(address, AddressDTO.builder().build())).collect(Collectors.toList());
     }
 }

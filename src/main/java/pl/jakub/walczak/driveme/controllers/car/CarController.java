@@ -1,11 +1,11 @@
 package pl.jakub.walczak.driveme.controllers.car;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
+import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.services.car.CarService;
 
 import java.util.List;
@@ -17,8 +17,34 @@ public class CarController {
     @Autowired
     private CarService carService;
 
+    @PostMapping
+    public ResponseEntity<Car> addCar(@RequestBody CarDTO carDTO) {
+        try {
+            return ResponseEntity.ok(carService.addCar(carDTO));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity deleteCar(@PathVariable("id") Long id) {
+        try {
+            carService.deleteCar(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping
-    public ResponseEntity<List<CarDTO>> getAll(){
-        return ResponseEntity.ok(carService.getAll());
+    public ResponseEntity<List<CarDTO>> getAll() {
+        try {
+            return ResponseEntity.ok(carService.getAll());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

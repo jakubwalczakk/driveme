@@ -8,6 +8,7 @@ import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.repos.city.DrivingCityRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,14 +24,33 @@ public class CityService {
         this.drivingCityMapper = drivingCityMapper;
     }
 
-    public DrivingCity save(DrivingCity drivingCity) {
+    // -- methods for controller --
+    public DrivingCity addDrivingCity(DrivingCityDTO drivingCityDTO) {
+        DrivingCity drivingCity = mapDTOToModel(drivingCityDTO, DrivingCity.builder().build());
         return drivingCityRepository.save(drivingCity);
     }
 
+    public void deleteDrivingCity(Long id) {
+        Optional<DrivingCity> drivingCityToDelete = drivingCityRepository.findById(id);
+        if (drivingCityToDelete.isPresent()) {
+            DrivingCity drivingCity = drivingCityToDelete.get();
+            drivingCity.setActive(false);
+            drivingCityRepository.save(drivingCity);
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public List<DrivingCityDTO> getAll() {
+        return findAll().stream().map(city -> mapModelToDTO(city, DrivingCityDTO.builder().build())).collect(Collectors.toList());
+    }
+
+    // -- dao methods --
     public List<DrivingCity> findAll() {
         return drivingCityRepository.findAll();
     }
 
+    // -- mapper methods --
     public DrivingCityDTO mapModelToDTO(DrivingCity model, DrivingCityDTO dto) {
         return drivingCityMapper.mapModelToDTO(model, dto);
     }
@@ -44,9 +64,5 @@ public class CityService {
         }
         model = drivingCityMapper.mapDTOToModel(dto, model);
         return drivingCityRepository.save(model);
-    }
-
-    public List<DrivingCityDTO> getAll() {
-        return findAll().stream().map(city -> mapModelToDTO(city, DrivingCityDTO.builder().build())).collect(Collectors.toList());
     }
 }

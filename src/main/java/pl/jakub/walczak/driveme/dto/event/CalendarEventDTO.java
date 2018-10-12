@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
 import pl.jakub.walczak.driveme.dto.city.DrivingCityDTO;
-import pl.jakub.walczak.driveme.dto.user.InstructorDTO;
-import pl.jakub.walczak.driveme.dto.user.StudentDTO;
+import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 
 @Data
 @SuperBuilder
@@ -16,8 +15,8 @@ import pl.jakub.walczak.driveme.dto.user.StudentDTO;
 public class CalendarEventDTO {
 
     private Long id;
-    private StudentDTO student;
-    private InstructorDTO instructor;
+    private UserBasicDTO student;
+    private UserBasicDTO instructor;
     private CarDTO car;
     private Double eventDuration;
     private DrivingCityDTO drivingCity;

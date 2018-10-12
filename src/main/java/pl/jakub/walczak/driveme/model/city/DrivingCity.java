@@ -19,5 +19,7 @@ public class DrivingCity {
     private Long id;
     @Column(name = "name", nullable = false)
     private String name;
+    @Column(name = "activity")
+    private Boolean active;
 
 }

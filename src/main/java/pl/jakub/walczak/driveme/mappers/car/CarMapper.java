@@ -15,6 +15,7 @@ public class CarMapper {
         dto.setModel(model.getModel());
         dto.setLicensePlate(model.getLicensePlate());
         dto.setGasType(model.getGasType().toString());
+        dto.setActive(model.getActive());
         return dto;
     }
 
@@ -22,16 +23,19 @@ public class CarMapper {
         model.setId(dto.getId());
         try {
             model.setBrand(CarBrand.valueOf(dto.getBrand().toUpperCase()));
-        } catch (Exception e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
+            e.printStackTrace();
             model.setBrand(CarBrand.DEFAULT);
         }
         model.setModel(dto.getModel());
         model.setLicensePlate(dto.getLicensePlate());
         try {
             model.setGasType(GasType.valueOf(dto.getGasType().toUpperCase()));
-        } catch (Exception e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
+            e.printStackTrace();
             model.setGasType(GasType.DEFAULT);
         }
+        model.setActive(dto.getActive());
         return model;
     }
 }

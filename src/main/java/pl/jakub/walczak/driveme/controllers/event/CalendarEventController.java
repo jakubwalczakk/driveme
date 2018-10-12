@@ -1,6 +1,7 @@
 package pl.jakub.walczak.driveme.controllers.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,11 @@ public class CalendarEventController {
 
     @GetMapping
     public ResponseEntity<List<CalendarEventDTO>> getAll() {
-        return ResponseEntity.ok(calendarEventService.getAll());
+        try {
+            return ResponseEntity.ok(calendarEventService.getAll());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

@@ -10,12 +10,14 @@ public class DrivingCityMapper {
     public DrivingCityDTO mapModelToDTO(DrivingCity model, DrivingCityDTO dto) {
         dto.setId(model.getId());
         dto.setName(model.getName());
+        dto.setActive(model.getActive());
         return dto;
     }
 
     public DrivingCity mapDTOToModel(DrivingCityDTO dto, DrivingCity model) {
         model.setId(dto.getId());
         model.setName(dto.getName());
+        model.setActive(dto.getActive());
         return model;
     }
 }

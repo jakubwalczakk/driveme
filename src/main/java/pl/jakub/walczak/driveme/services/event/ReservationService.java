@@ -22,14 +22,14 @@ public class ReservationService {
         this.reservationMapper = reservationMapper;
     }
 
-    public Reservation save(Reservation reservation) {
-        return reservationRepository.save(reservation);
-    }
+    // -- methods for controller --
 
-    public List<Reservation> findAll(){
+    // -- dao methods --
+    public List<Reservation> findAll() {
         return reservationRepository.findAll();
     }
 
+    // -- mapper methods --
     public ReservationDTO mapModelToDTO(Reservation model, ReservationDTO dto) {
         return reservationMapper.mapModelToDTO(model, dto);
     }

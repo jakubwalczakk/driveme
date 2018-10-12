@@ -22,10 +22,14 @@ public class InstructorService {
         this.instructorMapper = instructorMapper;
     }
 
+    // -- methods for controller --
+
+    // -- dao methods --
     public List<Instructor> findAll() {
         return instructorRepository.findAll();
     }
 
+    // -- mapper methods --
     public InstructorDTO mapModelToDTO(Instructor model, InstructorDTO dto) {
         return instructorMapper.mapModelToDTO(model, dto);
     }

@@ -22,10 +22,14 @@ public class DrivingService {
         this.drivingMapper = drivingMapper;
     }
 
+    // -- methods for controller --
+
+    // -- dao methods --
     public List<Driving> findAll() {
         return drivingRepository.findAll();
     }
 
+    // -- mapper methods --
     public DrivingDTO mapModelToDTO(Driving model, DrivingDTO dto) {
         return drivingMapper.mapModelToDTO(model, dto);
     }

@@ -23,10 +23,17 @@ public class CalendarEventService {
         this.calendarEventMapper = calendarEventMapper;
     }
 
+    // -- methods for controller --
+    public List<CalendarEventDTO> getAll() {
+        return findAll().stream().map(event -> mapModelToDTO(event, CalendarEventDTO.builder().build())).collect(Collectors.toList());
+    }
+
+    // -- dao methods --
     public List<CalendarEvent> findAll() {
         return calendarEventRepository.findAll();
     }
 
+    // -- mapper methods --
     public CalendarEventDTO mapModelToDTO(CalendarEvent model, CalendarEventDTO dto) {
         return calendarEventMapper.mapModelToDTO(model, dto);
     }
@@ -40,9 +47,5 @@ public class CalendarEventService {
         }
         model = calendarEventMapper.mapDTOToModel(dto, model);
         return calendarEventRepository.save(model);
-    }
-
-    public List<CalendarEventDTO> getAll() {
-        return findAll().stream().map(event -> mapModelToDTO(event, CalendarEventDTO.builder().build())).collect(Collectors.toList());
     }
 }
