@@ -2,9 +2,11 @@ package pl.jakub.walczak.driveme.services.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 import pl.jakub.walczak.driveme.dto.user.UserDTO;
 import pl.jakub.walczak.driveme.dto.user.UserRegistrationDTO;
 import pl.jakub.walczak.driveme.mappers.user.RegistrationMapper;
+import pl.jakub.walczak.driveme.mappers.user.UserBasicMapper;
 import pl.jakub.walczak.driveme.mappers.user.UserMapper;
 import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.user.UserRepository;
@@ -20,12 +22,15 @@ public class UserService {
     private UserRepository userRepository;
     private UserMapper userMapper;
     private RegistrationMapper registrationMapper;
+    private UserBasicMapper userBasicMapper;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserMapper userMapper, RegistrationMapper registrationMapper) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, RegistrationMapper registrationMapper,
+                       UserBasicMapper userBasicMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.registrationMapper = registrationMapper;
+        this.userBasicMapper = userBasicMapper;
     }
 
     // -- methods for controller --
@@ -72,5 +77,19 @@ public class UserService {
         }
         model = userMapper.mapDTOToModel(dto, model);
         return userRepository.save(model);
+    }
+
+    public UserBasicDTO mapUserBasicModelToDTO(User model, UserBasicDTO dto) {
+        return userBasicMapper.mapModelTODTO(model, dto);
+    }
+
+    public User mapUserBasicDTOToModel(UserBasicDTO dto) {
+        if (dto.getId() != null) {
+            Optional<User> optionalUser = userRepository.findById(dto.getId());
+            if (optionalUser.isPresent()) {
+                return optionalUser.get();
+            }
+        }
+        throw new NoSuchElementException();
     }
 }

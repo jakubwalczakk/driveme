@@ -2,6 +2,7 @@ package pl.jakub.walczak.driveme.model.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import pl.jakub.walczak.driveme.model.car.Car;
@@ -13,6 +14,7 @@ import javax.persistence.*;
 import java.time.Instant;
 
 @Data
+@EqualsAndHashCode(exclude="student")
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,7 +34,7 @@ public class CalendarEvent {
     @Column(name = "event_date", nullable = false)
     private Instant date;
     @Column(name = "event_duration", nullable = false)
-    private Double eventDuration;
+    private Integer minutesOfEvent;
     @ManyToOne//(cascade = CascadeType.ALL)
     private DrivingCity drivingCity;
 }

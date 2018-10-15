@@ -8,6 +8,8 @@ import pl.jakub.walczak.driveme.dto.car.CarDTO;
 import pl.jakub.walczak.driveme.dto.city.DrivingCityDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 
+import java.time.Instant;
+
 @Data
 @SuperBuilder
 @NoArgsConstructor
@@ -15,9 +17,10 @@ import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 public class CalendarEventDTO {
 
     private Long id;
+    private Instant date;
+    private Integer minutesOfEvent;
+    private CarDTO car;
+    private DrivingCityDTO drivingCity;
     private UserBasicDTO student;
     private UserBasicDTO instructor;
-    private CarDTO car;
-    private Double eventDuration;
-    private DrivingCityDTO drivingCity;
 }

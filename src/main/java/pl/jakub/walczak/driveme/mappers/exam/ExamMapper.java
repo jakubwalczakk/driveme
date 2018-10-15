@@ -1,16 +1,23 @@
 package pl.jakub.walczak.driveme.mappers.exam;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.dto.exam.ExamDTO;
+import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 import pl.jakub.walczak.driveme.model.exam.Exam;
+import pl.jakub.walczak.driveme.services.user.UserService;
 
 @Component
 public class ExamMapper {
+
+    @Autowired
+    private UserService userService;
 
     public ExamDTO mapModelToDTO(Exam model, ExamDTO dto) {
         dto.setId(model.getId());
         dto.setDateOfExam(model.getDateOfExam());
         dto.setActive(model.getActive());
+        dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
         return dto;
     }
 
@@ -18,6 +25,7 @@ public class ExamMapper {
         model.setId(dto.getId());
         model.setDateOfExam(dto.getDateOfExam());
         model.setActive(dto.getActive());
+        model.setStudent(userService.mapUserBasicDTOToModel(dto.getStudent()));
         return model;
     }
 }

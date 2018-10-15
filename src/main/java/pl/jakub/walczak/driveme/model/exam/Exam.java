@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import pl.jakub.walczak.driveme.model.user.User;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.Date;
 
 @Data
 @SuperBuilder
@@ -23,5 +23,7 @@ public class Exam {
     private Instant dateOfExam;
     @Column(name = "activity")
     private Boolean active;
+    @ManyToOne
+    private User student;
 
 }

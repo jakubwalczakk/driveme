@@ -13,6 +13,7 @@ public class UserMapper {
         dto.setName(model.getName());
         dto.setSurname(model.getSurname());
         dto.setEmail(model.getEmail());
+        dto.setPhoneNumber(model.getPhoneNumber());
         dto.setPasword(model.getPassword());
         dto.setUserRole(model.getUserRole().toString());
         dto.setActive(model.getActive());
@@ -24,6 +25,7 @@ public class UserMapper {
         model.setName(dto.getName());
         model.setSurname(dto.getSurname());
         model.setEmail(dto.getEmail());
+        model.setPhoneNumber(dto.getPhoneNumber());
         model.setPassword(dto.getPasword());
         try{
             model.setUserRole(UserRole.valueOf(dto.getUserRole()));
