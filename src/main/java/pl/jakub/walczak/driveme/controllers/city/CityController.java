@@ -18,21 +18,31 @@ public class CityController {
     private CityService cityService;
 
     @PostMapping
-    public ResponseEntity<DrivingCity> addDrivingCity(@RequestBody DrivingCityDTO drivingCityDTO){
-        try{
+    public ResponseEntity<DrivingCity> addDrivingCity(@RequestBody DrivingCityDTO drivingCityDTO) {
+        try {
             return ResponseEntity.ok(cityService.addDrivingCity(drivingCityDTO));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity deleteDrivingCity(@PathVariable("id") Long id){
-        try{
+    public ResponseEntity deleteDrivingCity(@PathVariable("id") Long id) {
+        try {
             cityService.deleteDrivingCity(id);
             return ResponseEntity.ok().build();
-        }catch (Exception e ){
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<DrivingCityDTO> getDrivingCity(@PathVariable("id") Long id) {
+        try {
+            return ResponseEntity.ok(cityService.getDrivingCity(id));
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }

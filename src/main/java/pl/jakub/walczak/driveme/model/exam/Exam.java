@@ -21,5 +21,7 @@ public class Exam {
     private Long id;
     @Column(name = "exam_date", nullable = false)
     private Instant dateOfExam;
+    @Column(name = "activity")
+    private Boolean active;
 
 }

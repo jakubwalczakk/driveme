@@ -38,6 +38,16 @@ public class CarController {
         }
     }
 
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<CarDTO> getCar(@PathVariable("id") Long id) {
+        try {
+            return ResponseEntity.ok(carService.getCar(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping
     public ResponseEntity<List<CarDTO>> getAll() {
         try {

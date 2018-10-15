@@ -41,6 +41,16 @@ public class CarService {
         }
     }
 
+    public CarDTO getCar(Long id) {
+        Optional<Car> optionalCar = carRepository.findById(id);
+        if (optionalCar.isPresent()) {
+            return mapModelToDTO(optionalCar.get(), CarDTO.builder().build());
+        } else {
+            throw new NoSuchElementException();
+        }
+
+    }
+
     public List<CarDTO> getAll() {
         return findAll().stream().map(car -> mapModelToDTO(car, CarDTO.builder().build())).collect(Collectors.toList());
     }

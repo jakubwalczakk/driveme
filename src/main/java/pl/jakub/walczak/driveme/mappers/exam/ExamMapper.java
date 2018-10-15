@@ -9,13 +9,15 @@ public class ExamMapper {
 
     public ExamDTO mapModelToDTO(Exam model, ExamDTO dto) {
         dto.setId(model.getId());
-        dto.setDateOfExam(dto.getDateOfExam());
+        dto.setDateOfExam(model.getDateOfExam());
+        dto.setActive(model.getActive());
         return dto;
     }
 
     public Exam mapDTOToModel(ExamDTO dto, Exam model) {
         model.setId(dto.getId());
         model.setDateOfExam(dto.getDateOfExam());
+        model.setActive(dto.getActive());
         return model;
     }
 }

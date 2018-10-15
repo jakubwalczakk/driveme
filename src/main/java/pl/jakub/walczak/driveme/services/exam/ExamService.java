@@ -8,6 +8,7 @@ import pl.jakub.walczak.driveme.model.exam.Exam;
 import pl.jakub.walczak.driveme.repos.exam.ExamRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -24,6 +25,31 @@ public class ExamService {
     }
 
     // -- methods for controller --
+    public Exam addExam(ExamDTO examDTO) {
+        Exam exam = mapDTOToModel(examDTO, Exam.builder().build());
+        return examRepository.save(exam);
+    }
+
+    public void deleteExam(Long id) {
+        Optional<Exam> examToDelete = examRepository.findById(id);
+        if (examToDelete.isPresent()) {
+            Exam exam = examToDelete.get();
+            exam.setActive(false);
+            examRepository.save(exam);
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public ExamDTO getExam(Long id) {
+        Optional<Exam> optionalExam = examRepository.findById(id);
+        if (optionalExam.isPresent()) {
+            return mapModelToDTO(optionalExam.get(), ExamDTO.builder().build());
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
     public List<ExamDTO> getAll() {
         return findAll().stream().map(exam -> mapModelToDTO(exam, ExamDTO.builder().build())).collect(Collectors.toList());
     }

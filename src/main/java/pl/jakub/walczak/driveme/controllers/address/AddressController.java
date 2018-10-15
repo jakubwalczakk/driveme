@@ -3,10 +3,7 @@ package pl.jakub.walczak.driveme.controllers.address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.dto.address.AddressDTO;
 import pl.jakub.walczak.driveme.model.address.Address;
 import pl.jakub.walczak.driveme.services.address.AddressService;
@@ -21,9 +18,19 @@ public class AddressController {
     private AddressService addressService;
 
     @PostMapping
-    public ResponseEntity<Address> addAddress(AddressDTO addressDTO) {
+    public ResponseEntity<Address> addAddress(@RequestBody AddressDTO addressDTO) {
         try {
             return ResponseEntity.ok(addressService.addAddress(addressDTO));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<AddressDTO> getAddress(@PathVariable("id") Long id) {
+        try {
+            return ResponseEntity.ok(addressService.getAddress(id));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

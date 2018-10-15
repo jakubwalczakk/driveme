@@ -41,6 +41,15 @@ public class CityService {
         }
     }
 
+    public DrivingCityDTO getDrivingCity(Long id) {
+        Optional<DrivingCity> optionalDrivingCity = drivingCityRepository.findById(id);
+        if (optionalDrivingCity.isPresent()) {
+            return mapModelToDTO(optionalDrivingCity.get(), DrivingCityDTO.builder().build());
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
     public List<DrivingCityDTO> getAll() {
         return findAll().stream().map(city -> mapModelToDTO(city, DrivingCityDTO.builder().build())).collect(Collectors.toList());
     }

@@ -8,6 +8,7 @@ import pl.jakub.walczak.driveme.model.address.Address;
 import pl.jakub.walczak.driveme.repos.address.AddressRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,15 @@ public class AddressService {
     public Address addAddress(AddressDTO addressDTO) {
         Address address = mapDTOToModel(addressDTO, Address.builder().build());
         return addressRepository.save(address);
+    }
+
+    public AddressDTO getAddress(Long id) {
+        Optional<Address> optionalAddress = addressRepository.findById(id);
+        if (optionalAddress.isPresent()) {
+            return mapModelToDTO(optionalAddress.get(), AddressDTO.builder().build());
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 
     public List<AddressDTO> getAll() {
