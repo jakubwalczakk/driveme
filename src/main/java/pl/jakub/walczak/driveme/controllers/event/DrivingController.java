@@ -1,9 +1,16 @@
 package pl.jakub.walczak.driveme.controllers.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import pl.jakub.walczak.driveme.dto.event.CalendarEventDTO;
+import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
+import pl.jakub.walczak.driveme.model.event.CalendarEvent;
+import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.services.event.DrivingService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/driving")
@@ -11,4 +18,45 @@ public class DrivingController {
 
     @Autowired
     private DrivingService drivingService;
+
+    @PostMapping
+    public ResponseEntity<Driving> addDriving(@RequestBody DrivingDTO drivingDTO) {
+        try {
+            return ResponseEntity.ok(drivingService.addDriving(drivingDTO));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity deleteDriving(@PathVariable("id") Long id) {
+        try {
+            drivingService.deleteDriving(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<DrivingDTO> getDriving(@PathVariable("id") Long id) {
+        try {
+            return ResponseEntity.ok(drivingService.getDriving(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DrivingDTO>> getAll() {
+        try {
+            return ResponseEntity.ok(drivingService.getAll());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

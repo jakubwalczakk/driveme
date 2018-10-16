@@ -8,7 +8,9 @@ import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
@@ -23,6 +25,32 @@ public class ReservationService {
     }
 
     // -- methods for controller --
+    public Reservation addReservation(ReservationDTO reservationDTO) {
+        Reservation reservation = mapDTOToModel(reservationDTO, Reservation.builder().build());
+        return reservationRepository.save(reservation);
+    }
+
+    public void deleteReservation(Long id) {
+        Optional<Reservation> reservationToDelete = reservationRepository.findById(id);
+        if (reservationToDelete.isPresent()) {
+            reservationRepository.delete(reservationToDelete.get());
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public ReservationDTO getReservation(Long id) {
+        Optional<Reservation> optionalReservation = reservationRepository.findById(id);
+        if (optionalReservation.isPresent()) {
+            return mapModelToDTO(optionalReservation.get(), ReservationDTO.builder().build());
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public List<ReservationDTO> getAll() {
+        return findAll().stream().map(reservation -> mapModelToDTO(reservation, ReservationDTO.builder().build())).collect(Collectors.toList());
+    }
 
     // -- dao methods --
     public List<Reservation> findAll() {

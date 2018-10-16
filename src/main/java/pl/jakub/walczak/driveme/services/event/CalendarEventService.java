@@ -1,7 +1,6 @@
 package pl.jakub.walczak.driveme.services.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.event.CalendarEventDTO;
 import pl.jakub.walczak.driveme.mappers.event.CalendarEventMapper;
@@ -34,8 +33,7 @@ public class CalendarEventService {
     public void deleteCalendarEvent(Long id) {
         Optional<CalendarEvent> calendarEventToDelete = calendarEventRepository.findById(id);
         if (calendarEventToDelete.isPresent()) {
-            CalendarEvent calendarEvent = calendarEventToDelete.get();
-            calendarEventRepository.delete(calendarEvent);
+            calendarEventRepository.delete(calendarEventToDelete.get());
         } else {
             throw new NoSuchElementException();
         }

@@ -50,6 +50,15 @@ public class UserService {
         }
     }
 
+    public UserDTO getUser(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            return mapModelToDTO(optionalUser.get(), UserDTO.builder().build());
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
     public List<UserDTO> getAll() {
         return findAll().stream().map(user -> mapModelToDTO(user, UserDTO.builder().build())).collect(Collectors.toList());
     }

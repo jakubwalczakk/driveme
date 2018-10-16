@@ -8,7 +8,9 @@ import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.repos.user.InstructorRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class InstructorService {
@@ -23,6 +25,29 @@ public class InstructorService {
     }
 
     // -- methods for controller --
+    public void deleteInstructor(Long id) {
+        Optional<Instructor> instructorToDelete = instructorRepository.findById(id);
+        if (instructorToDelete.isPresent()) {
+            Instructor instructor = instructorToDelete.get();
+            instructor.setActive(false);
+            instructorRepository.save(instructor);
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public InstructorDTO getInstructor(Long id) {
+        Optional<Instructor> optionalInstructor = instructorRepository.findById(id);
+        if (optionalInstructor.isPresent()) {
+            return mapModelToDTO(optionalInstructor.get(), InstructorDTO.builder().build());
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public List<InstructorDTO> getAll() {
+        return findAll().stream().map(instructor -> mapModelToDTO(instructor, InstructorDTO.builder().build())).collect(Collectors.toList());
+    }
 
     // -- dao methods --
     public List<Instructor> findAll() {

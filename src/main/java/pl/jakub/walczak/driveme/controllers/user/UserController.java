@@ -39,6 +39,16 @@ public class UserController {
         }
     }
 
+    @GetMapping(path="/{id}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable("id") Long id){
+        try {
+            return ResponseEntity.ok(userService.getUser(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAll() {
         try {

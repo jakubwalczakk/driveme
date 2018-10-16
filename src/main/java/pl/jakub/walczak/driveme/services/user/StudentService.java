@@ -2,12 +2,17 @@ package pl.jakub.walczak.driveme.services.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.jakub.walczak.driveme.dto.user.InstructorDTO;
 import pl.jakub.walczak.driveme.dto.user.StudentDTO;
 import pl.jakub.walczak.driveme.mappers.user.StudentMapper;
+import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.repos.user.StudentRepository;
 
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -22,9 +27,32 @@ public class StudentService {
     }
 
     // -- methods for controller --
+    public void deleteStudent(Long id) {
+        Optional<Student> studentToDelete = studentRepository.findById(id);
+        if (studentToDelete.isPresent()) {
+            Student student = studentToDelete.get();
+            student.setActive(false);
+            studentRepository.save(student);
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public StudentDTO getStudent(Long id) {
+        Optional<Student> optionalStudent = studentRepository.findById(id);
+        if (optionalStudent.isPresent()) {
+            return mapModelToDTO(optionalStudent.get(), StudentDTO.builder().build());
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public List<StudentDTO> getAll() {
+        return findAll().stream().map(student -> mapModelToDTO(student, StudentDTO.builder().build())).collect(Collectors.toList());
+    }
 
     // -- dao methods --
-    public Iterable<Student> findAll() {
+    public List<Student> findAll() {
         return studentRepository.findAll();
     }
 
