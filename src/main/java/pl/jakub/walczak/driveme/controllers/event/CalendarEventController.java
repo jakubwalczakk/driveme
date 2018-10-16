@@ -14,8 +14,12 @@ import java.util.List;
 @RequestMapping(path = "/event")
 public class CalendarEventController {
 
-    @Autowired
     private CalendarEventService calendarEventService;
+
+    @Autowired
+    public CalendarEventController(CalendarEventService calendarEventService) {
+        this.calendarEventService = calendarEventService;
+    }
 
     @PostMapping
     public ResponseEntity<CalendarEvent> addCalendarEvent(@RequestBody CalendarEventDTO calendarEventDTO) {

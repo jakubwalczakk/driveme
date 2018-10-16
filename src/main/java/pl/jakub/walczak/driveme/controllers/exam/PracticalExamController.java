@@ -11,10 +11,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/practical_exam")
-public class PracitcalExamController {
+public class PracticalExamController {
+
+    private PracticalExamService practicalExamService;
 
     @Autowired
-    private PracticalExamService practicalExamService;
+    public PracticalExamController(PracticalExamService practicalExamService) {
+        this.practicalExamService = practicalExamService;
+    }
 
     @PostMapping
     public ResponseEntity<PracticalExam> addPracticalExam(@RequestBody PracticalExamDTO practicalExamDTO){

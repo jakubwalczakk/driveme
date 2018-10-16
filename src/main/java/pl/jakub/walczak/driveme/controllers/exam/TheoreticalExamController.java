@@ -15,8 +15,12 @@ import java.util.List;
 @RequestMapping(path = "/theoretical_exam")
 public class TheoreticalExamController {
 
-    @Autowired
     private TheoreticalExamService theoreticalExamService;
+
+    @Autowired
+    public TheoreticalExamController(TheoreticalExamService theoreticalExamService) {
+        this.theoreticalExamService = theoreticalExamService;
+    }
 
     @PostMapping
     public ResponseEntity<TheoreticalExam> addTheoreticalExam(@RequestBody TheoreticalExamDTO theoreticalExamDTO){

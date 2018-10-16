@@ -14,8 +14,12 @@ import java.util.List;
 @RequestMapping(path = "/address")
 public class AddressController {
 
-    @Autowired
     private AddressService addressService;
+
+    @Autowired
+    public AddressController(AddressService addressService) {
+        this.addressService = addressService;
+    }
 
     @PostMapping
     public ResponseEntity<Address> addAddress(@RequestBody AddressDTO addressDTO) {

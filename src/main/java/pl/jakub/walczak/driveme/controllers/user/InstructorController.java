@@ -5,8 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.dto.user.InstructorDTO;
-import pl.jakub.walczak.driveme.dto.user.StudentDTO;
-import pl.jakub.walczak.driveme.dto.user.UserDTO;
 import pl.jakub.walczak.driveme.services.user.InstructorService;
 
 import java.util.List;
@@ -15,22 +13,26 @@ import java.util.List;
 @RequestMapping(path = "/instructor")
 public class InstructorController {
 
-    @Autowired
     private InstructorService instructorService;
 
-    @DeleteMapping(path="/{id}")
-    public ResponseEntity deleteInstructor(@PathVariable("id") Long id){
-        try{
+    @Autowired
+    public InstructorController(InstructorService instructorService) {
+        this.instructorService = instructorService;
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity deleteInstructor(@PathVariable("id") Long id) {
+        try {
             instructorService.deleteInstructor(id);
             return ResponseEntity.ok().build();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
     }
 
-    @GetMapping(path="/{id}")
-    public ResponseEntity<InstructorDTO> getInstructor(@PathVariable("id") Long id){
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<InstructorDTO> getInstructor(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(instructorService.getInstructor(id));
         } catch (Exception e) {

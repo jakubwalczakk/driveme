@@ -14,8 +14,12 @@ import java.util.List;
 @RequestMapping(path = "/car")
 public class CarController {
 
-    @Autowired
     private CarService carService;
+
+    @Autowired
+    public CarController(CarService carService) {
+        this.carService = carService;
+    }
 
     @PostMapping
     public ResponseEntity<Car> addCar(@RequestBody CarDTO carDTO) {

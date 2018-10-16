@@ -14,8 +14,12 @@ import java.util.List;
 @RequestMapping(path = "/city")
 public class CityController {
 
-    @Autowired
     private CityService cityService;
+
+    @Autowired
+    public CityController(CityService cityService) {
+        this.cityService = cityService;
+    }
 
     @PostMapping
     public ResponseEntity<DrivingCity> addDrivingCity(@RequestBody DrivingCityDTO drivingCityDTO) {

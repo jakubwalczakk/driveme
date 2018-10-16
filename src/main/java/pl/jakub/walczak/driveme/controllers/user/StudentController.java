@@ -5,8 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.dto.user.StudentDTO;
-import pl.jakub.walczak.driveme.dto.user.UserDTO;
-import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.services.user.StudentService;
 
 import java.util.List;
@@ -15,22 +13,26 @@ import java.util.List;
 @RequestMapping(path = "/student")
 public class StudentController {
 
-    @Autowired
     private StudentService studentService;
 
-    @DeleteMapping(path="/{id}")
-    public ResponseEntity deleteStudent(@PathVariable("id") Long id){
-        try{
+    @Autowired
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity deleteStudent(@PathVariable("id") Long id) {
+        try {
             studentService.deleteStudent(id);
             return ResponseEntity.ok().build();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
     }
 
-    @GetMapping(path="/{id}")
-    public ResponseEntity<StudentDTO> getStudent(@PathVariable("id") Long id){
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<StudentDTO> getStudent(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(studentService.getStudent(id));
         } catch (Exception e) {

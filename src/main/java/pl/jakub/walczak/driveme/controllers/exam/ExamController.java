@@ -14,8 +14,12 @@ import java.util.List;
 @RequestMapping(path = "/exam")
 public class ExamController {
 
-    @Autowired
     private ExamService examService;
+
+    @Autowired
+    public ExamController(ExamService examService) {
+        this.examService = examService;
+    }
 
     @PostMapping
     public ResponseEntity<Exam> addExam(@RequestBody ExamDTO examDTO){

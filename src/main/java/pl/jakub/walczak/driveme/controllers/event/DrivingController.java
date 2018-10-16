@@ -16,8 +16,12 @@ import java.util.List;
 @RequestMapping(path = "/driving")
 public class DrivingController {
 
-    @Autowired
     private DrivingService drivingService;
+
+    @Autowired
+    public DrivingController(DrivingService drivingService) {
+        this.drivingService = drivingService;
+    }
 
     @PostMapping
     public ResponseEntity<Driving> addDriving(@RequestBody DrivingDTO drivingDTO) {

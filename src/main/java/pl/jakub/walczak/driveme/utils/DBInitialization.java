@@ -105,25 +105,25 @@ public class DBInitialization {
 
     private void initializeDrivingCities() {
 
-        DrivingCity katowice = DrivingCity.builder().name("Katowice").build();
+        DrivingCity katowice = DrivingCity.builder().name("Katowice").active(true).build();
         drivingCities.add(katowice);
-        DrivingCity czwa = DrivingCity.builder().name("Częstochowa").build();
+        DrivingCity czwa = DrivingCity.builder().name("Częstochowa").active(true).build();
         drivingCities.add(czwa);
-        DrivingCity sosnowiec = DrivingCity.builder().name("Sosnowiec").build();
+        DrivingCity sosnowiec = DrivingCity.builder().name("Sosnowiec").active(true).build();
         drivingCities.add(sosnowiec);
-        DrivingCity gliwice = DrivingCity.builder().name("Gliwice").build();
+        DrivingCity gliwice = DrivingCity.builder().name("Gliwice").active(true).build();
         drivingCities.add(gliwice);
-        DrivingCity zabrze = DrivingCity.builder().name("Zabrze").build();
+        DrivingCity zabrze = DrivingCity.builder().name("Zabrze").active(true).build();
         drivingCities.add(zabrze);
-        DrivingCity bielsko = DrivingCity.builder().name("Bielsko-Biała").build();
+        DrivingCity bielsko = DrivingCity.builder().name("Bielsko-Biała").active(true).build();
         drivingCities.add(bielsko);
-        DrivingCity bytom = DrivingCity.builder().name("Bytom").build();
+        DrivingCity bytom = DrivingCity.builder().name("Bytom").active(true).build();
         drivingCities.add(bytom);
-        DrivingCity ruda = DrivingCity.builder().name("Ruda Śląska").build();
+        DrivingCity ruda = DrivingCity.builder().name("Ruda Śląska").active(true).build();
         drivingCities.add(ruda);
-        DrivingCity rybnik = DrivingCity.builder().name("Rybnik").build();
+        DrivingCity rybnik = DrivingCity.builder().name("Rybnik").active(true).build();
         drivingCities.add(rybnik);
-        DrivingCity tychy = DrivingCity.builder().name("Tychy").build();
+        DrivingCity tychy = DrivingCity.builder().name("Tychy").active(true).build();
         drivingCities.add(tychy);
 
         drivingCityRepository.saveAll(drivingCities);
@@ -131,76 +131,76 @@ public class DBInitialization {
 
     private void initializeCars() {
         Car punto = Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(punto);
         Car punto2 = Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(punto2);
         Car punto3 = Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(punto3);
         Car micra = Car.builder().brand(CarBrand.NISSAN).model("Micra").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(micra);
         Car micra2 = Car.builder().brand(CarBrand.NISSAN).model("Micra").gasType(GasType.OIL)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(micra2);
         Car colt = Car.builder().brand(CarBrand.MITSHUBISHI).model("Colt").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(colt);
         Car colt2 = Car.builder().brand(CarBrand.MITSHUBISHI).model("Colt").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(colt2);
         Car yaris = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(yaris);
         Car yaris2 = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(yaris2);
         Car yaris3 = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.OIL)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(yaris3);
         Car yaris4 = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.OIL)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(yaris4);
         Car yaris5 = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(yaris5);
         Car yaris6 = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(yaris6);
         Car corsa = Car.builder().brand(CarBrand.OPEL).model("Corsa").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(corsa);
         Car corsa2 = Car.builder().brand(CarBrand.OPEL).model("Corsa").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(corsa2);
         Car clio = Car.builder().brand(CarBrand.RENAULT).model("Clio").gasType(GasType.OIL)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(clio);
         Car clio2 = Car.builder().brand(CarBrand.RENAULT).model("Clio").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(clio2);
         Car hyundai = Car.builder().brand(CarBrand.HYUNDAI).model("i20").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(hyundai);
         Car hyundai2 = Car.builder().brand(CarBrand.HYUNDAI).model("i20").gasType(GasType.OIL)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(hyundai2);
         Car rio = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.OIL)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(rio);
         Car rio2 = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.OIL)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(rio2);
         Car rio3 = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(rio3);
         Car rio4 = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(rio4);
         Car rio5 = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).build();
+                .licensePlate(generator.generateLicensePlate()).active(true).build();
         cars.add(rio5);
 
         carRepository.saveAll(cars);
@@ -423,6 +423,7 @@ public class DBInitialization {
     private PracticalExam initializePracticalExam(Student student) {
 
         return PracticalExam.builder()
+                .active(true)
                 .student(student)
                 .car(cars.get(RANDOM.nextInt(cars.size())))
                 .instructor(instructors.get(RANDOM.nextInt(instructors.size())))
@@ -439,6 +440,7 @@ public class DBInitialization {
                 status = true;
             }
             TheoreticalExam theoreticalExam = TheoreticalExam.builder()
+                    .active(true)
                     .student(student)
                     .scoredPoints(scoredPoints)
                     .result(scoredPoints * 1.0 / TheoreticalExam.MAXIMUM_POINTS_AMOUNT)

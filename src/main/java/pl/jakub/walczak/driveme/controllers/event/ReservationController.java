@@ -16,8 +16,12 @@ import java.util.List;
 @RequestMapping(path = "/reservation")
 public class ReservationController {
 
-    @Autowired
     private ReservationService reservationService;
+
+    @Autowired
+    public ReservationController(ReservationService reservationService) {
+        this.reservationService = reservationService;
+    }
 
     @PostMapping
     public ResponseEntity<Reservation> addReservation (@RequestBody ReservationDTO reservationDTO) {
