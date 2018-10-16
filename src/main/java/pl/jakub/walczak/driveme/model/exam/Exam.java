@@ -16,7 +16,6 @@ import java.time.Instant;
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity(name = "exams")
-//@MappedSuperclass
 public class Exam {
 
     @Id

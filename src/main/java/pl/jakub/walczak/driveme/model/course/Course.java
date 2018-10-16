@@ -20,8 +20,6 @@ import java.util.Set;
 @Entity(name = "courses")
 public class Course {
 
-    //private final Double price = 1500.0;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,16 +31,15 @@ public class Course {
     private final Integer lectureHours = 30;
     @Column(name = "taken_driving_hours", nullable = false)
     private Integer takenDrivingHours;
-    //    @Column(name = "current_payment")
-//    private Double currentPayment;
+
+    //FIXME
+    //IF IT IS NECESSARY HERE???
     @OneToOne//(cascade = CascadeType.ALL)
     private Student student;
-    //    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     @OneToMany(cascade = CascadeType.ALL)
     private Set<TheoreticalExam> theoreticalExams;
     @OneToOne(cascade = CascadeType.ALL)
     private PracticalExam practicalExam;
-    // maybe an enum? "ZAWIESZONY", "W TRAKCIE", "UKOŃCZONY" (?)
     @Enumerated
     @Column(name = "status", nullable = false)
     private CourseStatus status;

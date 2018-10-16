@@ -23,7 +23,5 @@ public class TheoreticalExam extends Exam {
     private Double result;
     @Column(name = "status", nullable = false)
     private Boolean passed;
-//    @ManyToOne
-//    private Course course;
 
 }

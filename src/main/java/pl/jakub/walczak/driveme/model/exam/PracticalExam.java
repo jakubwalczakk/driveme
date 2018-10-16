@@ -2,6 +2,7 @@ package pl.jakub.walczak.driveme.model.exam;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import pl.jakub.walczak.driveme.model.car.Car;
@@ -12,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Data
+@EqualsAndHashCode(exclude="instructor")
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor

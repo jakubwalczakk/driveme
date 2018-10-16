@@ -59,6 +59,9 @@ public class DBInitialization {
     private List<Instructor> instructors;
     private List<Student> students;
     private List<Course> courses;
+    private List<CalendarEvent> events;
+    private List<Reservation> reservations;
+    private List<Driving> drivings;
 
     @Autowired
     public DBInitialization(Generator generator, DrivingCityRepository drivingCityRepository, CarRepository carRepository,
@@ -85,6 +88,9 @@ public class DBInitialization {
         this.instructors = new ArrayList<>();
         this.students = new ArrayList<>();
         this.courses = new ArrayList<>();
+        this.events = new ArrayList<>();
+        this.reservations = new ArrayList<>();
+        this.drivings = new ArrayList<>();
     }
 
     @PostConstruct
@@ -95,7 +101,6 @@ public class DBInitialization {
         initializeUsers();
         initializeCourses();
         initializeEvents();
-        testInit();
     }
 
     private void initializeDrivingCities() {
@@ -446,13 +451,12 @@ public class DBInitialization {
         return theoreticalExams;
     }
 
-    private Set<CalendarEvent> initializeEvents() {
-        Set<CalendarEvent> events = new HashSet<>();
+    private void initializeEvents() {
 
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 5; i++) {
             CalendarEvent calendarEvent = CalendarEvent.builder()
                     .date(Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60))
-                    .minutesOfEvent(RANDOM.nextInt(21)*10)
+                    .minutesOfEvent(RANDOM.nextInt(21) * 10)
                     .car(cars.get(RANDOM.nextInt(cars.size())))
                     .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
                     .student(students.get(RANDOM.nextInt(students.size())))
@@ -461,36 +465,49 @@ public class DBInitialization {
             events.add(calendarEvent);
         }
         calendarEventRepository.saveAll(events);
-        return events;
+        initializeReservations();
+        initializeDrivings();
     }
 
-    private Set<Reservation> initializeReservationsOfStudent(Student student) {
-        Set<Reservation> reservations = new HashSet<>();
-        return reservations;
+    private void initializeReservations() {
+
+        for (int i = 0; i < 10; i++) {
+            Reservation reservation =
+                    Reservation.builder()
+                            .student(students.get(RANDOM.nextInt(students.size())))
+                            .instructor(instructors.get(RANDOM.nextInt(instructors.size())))
+                            .car(cars.get(RANDOM.nextInt(cars.size())))
+                            .date(Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60))
+                            .minutesOfEvent(RANDOM.nextInt(22) * 10)
+                            .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
+                            .status(true).build();
+            reservations.add(reservation);
+        }
+        reservationRepository.saveAll(reservations);
     }
 
-    private Set<Driving> initializeDrivingsOfStudent(Student student) {
-        Set<Driving> drivings = new HashSet<>();
-        return drivings;
+    private void initializeDrivings() {
+
+        for (int i = 0; i < 10; i++) {
+            Rating rating;
+            if (i < 3) {
+                rating = Rating.AVERAGE;
+            } else if (i >= 3 && i < 8) {
+                rating = Rating.GREAT;
+            } else {
+                rating = Rating.DISAPPOINTING;
+            }
+            Driving driving =
+                    Driving.builder()
+                            .student(students.get(RANDOM.nextInt(students.size())))
+                            .instructor(instructors.get(RANDOM.nextInt(instructors.size())))
+                            .car(cars.get(RANDOM.nextInt(cars.size())))
+                            .date(Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60))
+                            .minutesOfEvent(RANDOM.nextInt(22) * 10)
+                            .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
+                            .rating(rating).build();
+            drivings.add(driving);
+        }
+        drivingRepository.saveAll(drivings);
     }
-
-
-    private void testInit() {
-        Driving driving1 =
-                Driving.builder().student(students.get(0)).instructor(instructors.get(1)).car(cars.get(1)).date(Instant.now()).minutesOfEvent(90).drivingCity(drivingCities.get(0)).rating(Rating.AVERAGE).build();
-        drivingRepository.save(driving1);
-
-        Driving driving2 =
-                Driving.builder().student(students.get(1)).instructor(instructors.get(0)).car(cars.get(0)).date(Instant.now()).minutesOfEvent(150).drivingCity(drivingCities.get(1)).rating(Rating.AVERAGE).build();
-        drivingRepository.save(driving2);
-
-        Reservation reservation1 =
-                Reservation.builder().student(students.get(2)).instructor(instructors.get(1)).car(cars.get(2)).date(Instant.now()).minutesOfEvent(120).drivingCity(drivingCities.get(1)).status(true).build();
-        reservationRepository.save(reservation1);
-
-        Reservation reservation2 =
-                Reservation.builder().student(students.get(4)).instructor(instructors.get(3)).car(cars.get(2)).date(Instant.now()).minutesOfEvent(120).drivingCity(drivingCities.get(4)).status(false).build();
-        reservationRepository.save(reservation2);
-    }
-
 }

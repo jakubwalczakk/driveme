@@ -12,4 +12,6 @@ import lombok.experimental.SuperBuilder;
 public class TheoreticalExamDTO extends ExamDTO {
 
     private Integer scoredPoints;
+    private Double result;
+    private Boolean passed;
 }

@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class Student extends User {
     private Address address;
     @Column(name = "registration_date", nullable = false)
     private Instant registrationDate;
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     private Course course;
     @OneToMany(mappedBy = "student")//, orphanRemoval = true)
