@@ -4,24 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.jakub.walczak.driveme.model.user.Student;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.Date;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "payments")
+//@Entity(name = "payments")
 public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    private Student student;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Student student;
 
     @Column(name = "amount", nullable = false)
     private Double amount;

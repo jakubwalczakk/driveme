@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.dto.exam.ExamDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 import pl.jakub.walczak.driveme.model.exam.Exam;
+import pl.jakub.walczak.driveme.model.user.Student;
+import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.services.user.UserService;
 
 @Component
@@ -25,7 +27,9 @@ public class ExamMapper {
         model.setId(dto.getId());
         model.setDateOfExam(dto.getDateOfExam());
         model.setActive(dto.getActive());
-        model.setStudent(userService.mapUserBasicDTOToModel(dto.getStudent()));
+        User student = userService.mapUserBasicDTOToModel(dto.getStudent());
+        if (student instanceof Student)
+            model.setStudent((Student) student);
         return model;
     }
 }

@@ -3,9 +3,9 @@ package pl.jakub.walczak.driveme.mappers.event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
-import pl.jakub.walczak.driveme.dto.city.DrivingCityDTO;
 import pl.jakub.walczak.driveme.dto.event.CalendarEventDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
+import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.model.event.CalendarEvent;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
@@ -13,6 +13,8 @@ import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.services.car.CarService;
 import pl.jakub.walczak.driveme.services.city.CityService;
 import pl.jakub.walczak.driveme.services.user.UserService;
+
+import java.util.Optional;
 
 @Component
 public class CalendarEventMapper {
@@ -33,7 +35,7 @@ public class CalendarEventMapper {
         dto.setDate(model.getDate());
         dto.setMinutesOfEvent(model.getMinutesOfEvent());
         dto.setCar(carService.mapModelToDTO(model.getCar(), CarDTO.builder().build()));
-        dto.setDrivingCity(cityService.mapModelToDTO(model.getDrivingCity(), DrivingCityDTO.builder().build()));
+        dto.setDrivingCity(model.getDrivingCity().getName());
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
         dto.setInstructor(userService.mapUserBasicModelToDTO(model.getInstructor(), UserBasicDTO.builder().build()));
         return dto;
@@ -44,13 +46,16 @@ public class CalendarEventMapper {
         model.setDate(dto.getDate());
         model.setMinutesOfEvent(dto.getMinutesOfEvent());
         model.setCar(carService.mapDTOToModel(dto.getCar(), model.getCar()));
-        model.setDrivingCity(cityService.mapDTOToModel(dto.getDrivingCity(), model.getDrivingCity()));
+        Optional<DrivingCity> optionalDrivingCity = cityService.findByName(dto.getDrivingCity());
+        if (optionalDrivingCity.isPresent()) {
+            model.setDrivingCity(optionalDrivingCity.get());
+        }
         User student = userService.mapUserBasicDTOToModel(dto.getStudent());
         if (student instanceof Student) {
             model.setStudent((Student) student);
         }
         User instructor = userService.mapUserBasicDTOToModel(dto.getInstructor());
-        if (instructor instanceof User) {
+        if (instructor instanceof Instructor) {
             model.setInstructor((Instructor) instructor);
         }
         return model;

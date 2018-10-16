@@ -9,6 +9,7 @@ import pl.jakub.walczak.driveme.repos.exam.TheoreticalExamRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class TheoreticalExamService {
@@ -27,6 +28,10 @@ public class TheoreticalExamService {
     // -- dao methods --
     public List<TheoreticalExam> findAll() {
         return theoreticalExamRepository.findAll();
+    }
+
+    public Set<TheoreticalExam> findAllById(Set<Long> theoreticalExamsToAdd) {
+        return theoreticalExamRepository.findAllById(theoreticalExamsToAdd);
     }
 
     // -- mapper methods --

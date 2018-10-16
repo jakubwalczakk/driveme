@@ -26,8 +26,13 @@ public class AddressService {
 
     // -- methods for controller --
     public Address addAddress(AddressDTO addressDTO) {
-        Address address = mapDTOToModel(addressDTO, Address.builder().build());
-        return addressRepository.save(address);
+        Optional<Address> optionalAddress = addressRepository.findByCityAndZipCodeAndStreetAndHouseNo(
+                addressDTO.getCity(), addressDTO.getZipCode(), addressDTO.getStreet(), addressDTO.getHouseNo());
+        if (!optionalAddress.isPresent()) {
+            Address address = mapDTOToModel(addressDTO, Address.builder().build());
+            return addressRepository.save(address);
+        }
+        return optionalAddress.get();
     }
 
     public AddressDTO getAddress(Long id) {

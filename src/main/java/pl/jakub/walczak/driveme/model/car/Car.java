@@ -24,7 +24,7 @@ public class Car {
     private CarBrand brand;
     @Column(name="model", nullable = false)
     private String model;
-    @Column(name = "license_plate", nullable = false)
+    @Column(name = "license_plate", nullable = false, unique = true)
     private String licensePlate;
     @Enumerated
     @Column(name = "gas_type", nullable = false)

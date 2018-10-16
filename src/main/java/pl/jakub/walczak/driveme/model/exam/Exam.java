@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
 
 import javax.persistence.*;
@@ -13,7 +14,9 @@ import java.time.Instant;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
+@Inheritance(strategy = InheritanceType.JOINED)
+@Entity(name = "exams")
+//@MappedSuperclass
 public class Exam {
 
     @Id
@@ -24,6 +27,6 @@ public class Exam {
     @Column(name = "activity")
     private Boolean active;
     @ManyToOne
-    private User student;
+    private Student student;
 
 }

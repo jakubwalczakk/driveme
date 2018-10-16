@@ -2,10 +2,7 @@ package pl.jakub.walczak.driveme.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.jakub.walczak.driveme.enums.CarBrand;
-import pl.jakub.walczak.driveme.enums.GasType;
-import pl.jakub.walczak.driveme.enums.Rating;
-import pl.jakub.walczak.driveme.enums.UserRole;
+import pl.jakub.walczak.driveme.enums.*;
 import pl.jakub.walczak.driveme.model.address.Address;
 import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.city.DrivingCity;
@@ -384,9 +381,9 @@ public class DBInitialization {
 
         for (Student student : students) {
 
-            Set<TheoreticalExam> theoreticalExams = initializeTheoreticalExams();
+            Set<TheoreticalExam> theoreticalExams = initializeTheoreticalExams(student);
 
-            PracticalExam practicalExam = initializePracticalExam();
+            PracticalExam practicalExam = initializePracticalExam(student);
 
             Instant registrationDate = student.getRegistrationDate();
             Instant courseStartDate = registrationDate.plusSeconds(RANDOM.nextInt(8) * ONE_DAY_IN_SECONDS);
@@ -408,6 +405,7 @@ public class DBInitialization {
                     .startDate(startDate)
                     .practicalExam(practicalExam)
                     .theoreticalExams(theoreticalExams)
+                    .status(CourseStatus.IN_PROGRESS)
                     .build();
             student.setCourse(course);
 
@@ -417,16 +415,17 @@ public class DBInitialization {
 //        courseRepository.saveAll(courses);
     }
 
-    private PracticalExam initializePracticalExam() {
+    private PracticalExam initializePracticalExam(Student student) {
 
         return PracticalExam.builder()
+                .student(student)
                 .car(cars.get(RANDOM.nextInt(cars.size())))
                 .instructor(instructors.get(RANDOM.nextInt(instructors.size())))
                 .dateOfExam(Instant.now().minusSeconds(RANDOM.nextInt(4) * ONE_DAY_IN_SECONDS))
                 .build();
     }
 
-    private Set<TheoreticalExam> initializeTheoreticalExams() {
+    private Set<TheoreticalExam> initializeTheoreticalExams(Student student) {
         Set<TheoreticalExam> theoreticalExams = new HashSet<>();
         boolean status = false;
         while (status == false) {
@@ -435,6 +434,7 @@ public class DBInitialization {
                 status = true;
             }
             TheoreticalExam theoreticalExam = TheoreticalExam.builder()
+                    .student(student)
                     .scoredPoints(scoredPoints)
                     .result(scoredPoints * 1.0 / TheoreticalExam.MAXIMUM_POINTS_AMOUNT)
                     .passed(status)

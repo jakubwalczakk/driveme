@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.jakub.walczak.driveme.enums.CourseStatus;
 import pl.jakub.walczak.driveme.model.exam.PracticalExam;
 import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
 import pl.jakub.walczak.driveme.model.user.Student;
@@ -42,7 +43,8 @@ public class Course {
     @OneToOne(cascade = CascadeType.ALL)
     private PracticalExam practicalExam;
     // maybe an enum? "ZAWIESZONY", "W TRAKCIE", "UKOŃCZONY" (?)
-    @Column(name = "status")
-    private Boolean status;
+    @Enumerated
+    @Column(name = "status", nullable = false)
+    private CourseStatus status;
 
 }

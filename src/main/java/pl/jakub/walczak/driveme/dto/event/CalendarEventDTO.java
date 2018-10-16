@@ -20,7 +20,7 @@ public class CalendarEventDTO {
     private Instant date;
     private Integer minutesOfEvent;
     private CarDTO car;
-    private DrivingCityDTO drivingCity;
+    private String drivingCity;
     private UserBasicDTO student;
     private UserBasicDTO instructor;
 }

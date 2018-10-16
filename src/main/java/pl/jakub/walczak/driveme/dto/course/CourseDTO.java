@@ -23,4 +23,5 @@ public class CourseDTO {
 //    private StudentDTO student;
     private PracticalExamDTO practicalExam;
     private Set<TheoreticalExamDTO> theoreticalExams;
+    private String status;
 }

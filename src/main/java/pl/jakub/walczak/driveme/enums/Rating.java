@@ -2,12 +2,12 @@ package pl.jakub.walczak.driveme.enums;
 
 public enum Rating {
 
-    DISAPPOINTING("DISAPPOINTING"),
-    AVERAGE("AVERAGE"),
-    OK("OK"),
-    GREAT("GREAT"),
-    MASTER("MASTER");
-
+    DISAPPOINTING("Rozczarowująco"),
+    AVERAGE("Przeciętnie"),
+    OK("W porządku"),
+    GREAT("Świetnie"),
+    MASTER("Mistrzowsko"),
+    DEFAULT("Brak informacji");
 
     private String value;
 
