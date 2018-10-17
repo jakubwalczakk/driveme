@@ -265,31 +265,51 @@ public class DBInitialization {
 
         Instructor instructor1 = Instructor.builder().name("Jerzy").surname("Kowalski").email("jerzy.kowalski@driveme.pl")
                 .availableHours(30).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.INSTRUCTOR).active(true).build();
+                .userRole(UserRole.INSTRUCTOR).active(true)
+                .practicalExams(new HashSet<>())
+                .reservations(new HashSet<>())
+                .drivings(new HashSet<>())
+                .build();
         instructors.add(instructor1);
         instructorRepository.save(instructor1);
 
         Instructor instructor2 = Instructor.builder().name("Edward").surname("Majewski").email("edward.majewski@driveme.pl")
                 .availableHours(40).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.INSTRUCTOR).active(true).build();
+                .userRole(UserRole.INSTRUCTOR).active(true)
+                .practicalExams(new HashSet<>())
+                .reservations(new HashSet<>())
+                .drivings(new HashSet<>())
+                .build();
         instructors.add(instructor2);
         instructorRepository.save(instructor2);
 
         Instructor instructor3 = Instructor.builder().name("Tomasz").surname("Majewski").email("tomasz.majewski@driveme.pl")
                 .availableHours(20).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.INSTRUCTOR).active(true).build();
+                .userRole(UserRole.INSTRUCTOR).active(true)
+                .practicalExams(new HashSet<>())
+                .reservations(new HashSet<>())
+                .drivings(new HashSet<>())
+                .build();
         instructors.add(instructor3);
         instructorRepository.save(instructor3);
 
         Instructor instructor4 = Instructor.builder().name("Karol").surname("Gaj").email("karol.gaj@driveme.pl")
                 .availableHours(30).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.INSTRUCTOR).active(true).build();
+                .userRole(UserRole.INSTRUCTOR).active(true)
+                .practicalExams(new HashSet<>())
+                .reservations(new HashSet<>())
+                .drivings(new HashSet<>())
+                .build();
         instructors.add(instructor4);
         instructorRepository.save(instructor4);
 
         Instructor instructor5 = Instructor.builder().name("Bartosz").surname("Bielski").email("bartosz.bielski@driveme.pl")
                 .availableHours(40).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.INSTRUCTOR).active(true).build();
+                .userRole(UserRole.INSTRUCTOR).active(true)
+                .practicalExams(new HashSet<>())
+                .reservations(new HashSet<>())
+                .drivings(new HashSet<>())
+                .build();
         instructors.add(instructor5);
         instructorRepository.save(instructor5);
     }
@@ -304,6 +324,8 @@ public class DBInitialization {
                 .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(0)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .reservations(new HashSet<>())
+                .drivings(new HashSet<>())
                 .build();
         students.add(student1);
 
@@ -312,6 +334,8 @@ public class DBInitialization {
                 .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(1)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .reservations(new HashSet<>())
+                .drivings(new HashSet<>())
                 .build();
         students.add(student2);
 
@@ -320,6 +344,8 @@ public class DBInitialization {
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(2)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .reservations(new HashSet<>())
+                .drivings(new HashSet<>())
                 .build();
         students.add(student3);
 
@@ -328,6 +354,8 @@ public class DBInitialization {
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(3)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .reservations(new HashSet<>())
+                .drivings(new HashSet<>())
                 .build();
         students.add(student4);
 
@@ -336,6 +364,8 @@ public class DBInitialization {
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(4)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .reservations(new HashSet<>())
+                .drivings(new HashSet<>())
                 .build();
         students.add(student5);
 
@@ -344,6 +374,8 @@ public class DBInitialization {
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(5)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .reservations(new HashSet<>())
+                .drivings(new HashSet<>())
                 .build();
         students.add(student6);
 
@@ -352,6 +384,8 @@ public class DBInitialization {
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(6)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .reservations(new HashSet<>())
+                .drivings(new HashSet<>())
                 .build();
         students.add(student7);
 
@@ -360,6 +394,8 @@ public class DBInitialization {
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(7)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .reservations(new HashSet<>())
+                .drivings(new HashSet<>())
                 .build();
         students.add(student8);
 
@@ -368,6 +404,8 @@ public class DBInitialization {
                 .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(8)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .reservations(new HashSet<>())
+                .drivings(new HashSet<>())
                 .build();
         students.add(student9);
 
@@ -376,6 +414,8 @@ public class DBInitialization {
                 .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(9)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
+                .reservations(new HashSet<>())
+                .drivings(new HashSet<>())
                 .build();
         students.add(student10);
 
@@ -405,7 +445,7 @@ public class DBInitialization {
 
 
             Course course = Course.builder()
-                    .student(student)
+//                    .student(student)
                     .takenDrivingHours(takenDrivingHours)
                     .startDate(startDate)
                     .practicalExam(practicalExam)
@@ -421,14 +461,17 @@ public class DBInitialization {
     }
 
     private PracticalExam initializePracticalExam(Student student) {
-
-        return PracticalExam.builder()
+        Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
+        PracticalExam practicalExam = PracticalExam.builder()
                 .active(true)
                 .student(student)
                 .car(cars.get(RANDOM.nextInt(cars.size())))
-                .instructor(instructors.get(RANDOM.nextInt(instructors.size())))
+                .instructor(instructor)
                 .dateOfExam(Instant.now().minusSeconds(RANDOM.nextInt(4) * ONE_DAY_IN_SECONDS))
                 .build();
+        instructor.getPracticalExams().add(practicalExam);
+
+        return practicalExam;
     }
 
     private Set<TheoreticalExam> initializeTheoreticalExams(Student student) {
@@ -474,16 +517,22 @@ public class DBInitialization {
     private void initializeReservations() {
 
         for (int i = 0; i < 10; i++) {
+
+            Student student = students.get(RANDOM.nextInt(students.size()));
+            Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
+
             Reservation reservation =
                     Reservation.builder()
-                            .student(students.get(RANDOM.nextInt(students.size())))
-                            .instructor(instructors.get(RANDOM.nextInt(instructors.size())))
+                            .student(student)
+                            .instructor(instructor)
                             .car(cars.get(RANDOM.nextInt(cars.size())))
                             .date(Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60))
                             .minutesOfEvent(RANDOM.nextInt(22) * 10)
                             .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
                             .status(true).build();
             reservations.add(reservation);
+            student.getReservations().add(reservation);
+            instructor.getReservations().add(reservation);
         }
         reservationRepository.saveAll(reservations);
     }
@@ -499,16 +548,22 @@ public class DBInitialization {
             } else {
                 rating = Rating.DISAPPOINTING;
             }
+
+            Student student = students.get(RANDOM.nextInt(students.size()));
+            Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
+
             Driving driving =
                     Driving.builder()
-                            .student(students.get(RANDOM.nextInt(students.size())))
-                            .instructor(instructors.get(RANDOM.nextInt(instructors.size())))
+                            .student(student)
+                            .instructor(instructor)
                             .car(cars.get(RANDOM.nextInt(cars.size())))
                             .date(Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60))
                             .minutesOfEvent(RANDOM.nextInt(22) * 10)
                             .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
                             .rating(rating).build();
             drivings.add(driving);
+            student.getDrivings().add(driving);
+            instructor.getDrivings().add(driving);
         }
         drivingRepository.saveAll(drivings);
     }

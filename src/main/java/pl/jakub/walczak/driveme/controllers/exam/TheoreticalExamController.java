@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.jakub.walczak.driveme.dto.exam.ExamDTO;
 import pl.jakub.walczak.driveme.dto.exam.TheoreticalExamDTO;
 import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
 import pl.jakub.walczak.driveme.services.exam.TheoreticalExamService;
@@ -36,7 +35,7 @@ public class TheoreticalExamController {
     @DeleteMapping(path = "/{id}")
     public ResponseEntity deleteTheoreticalExam(@PathVariable("id") Long id){
         try{
-            theoreticalExamService.deleteExam(id);
+            theoreticalExamService.deleteTheoreticalExam(id);
             return ResponseEntity.ok().build();
         }catch (Exception e ){
             e.printStackTrace();

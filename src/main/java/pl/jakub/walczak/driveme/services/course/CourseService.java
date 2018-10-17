@@ -8,7 +8,9 @@ import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.repos.course.CourseRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
@@ -23,6 +25,32 @@ public class CourseService {
     }
 
     // -- methods for controller --
+    public Course addCourse(CourseDTO courseDTO) {
+        Course course = mapDTOToModel(courseDTO, Course.builder().build());
+        return courseRepository.save(course);
+    }
+
+    public void deleteCourse(Long id) {
+        Optional<Course> courseToDelete = courseRepository.findById(id);
+        if (courseToDelete.isPresent()) {
+            courseRepository.delete(courseToDelete.get());
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public CourseDTO getCourse(Long id) {
+        Optional<Course> optionalCourse = courseRepository.findById(id);
+        if (optionalCourse.isPresent()) {
+            return mapModelToDTO(optionalCourse.get(), CourseDTO.builder().build());
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public List<CourseDTO> getAll() {
+        return findAll().stream().map(course -> mapModelToDTO(course, CourseDTO.builder().build())).collect(Collectors.toList());
+    }
 
     // -- dao methods --
     public List<Course> findAll() {

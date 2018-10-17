@@ -54,19 +54,6 @@ public class InstructorMapper {
 
     //TODO
     public Instructor mapDTOToModel(InstructorDTO dto, Instructor model) {
-//        model.setId(dto.getId());
-//        model.setName(dto.getName());
-//        model.setSurname(dto.getSurname());
-//        model.setEmail(dto.getEmail());
-//        model.setPhoneNumber(dto.getPhoneNumber());
-//        model.setPassword(dto.getPassword());
-//        try{
-//            model.setUserRole(UserRole.valueOf(dto.getUserRole()));
-//        } catch (IllegalArgumentException | NullPointerException e) {
-//            e.printStackTrace();
-//            model.setUserRole(UserRole.DEFAULT);
-//        }
-//        model.setActive(dto.getActive());
         return model;
     }
 }

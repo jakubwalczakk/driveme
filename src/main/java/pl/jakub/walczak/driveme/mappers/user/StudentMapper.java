@@ -1,29 +1,34 @@
 package pl.jakub.walczak.driveme.mappers.user;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.dto.address.AddressDTO;
+import pl.jakub.walczak.driveme.dto.course.CourseDTO;
 import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
 import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
 import pl.jakub.walczak.driveme.dto.user.StudentDTO;
-import pl.jakub.walczak.driveme.enums.UserRole;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.services.address.AddressService;
+import pl.jakub.walczak.driveme.services.course.CourseService;
 import pl.jakub.walczak.driveme.services.event.DrivingService;
 import pl.jakub.walczak.driveme.services.event.ReservationService;
 
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class StudentMapper {
 
     private AddressService addressService;
     private ReservationService reservationService;
     private DrivingService drivingService;
+    private CourseService courseService;
 
-    public StudentMapper(AddressService addressService, ReservationService reservationService, DrivingService drivingService) {
+    public StudentMapper(AddressService addressService, ReservationService reservationService, DrivingService drivingService, CourseService courseService) {
         this.addressService = addressService;
         this.reservationService = reservationService;
         this.drivingService = drivingService;
+        this.courseService = courseService;
     }
 
     public StudentDTO mapModelToDTO(Student model, StudentDTO dto) {
@@ -38,6 +43,7 @@ public class StudentMapper {
         dto.setPesel(model.getPesel());
         dto.setAddress(addressService.mapModelToDTO(model.getAddress(), AddressDTO.builder().build()));
         dto.setRegistrationDate(model.getRegistrationDate());
+        dto.setCourse(courseService.mapModelToDTO(model.getCourse(), CourseDTO.builder().build()));
 
         //FIXME
         dto.setReservations(model.getReservations().stream()
@@ -52,19 +58,6 @@ public class StudentMapper {
 
     //TODO
     public Student mapDTOToModel(StudentDTO dto, Student model) {
-//        model.setId(dto.getId());
-//        model.setName(dto.getName());
-//        model.setSurname(dto.getSurname());
-//        model.setEmail(dto.getEmail());
-//        model.setPhoneNumber(dto.getPhoneNumber());
-//        model.setPassword(dto.getPassword());
-//        try {
-//            model.setUserRole(UserRole.valueOf(dto.getUserRole()));
-//        } catch (IllegalArgumentException | NullPointerException e) {
-//            e.printStackTrace();
-//            model.setUserRole(UserRole.DEFAULT);
-//        }
-//        model.setActive(dto.getActive());
         return model;
     }
 }

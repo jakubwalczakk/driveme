@@ -31,7 +31,7 @@ public class TheoreticalExamService {
         return theoreticalExamRepository.save(theoreticalExam);
     }
 
-    public void deleteExam(Long id) {
+    public void deleteTheoreticalExam(Long id) {
         Optional<TheoreticalExam> theoreticalExamToDelete = theoreticalExamRepository.findById(id);
         if (theoreticalExamToDelete.isPresent()) {
             TheoreticalExam theoreticalExam = theoreticalExamToDelete.get();

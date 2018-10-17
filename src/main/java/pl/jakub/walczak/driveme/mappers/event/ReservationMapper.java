@@ -3,9 +3,9 @@ package pl.jakub.walczak.driveme.mappers.event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
-import pl.jakub.walczak.driveme.dto.city.DrivingCityDTO;
 import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
+import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.model.user.Instructor;
@@ -47,7 +47,10 @@ public class ReservationMapper {
         model.setId(dto.getId());
         model.setDate(dto.getDate());
         model.setMinutesOfEvent(dto.getMinutesOfEvent());
-        model.setCar(carService.mapDTOToModel(dto.getCar(), model.getCar()));
+        Optional<Car> optionalCar = carService.findById(dto.getCar().getId());
+        if (optionalCar.isPresent()) {
+            model.setCar(optionalCar.get());
+        }
         Optional<DrivingCity> optionalDrivingCity = cityService.findByName(dto.getDrivingCity());
         if (optionalDrivingCity.isPresent()) {
             model.setDrivingCity(optionalDrivingCity.get());

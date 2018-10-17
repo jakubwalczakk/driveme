@@ -34,8 +34,8 @@ public class Course {
 
     //FIXME
     //IF IT IS NECESSARY HERE???
-    @OneToOne//(cascade = CascadeType.ALL)
-    private Student student;
+//    @OneToOne//(cascade = CascadeType.ALL)
+//    private Student student;
     @OneToMany(cascade = CascadeType.ALL)
     private Set<TheoreticalExam> theoreticalExams;
     @OneToOne(cascade = CascadeType.ALL)

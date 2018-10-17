@@ -48,7 +48,6 @@ public class CarService {
         } else {
             throw new NoSuchElementException();
         }
-
     }
 
     public List<CarDTO> getAll() {
@@ -56,6 +55,10 @@ public class CarService {
     }
 
     // -- dao methods --
+    public Optional<Car> findById(Long id) {
+        return carRepository.findById(id);
+    }
+
     public List<Car> findAll() {
         return carRepository.findAll();
     }
