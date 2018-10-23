@@ -12,13 +12,13 @@ import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.model.exam.PracticalExam;
 import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
+import pl.jakub.walczak.driveme.model.payment.Payment;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.address.AddressRepository;
 import pl.jakub.walczak.driveme.repos.car.CarRepository;
 import pl.jakub.walczak.driveme.repos.city.DrivingCityRepository;
-import pl.jakub.walczak.driveme.repos.course.CourseRepository;
 import pl.jakub.walczak.driveme.repos.event.CalendarEventRepository;
 import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
 import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
@@ -48,7 +48,6 @@ public class DBInitialization {
     private UserRepository userRepository;
     private InstructorRepository instructorRepository;
     private StudentRepository studentRepository;
-    private CourseRepository courseRepository;
     private CalendarEventRepository calendarEventRepository;
     private DrivingRepository drivingRepository;
     private ReservationRepository reservationRepository;
@@ -67,7 +66,7 @@ public class DBInitialization {
     public DBInitialization(Generator generator, DrivingCityRepository drivingCityRepository, CarRepository carRepository,
                             AddressRepository addressRepository, UserRepository userRepository,
                             InstructorRepository instructorRepository, StudentRepository studentRepository,
-                            CourseRepository courseRepository, CalendarEventRepository calendarEventRepository, DrivingRepository drivingRepository,
+                            CalendarEventRepository calendarEventRepository, DrivingRepository drivingRepository,
                             ReservationRepository reservationRepository) {
         this.generator = generator;
 
@@ -77,7 +76,6 @@ public class DBInitialization {
         this.userRepository = userRepository;
         this.instructorRepository = instructorRepository;
         this.studentRepository = studentRepository;
-        this.courseRepository = courseRepository;
         this.calendarEventRepository = calendarEventRepository;
         this.drivingRepository = drivingRepository;
         this.reservationRepository = reservationRepository;
@@ -103,6 +101,7 @@ public class DBInitialization {
         initializeEvents();
     }
 
+    //10
     private void initializeDrivingCities() {
 
         DrivingCity katowice = DrivingCity.builder().name("Katowice").active(true).build();
@@ -129,6 +128,7 @@ public class DBInitialization {
         drivingCityRepository.saveAll(drivingCities);
     }
 
+    //24
     private void initializeCars() {
         Car punto = Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.GAS)
                 .licensePlate(generator.generateLicensePlate()).active(true).build();
@@ -443,21 +443,38 @@ public class DBInitialization {
                 takenDrivingHours = RANDOM.nextInt(16) + 15;
             }
 
-
             Course course = Course.builder()
-//                    .student(student)
                     .takenDrivingHours(takenDrivingHours)
                     .startDate(startDate)
                     .practicalExam(practicalExam)
                     .theoreticalExams(theoreticalExams)
+                    .currentPayment(0.0)
                     .status(CourseStatus.IN_PROGRESS)
                     .build();
             student.setCourse(course);
+            initializePayments(course);
 
             courses.add(course);
             studentRepository.save(student);
         }
-//        courseRepository.saveAll(courses);
+    }
+
+    private void initializePayments(Course course) {
+        Set<Payment> payments = new HashSet<>();
+        final Double coursePrice = 1500.0;
+        Double sumOfAmounts = 0.0;
+        do {
+            Instant paymentDate = Instant.now().minusSeconds((1 + RANDOM.nextInt(30)) * ONE_DAY_IN_SECONDS);
+            Double amount = (RANDOM.nextInt(15) + 1) * 100.0;
+            if ((sumOfAmounts + amount) > coursePrice) {
+                amount = coursePrice - sumOfAmounts;
+            }
+            Payment payment = Payment.builder().date(paymentDate).amount(amount).build();
+            payments.add(payment);
+            sumOfAmounts += amount;
+        } while (!sumOfAmounts.equals(coursePrice));
+        course.setCurrentPayment(sumOfAmounts);
+        course.setPayments(payments);
     }
 
     private PracticalExam initializePracticalExam(Student student) {

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import pl.jakub.walczak.driveme.enums.CourseStatus;
 import pl.jakub.walczak.driveme.model.exam.PracticalExam;
 import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
-import pl.jakub.walczak.driveme.model.user.Student;
+import pl.jakub.walczak.driveme.model.payment.Payment;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,6 +19,8 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity(name = "courses")
 public class Course {
+
+    private static final Double course_price = 1500.0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +42,10 @@ public class Course {
     private Set<TheoreticalExam> theoreticalExams;
     @OneToOne(cascade = CascadeType.ALL)
     private PracticalExam practicalExam;
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Payment> payments;
     @Enumerated
     @Column(name = "status", nullable = false)
     private CourseStatus status;
-
+    private Double currentPayment;
 }

@@ -9,6 +9,7 @@ import pl.jakub.walczak.driveme.model.address.Address;
 import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Reservation;
+import pl.jakub.walczak.driveme.model.payment.Payment;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -34,7 +35,5 @@ public class Student extends User {
     private Set<Reservation> reservations;
     @OneToMany(mappedBy = "student")//, orphanRemoval = true)
     private Set<Driving> drivings;
-    //    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    //    private Set<Payment> payments;
 
 }

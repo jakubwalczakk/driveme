@@ -58,7 +58,6 @@ public class CourseService {
     }
 
     // -- mapper methods --
-
     public CourseDTO mapModelToDTO(Course model, CourseDTO dto) {
         return courseMapper.mapModelToDTO(model, dto);
     }

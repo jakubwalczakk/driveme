@@ -27,7 +27,7 @@ public class AddressController {
             return ResponseEntity.ok(addressService.addAddress(addressDTO));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.badRequest().build();
         }
     }
 
@@ -37,7 +37,7 @@ public class AddressController {
             return ResponseEntity.ok(addressService.getAddress(id));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.notFound().build();
         }
     }
 
