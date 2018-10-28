@@ -15,4 +15,5 @@ public class PracticalExamDTO extends ExamDTO {
 
     private CarDTO car;
     private UserBasicDTO instructor;
+    private Integer durationTime;
 }

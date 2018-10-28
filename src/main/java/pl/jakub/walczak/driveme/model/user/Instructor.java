@@ -19,6 +19,7 @@ import java.util.Set;
 @Entity(name = "instructors")
 public class Instructor extends User {
 
+    private Integer workingHours;
     private Integer availableHours;
     private Integer takenHours;
     @OneToMany(mappedBy = "instructor", orphanRemoval = true)

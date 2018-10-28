@@ -32,6 +32,7 @@ public class PracticalExamMapper {
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
         dto.setCar(carService.mapModelToDTO(model.getCar(), CarDTO.builder().build()));
         dto.setInstructor(userService.mapUserBasicModelToDTO(model.getInstructor(), UserBasicDTO.builder().build()));
+        dto.setDurationTime(model.getDurationTime());
         return dto;
     }
 

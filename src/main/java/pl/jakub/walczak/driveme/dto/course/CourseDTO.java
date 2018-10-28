@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.jakub.walczak.driveme.dto.exam.PracticalExamDTO;
 import pl.jakub.walczak.driveme.dto.exam.TheoreticalExamDTO;
+import pl.jakub.walczak.driveme.dto.payment.PaymentDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
+import pl.jakub.walczak.driveme.model.payment.Payment;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -23,5 +25,7 @@ public class CourseDTO {
 //    private UserBasicDTO student;
     private PracticalExamDTO practicalExam;
     private Set<TheoreticalExamDTO> theoreticalExams;
+    private Set<PaymentDTO> payments;
     private String status;
+    private Double currentPayment;
 }

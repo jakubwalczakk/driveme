@@ -10,6 +10,7 @@ import pl.jakub.walczak.driveme.repos.payment.PaymentRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,6 +58,9 @@ public class PaymentService {
         return paymentRepository.findAll();
     }
 
+    public Set<Payment> findAllById(Set<Long> paymentsToAdd) {
+        return paymentRepository.findAllById(paymentsToAdd);
+    }
 
     // -- mapper methods --
     public PaymentDTO mapModelToDTO(Payment model, PaymentDTO dto) {

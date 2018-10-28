@@ -52,6 +52,16 @@ public class CarController {
         }
     }
 
+    @GetMapping(path="/active")
+    public ResponseEntity<List<CarDTO>> getActiveCars() {
+        try {
+            return ResponseEntity.ok(carService.getActiveCars());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
     @GetMapping
     public ResponseEntity<List<CarDTO>> getAll() {
         try {

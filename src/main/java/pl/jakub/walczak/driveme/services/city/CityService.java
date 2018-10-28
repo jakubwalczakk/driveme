@@ -8,9 +8,7 @@ import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.repos.city.DrivingCityRepository;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +32,7 @@ public class CityService {
             return drivingCityRepository.save(drivingCity);
         }
         DrivingCity drivingCity = mapDTOToModel(drivingCityDTO, DrivingCity.builder().build());
+        drivingCity.setActive(true);
         return drivingCityRepository.save(drivingCity);
     }
 
@@ -57,8 +56,18 @@ public class CityService {
         }
     }
 
+    public List<DrivingCityDTO> getActiveCities() {
+        return findActiveCities().stream().map(city->mapModelToDTO(city, DrivingCityDTO.builder().build()))
+                .collect(Collectors.toList());
+    }
+
+    private Set<DrivingCity> findActiveCities() {
+        return drivingCityRepository.findAllByActive(true);
+    }
+
     public List<DrivingCityDTO> getAll() {
-        return findAll().stream().map(city -> mapModelToDTO(city, DrivingCityDTO.builder().build())).collect(Collectors.toList());
+        return findAll().stream().map(city -> mapModelToDTO(city, DrivingCityDTO.builder().build()))
+                .collect(Collectors.toList());
     }
 
     // -- dao methods --

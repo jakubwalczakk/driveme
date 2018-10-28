@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.services.address;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.address.AddressDTO;
@@ -12,6 +13,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class AddressService {
 
@@ -32,6 +34,7 @@ public class AddressService {
             Address address = mapDTOToModel(addressDTO, Address.builder().build());
             return addressRepository.save(address);
         }
+        log.info("Given address just exists in database.");
         return optionalAddress.get();
     }
 

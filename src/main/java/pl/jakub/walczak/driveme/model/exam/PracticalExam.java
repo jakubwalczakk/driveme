@@ -8,12 +8,11 @@ import lombok.experimental.SuperBuilder;
 import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Data
-@EqualsAndHashCode(exclude="instructor")
+@EqualsAndHashCode(exclude = "instructor")
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,5 +23,6 @@ public class PracticalExam extends Exam {
     private Car car;
     @ManyToOne//(cascade = CascadeType.ALL)
     private Instructor instructor;
+    private final Integer durationTime = 60;
 
 }

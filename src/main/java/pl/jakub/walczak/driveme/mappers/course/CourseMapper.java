@@ -5,10 +5,12 @@ import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.dto.course.CourseDTO;
 import pl.jakub.walczak.driveme.dto.exam.PracticalExamDTO;
 import pl.jakub.walczak.driveme.dto.exam.TheoreticalExamDTO;
+import pl.jakub.walczak.driveme.dto.payment.PaymentDTO;
 import pl.jakub.walczak.driveme.enums.CourseStatus;
 import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.services.exam.PracticalExamService;
 import pl.jakub.walczak.driveme.services.exam.TheoreticalExamService;
+import pl.jakub.walczak.driveme.services.payment.PaymentService;
 import pl.jakub.walczak.driveme.services.user.UserService;
 
 import java.util.Set;
@@ -19,12 +21,14 @@ public class CourseMapper {
 
     private PracticalExamService practicalExamService;
     private TheoreticalExamService theoreticalExamService;
+    private PaymentService paymentService;
     private UserService userService;
 
     @Autowired
-    public CourseMapper(PracticalExamService practicalExamService, TheoreticalExamService theoreticalExamService, UserService userService) {
+    public CourseMapper(PracticalExamService practicalExamService, TheoreticalExamService theoreticalExamService, PaymentService paymentService, UserService userService) {
         this.practicalExamService = practicalExamService;
         this.theoreticalExamService = theoreticalExamService;
+        this.paymentService = paymentService;
         this.userService = userService;
     }
 
@@ -37,6 +41,10 @@ public class CourseMapper {
         dto.setTheoreticalExams(model.getTheoreticalExams().stream()
                 .map(exam -> theoreticalExamService.mapModelToDTO(exam, TheoreticalExamDTO.builder().build()))
                 .collect(Collectors.toSet()));
+        dto.setPayments(model.getPayments().stream()
+        .map(payment -> paymentService.mapModelToDTO(payment, PaymentDTO.builder().build()))
+        .collect(Collectors.toSet()));
+        dto.setCurrentPayment(model.getCurrentPayment());
         dto.setStatus(model.getStatus().toString());
         return dto;
     }
@@ -53,6 +61,11 @@ public class CourseMapper {
         Set<Long> theoreticalExamsToAdd =
                 dto.getTheoreticalExams().stream().map(exam -> exam.getId()).collect(Collectors.toSet());
         model.setTheoreticalExams(theoreticalExamService.findAllById(theoreticalExamsToAdd));
+
+        Set<Long> paymentsToAdd =
+                dto.getPayments().stream().map(payment->payment.getId()).collect(Collectors.toSet());
+        model.setPayments(paymentService.findAllById(paymentsToAdd));
+        model.setCurrentPayment(dto.getCurrentPayment());
         try {
             model.setStatus(CourseStatus.valueOf(dto.getStatus().toUpperCase()));
         } catch (IllegalArgumentException | NullPointerException e) {

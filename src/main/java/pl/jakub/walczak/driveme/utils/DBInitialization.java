@@ -264,7 +264,7 @@ public class DBInitialization {
     private void initializeInstructors() {
 
         Instructor instructor1 = Instructor.builder().name("Jerzy").surname("Kowalski").email("jerzy.kowalski@driveme.pl")
-                .availableHours(30).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
+                .workingHours(30).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
                 .userRole(UserRole.INSTRUCTOR).active(true)
                 .practicalExams(new HashSet<>())
                 .reservations(new HashSet<>())
@@ -274,7 +274,7 @@ public class DBInitialization {
         instructorRepository.save(instructor1);
 
         Instructor instructor2 = Instructor.builder().name("Edward").surname("Majewski").email("edward.majewski@driveme.pl")
-                .availableHours(40).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
+                .workingHours(40).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
                 .userRole(UserRole.INSTRUCTOR).active(true)
                 .practicalExams(new HashSet<>())
                 .reservations(new HashSet<>())
@@ -284,7 +284,7 @@ public class DBInitialization {
         instructorRepository.save(instructor2);
 
         Instructor instructor3 = Instructor.builder().name("Tomasz").surname("Majewski").email("tomasz.majewski@driveme.pl")
-                .availableHours(20).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
+                .workingHours(20).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
                 .userRole(UserRole.INSTRUCTOR).active(true)
                 .practicalExams(new HashSet<>())
                 .reservations(new HashSet<>())
@@ -294,7 +294,7 @@ public class DBInitialization {
         instructorRepository.save(instructor3);
 
         Instructor instructor4 = Instructor.builder().name("Karol").surname("Gaj").email("karol.gaj@driveme.pl")
-                .availableHours(30).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
+                .workingHours(30).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
                 .userRole(UserRole.INSTRUCTOR).active(true)
                 .practicalExams(new HashSet<>())
                 .reservations(new HashSet<>())
@@ -304,7 +304,7 @@ public class DBInitialization {
         instructorRepository.save(instructor4);
 
         Instructor instructor5 = Instructor.builder().name("Bartosz").surname("Bielski").email("bartosz.bielski@driveme.pl")
-                .availableHours(40).takenHours(0).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
+                .workingHours(40).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
                 .userRole(UserRole.INSTRUCTOR).active(true)
                 .practicalExams(new HashSet<>())
                 .reservations(new HashSet<>())
