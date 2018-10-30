@@ -4,13 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
 import pl.jakub.walczak.driveme.mappers.event.DrivingMapper;
-import pl.jakub.walczak.driveme.model.event.CalendarEvent;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,6 +51,10 @@ public class DrivingService {
     }
 
     // -- dao methods --
+    public Set<Driving> findAllById(Set<Long> drivingsToAdd) {
+        return new HashSet<>(drivingRepository.findAllById(drivingsToAdd));
+    }
+
     public List<Driving> findAll() {
         return drivingRepository.findAll();
     }

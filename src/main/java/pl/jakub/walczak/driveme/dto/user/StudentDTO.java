@@ -22,6 +22,4 @@ public class StudentDTO extends UserDTO {
     private AddressDTO address;
     private Instant registrationDate;
     private CourseDTO course;
-    private Set<ReservationDTO> reservations;
-    private Set<DrivingDTO> drivings;
 }

@@ -7,9 +7,7 @@ import pl.jakub.walczak.driveme.mappers.event.ReservationMapper;
 import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,6 +51,10 @@ public class ReservationService {
     }
 
     // -- dao methods --
+    public Set<Reservation> findAllById(Set<Long> reservationsToAdd) {
+        return new HashSet<>(reservationRepository.findAllById(reservationsToAdd));
+    }
+
     public List<Reservation> findAll() {
         return reservationRepository.findAll();
     }

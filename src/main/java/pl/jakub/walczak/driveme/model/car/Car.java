@@ -22,7 +22,7 @@ public class Car {
     @Enumerated
     @Column(name = "brand", nullable = false)
     private CarBrand brand;
-    @Column(name="model", nullable = false)
+    @Column(name = "model", nullable = false)
     private String model;
     @Column(name = "license_plate", nullable = false, unique = true)
     private String licensePlate;
@@ -31,9 +31,7 @@ public class Car {
     private GasType gasType;
     @Column(name = "activity")
     private Boolean active;
-//    @OneToMany(mappedBy = "car")
-//    private Set<PracticalExam> practicalExams;
-//    @OneToMany(mappedBy = "car")
-//    private Set<Reservation>reservations;
-//    private String carPhoto;
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] carPhoto;
 }

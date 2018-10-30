@@ -46,13 +46,13 @@ public class StudentMapper {
         dto.setCourse(courseService.mapModelToDTO(model.getCourse(), CourseDTO.builder().build()));
 
         //FIXME
-        dto.setReservations(model.getReservations().stream()
-                .map(reservation -> reservationService.mapModelToDTO(reservation, ReservationDTO.builder().build()))
-                .collect(Collectors.toSet()));
-        //FIXME
-        dto.setDrivings(model.getDrivings().stream()
-                .map(driving -> drivingService.mapModelToDTO(driving, DrivingDTO.builder().build()))
-                .collect(Collectors.toSet()));
+//        dto.setReservations(model.getReservations().stream()
+//                .map(reservation -> reservationService.mapModelToDTO(reservation, ReservationDTO.builder().build()))
+//                .collect(Collectors.toSet()));
+//        //FIXME
+//        dto.setDrivings(model.getDrivings().stream()
+//                .map(driving -> drivingService.mapModelToDTO(driving, DrivingDTO.builder().build()))
+//                .collect(Collectors.toSet()));
         return dto;
     }
 

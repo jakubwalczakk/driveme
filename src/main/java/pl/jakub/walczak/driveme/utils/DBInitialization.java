@@ -7,7 +7,6 @@ import pl.jakub.walczak.driveme.model.address.Address;
 import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.model.course.Course;
-import pl.jakub.walczak.driveme.model.event.CalendarEvent;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.model.exam.PracticalExam;
@@ -19,7 +18,7 @@ import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.address.AddressRepository;
 import pl.jakub.walczak.driveme.repos.car.CarRepository;
 import pl.jakub.walczak.driveme.repos.city.DrivingCityRepository;
-import pl.jakub.walczak.driveme.repos.event.CalendarEventRepository;
+import pl.jakub.walczak.driveme.repos.course.CourseRepository;
 import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
 import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
 import pl.jakub.walczak.driveme.repos.user.InstructorRepository;
@@ -47,8 +46,8 @@ public class DBInitialization {
     private AddressRepository addressRepository;
     private UserRepository userRepository;
     private InstructorRepository instructorRepository;
+    private CourseRepository courseRepository;
     private StudentRepository studentRepository;
-    private CalendarEventRepository calendarEventRepository;
     private DrivingRepository drivingRepository;
     private ReservationRepository reservationRepository;
 
@@ -58,25 +57,21 @@ public class DBInitialization {
     private List<Instructor> instructors;
     private List<Student> students;
     private List<Course> courses;
-    private List<CalendarEvent> events;
-    private List<Reservation> reservations;
-    private List<Driving> drivings;
 
     @Autowired
     public DBInitialization(Generator generator, DrivingCityRepository drivingCityRepository, CarRepository carRepository,
-                            AddressRepository addressRepository, UserRepository userRepository,
-                            InstructorRepository instructorRepository, StudentRepository studentRepository,
-                            CalendarEventRepository calendarEventRepository, DrivingRepository drivingRepository,
-                            ReservationRepository reservationRepository) {
+                            AddressRepository addressRepository, InstructorRepository instructorRepository,
+                            UserRepository userRepository, CourseRepository courseRepository, StudentRepository studentRepository,
+                            DrivingRepository drivingRepository, ReservationRepository reservationRepository) {
         this.generator = generator;
 
         this.drivingCityRepository = drivingCityRepository;
         this.carRepository = carRepository;
         this.addressRepository = addressRepository;
-        this.userRepository = userRepository;
         this.instructorRepository = instructorRepository;
+        this.userRepository = userRepository;
+        this.courseRepository = courseRepository;
         this.studentRepository = studentRepository;
-        this.calendarEventRepository = calendarEventRepository;
         this.drivingRepository = drivingRepository;
         this.reservationRepository = reservationRepository;
 
@@ -86,9 +81,6 @@ public class DBInitialization {
         this.instructors = new ArrayList<>();
         this.students = new ArrayList<>();
         this.courses = new ArrayList<>();
-        this.events = new ArrayList<>();
-        this.reservations = new ArrayList<>();
-        this.drivings = new ArrayList<>();
     }
 
     @PostConstruct
@@ -98,7 +90,6 @@ public class DBInitialization {
         initializeAddresses();
         initializeUsers();
         initializeCourses();
-        initializeEvents();
     }
 
     //10
@@ -238,7 +229,7 @@ public class DBInitialization {
         Address address10 = Address.builder().city("Pszczyna").street("Wiejska").zipCode("43-200").houseNo("73").build();
         addresses.add(address10);
 
-        addressRepository.saveAll(addresses);
+//        addressRepository.saveAll(addresses);
     }
 
     private void initializeUsers() {
@@ -324,8 +315,8 @@ public class DBInitialization {
                 .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(0)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
-                .reservations(new HashSet<>())
-                .drivings(new HashSet<>())
+//                .reservations(new HashSet<>())
+//                .drivings(new HashSet<>())
                 .build();
         students.add(student1);
 
@@ -334,8 +325,8 @@ public class DBInitialization {
                 .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(1)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
-                .reservations(new HashSet<>())
-                .drivings(new HashSet<>())
+//                .reservations(new HashSet<>())
+//                .drivings(new HashSet<>())
                 .build();
         students.add(student2);
 
@@ -344,8 +335,8 @@ public class DBInitialization {
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(2)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
-                .reservations(new HashSet<>())
-                .drivings(new HashSet<>())
+//                .reservations(new HashSet<>())
+//                .drivings(new HashSet<>())
                 .build();
         students.add(student3);
 
@@ -354,8 +345,8 @@ public class DBInitialization {
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(3)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
-                .reservations(new HashSet<>())
-                .drivings(new HashSet<>())
+//                .reservations(new HashSet<>())
+//                .drivings(new HashSet<>())
                 .build();
         students.add(student4);
 
@@ -364,8 +355,8 @@ public class DBInitialization {
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(4)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
-                .reservations(new HashSet<>())
-                .drivings(new HashSet<>())
+//                .reservations(new HashSet<>())
+//                .drivings(new HashSet<>())
                 .build();
         students.add(student5);
 
@@ -374,8 +365,8 @@ public class DBInitialization {
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(5)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
-                .reservations(new HashSet<>())
-                .drivings(new HashSet<>())
+//                .reservations(new HashSet<>())
+//                .drivings(new HashSet<>())
                 .build();
         students.add(student6);
 
@@ -384,8 +375,8 @@ public class DBInitialization {
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(6)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
-                .reservations(new HashSet<>())
-                .drivings(new HashSet<>())
+//                .reservations(new HashSet<>())
+//                .drivings(new HashSet<>())
                 .build();
         students.add(student7);
 
@@ -394,8 +385,8 @@ public class DBInitialization {
                 .password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(7)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
-                .reservations(new HashSet<>())
-                .drivings(new HashSet<>())
+//                .reservations(new HashSet<>())
+//                .drivings(new HashSet<>())
                 .build();
         students.add(student8);
 
@@ -404,8 +395,8 @@ public class DBInitialization {
                 .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(8)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
-                .reservations(new HashSet<>())
-                .drivings(new HashSet<>())
+//                .reservations(new HashSet<>())
+//                .drivings(new HashSet<>())
                 .build();
         students.add(student9);
 
@@ -414,8 +405,8 @@ public class DBInitialization {
                 .phoneNumber(generator.generatePhoneNumber()).userRole(UserRole.STUDENT)
                 .pesel(generator.generatePesel()).address(addressList.get(9)).active(true)
                 .registrationDate(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * RANDOM.nextInt(50)))
-                .reservations(new HashSet<>())
-                .drivings(new HashSet<>())
+//                .reservations(new HashSet<>())
+//                .drivings(new HashSet<>())
                 .build();
         students.add(student10);
 
@@ -425,10 +416,6 @@ public class DBInitialization {
     private void initializeCourses() {
 
         for (Student student : students) {
-
-            Set<TheoreticalExam> theoreticalExams = initializeTheoreticalExams(student);
-
-            PracticalExam practicalExam = initializePracticalExam(student);
 
             Instant registrationDate = student.getRegistrationDate();
             Instant courseStartDate = registrationDate.plusSeconds(RANDOM.nextInt(8) * ONE_DAY_IN_SECONDS);
@@ -444,17 +431,21 @@ public class DBInitialization {
             }
 
             Course course = Course.builder()
+//                    .student(student)
                     .takenDrivingHours(takenDrivingHours)
                     .startDate(startDate)
-                    .practicalExam(practicalExam)
-                    .theoreticalExams(theoreticalExams)
                     .currentPayment(0.0)
                     .status(CourseStatus.IN_PROGRESS)
+                    .drivings(initializeDrivings(student))
+                    .reservations(initializeReservations(student))
                     .build();
             student.setCourse(course);
             initializePayments(course);
+            initializeTheoreticalExams(student);
+            initializePracticalExam(student);
 
             courses.add(course);
+//            courseRepository.save(course);
             studentRepository.save(student);
         }
     }
@@ -477,7 +468,8 @@ public class DBInitialization {
         course.setPayments(payments);
     }
 
-    private PracticalExam initializePracticalExam(Student student) {
+    private void initializePracticalExam(Student student) {
+        Course course = student.getCourse();
         Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
         PracticalExam practicalExam = PracticalExam.builder()
                 .active(true)
@@ -486,12 +478,12 @@ public class DBInitialization {
                 .instructor(instructor)
                 .dateOfExam(Instant.now().minusSeconds(RANDOM.nextInt(4) * ONE_DAY_IN_SECONDS))
                 .build();
+        course.setPracticalExam(practicalExam);
         instructor.getPracticalExams().add(practicalExam);
-
-        return practicalExam;
     }
 
-    private Set<TheoreticalExam> initializeTheoreticalExams(Student student) {
+    private void initializeTheoreticalExams(Student student) {
+        Course course = student.getCourse();
         Set<TheoreticalExam> theoreticalExams = new HashSet<>();
         boolean status = false;
         while (status == false) {
@@ -509,33 +501,16 @@ public class DBInitialization {
                     .build();
             theoreticalExams.add(theoreticalExam);
         }
-
-        return theoreticalExams;
+        course.setTheoreticalExams(theoreticalExams);
     }
 
-    private void initializeEvents() {
+    private Set<Reservation> initializeReservations(Student student) {
 
-        for (int i = 0; i < 5; i++) {
-            CalendarEvent calendarEvent = CalendarEvent.builder()
-                    .date(Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60))
-                    .minutesOfEvent(RANDOM.nextInt(21) * 10)
-                    .car(cars.get(RANDOM.nextInt(cars.size())))
-                    .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
-                    .student(students.get(RANDOM.nextInt(students.size())))
-                    .instructor(instructors.get(RANDOM.nextInt(instructors.size())))
-                    .build();
-            events.add(calendarEvent);
-        }
-        calendarEventRepository.saveAll(events);
-        initializeReservations();
-        initializeDrivings();
-    }
-
-    private void initializeReservations() {
+        HashSet<Reservation> reservations = new HashSet<>();
 
         for (int i = 0; i < 10; i++) {
 
-            Student student = students.get(RANDOM.nextInt(students.size()));
+//            Student student = students.get(RANDOM.nextInt(students.size()));
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
 
             Reservation reservation =
@@ -548,13 +523,15 @@ public class DBInitialization {
                             .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
                             .status(true).build();
             reservations.add(reservation);
-            student.getReservations().add(reservation);
             instructor.getReservations().add(reservation);
         }
         reservationRepository.saveAll(reservations);
+        return reservations;
     }
 
-    private void initializeDrivings() {
+    private Set<Driving> initializeDrivings(Student student) {
+
+        HashSet<Driving> drivings = new HashSet<>();
 
         for (int i = 0; i < 10; i++) {
             Rating rating;
@@ -566,7 +543,7 @@ public class DBInitialization {
                 rating = Rating.DISAPPOINTING;
             }
 
-            Student student = students.get(RANDOM.nextInt(students.size()));
+//            Student student = students.get(RANDOM.nextInt(students.size()));
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
 
             Driving driving =
@@ -579,9 +556,9 @@ public class DBInitialization {
                             .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
                             .rating(rating).build();
             drivings.add(driving);
-            student.getDrivings().add(driving);
             instructor.getDrivings().add(driving);
         }
         drivingRepository.saveAll(drivings);
+        return drivings;
     }
 }

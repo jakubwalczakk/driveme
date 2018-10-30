@@ -7,11 +7,11 @@ import lombok.experimental.SuperBuilder;
 import pl.jakub.walczak.driveme.enums.UserRole;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Data
 @SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity(name = "users")
 public class User {

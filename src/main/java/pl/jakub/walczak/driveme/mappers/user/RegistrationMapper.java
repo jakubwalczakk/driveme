@@ -9,11 +9,12 @@ import pl.jakub.walczak.driveme.model.user.User;
 public class RegistrationMapper {
 
     public User mapDTOToModel(UserRegistrationDTO dto) {
-        User model = new User();
-        model.setName(dto.getName());
-        model.setSurname(dto.getSurname());
-        model.setEmail(dto.getEmail());
-        model.setPassword(dto.getPassword());
+        User model = User.builder()
+                .name(dto.getName())
+                .surname(dto.getSurname())
+                .email(dto.getEmail())
+                .password(dto.getPassword())
+                .build();
         try {
             model.setUserRole(UserRole.valueOf(dto.getUserRole()));
         } catch (IllegalArgumentException | NullPointerException e) {

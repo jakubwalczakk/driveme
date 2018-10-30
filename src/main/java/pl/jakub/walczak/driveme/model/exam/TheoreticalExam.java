@@ -11,8 +11,7 @@ import javax.persistence.Entity;
 @Data
 @SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
-@Entity(name = "theoretical_exam")
+@Entity(name = "theoretical_exams")
 public class TheoreticalExam extends Exam {
 
     public static final Integer MAXIMUM_POINTS_AMOUNT = 74;

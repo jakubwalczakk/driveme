@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.jakub.walczak.driveme.enums.CourseStatus;
+import pl.jakub.walczak.driveme.model.event.Driving;
+import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.model.exam.PracticalExam;
 import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
 import pl.jakub.walczak.driveme.model.payment.Payment;
@@ -38,14 +40,34 @@ public class Course {
     //IF IT IS NECESSARY HERE???
 //    @OneToOne//(cascade = CascadeType.ALL)
 //    private Student student;
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<TheoreticalExam> theoreticalExams;
-    @OneToOne(cascade = CascadeType.ALL)
-    private PracticalExam practicalExam;
-    @OneToMany(cascade = CascadeType.ALL)
+
+    @OneToMany(
+            mappedBy = "course",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private Set<Payment> payments;
+    private Double currentPayment;
+    @OneToMany(
+            mappedBy = "course",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<Reservation> reservations;
+    @OneToMany(
+            mappedBy = "course",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<Driving> drivings;
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<TheoreticalExam> theoreticalExams;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private PracticalExam practicalExam;
     @Enumerated
     @Column(name = "status", nullable = false)
     private CourseStatus status;
-    private Double currentPayment;
 }

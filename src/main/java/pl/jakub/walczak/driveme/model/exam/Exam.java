@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
 
@@ -13,7 +14,6 @@ import java.time.Instant;
 @Data
 @SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity(name = "exams")
 public class Exam {
@@ -25,7 +25,6 @@ public class Exam {
     private Instant dateOfExam;
     @Column(name = "activity")
     private Boolean active;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Student student;
-
 }

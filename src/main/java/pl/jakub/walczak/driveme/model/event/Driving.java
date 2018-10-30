@@ -12,7 +12,6 @@ import javax.persistence.Enumerated;
 @Data
 @SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity(name = "drivings")
 public class Driving extends CalendarEvent {
 

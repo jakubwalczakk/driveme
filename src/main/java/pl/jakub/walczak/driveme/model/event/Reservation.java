@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 @Data
 @SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity(name = "reservations")
 public class Reservation extends CalendarEvent {
 
