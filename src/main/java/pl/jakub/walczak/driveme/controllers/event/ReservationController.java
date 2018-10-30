@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.jakub.walczak.driveme.dto.event.CalendarEventDTO;
 import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
-import pl.jakub.walczak.driveme.model.event.CalendarEvent;
 import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.services.event.ReservationService;
 
@@ -24,7 +22,7 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity<Reservation> addReservation (@RequestBody ReservationDTO reservationDTO) {
+    public ResponseEntity<Reservation> addReservation(@RequestBody ReservationDTO reservationDTO) {
         try {
             return ResponseEntity.ok(reservationService.addReservation(reservationDTO));
         } catch (Exception e) {

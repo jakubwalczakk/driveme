@@ -21,41 +21,41 @@ public class PracticalExamController {
     }
 
     @PostMapping
-    public ResponseEntity<PracticalExam> addPracticalExam(@RequestBody PracticalExamDTO practicalExamDTO){
-        try{
+    public ResponseEntity<PracticalExam> addPracticalExam(@RequestBody PracticalExamDTO practicalExamDTO) {
+        try {
             return ResponseEntity.ok(practicalExamService.addPracticalExam(practicalExamDTO));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity deletePracticalExam(@PathVariable("id") Long id){
-        try{
+    public ResponseEntity deletePracticalExam(@PathVariable("id") Long id) {
+        try {
             practicalExamService.deletePracticalExam(id);
             return ResponseEntity.ok().build();
-        }catch (Exception   e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<PracticalExamDTO>getPracticalExam(@PathVariable("id")Long id){
-        try{
+    public ResponseEntity<PracticalExamDTO> getPracticalExam(@PathVariable("id") Long id) {
+        try {
             return ResponseEntity.ok(practicalExamService.getPracticalExam(id));
-        }catch(Exception e  ){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping
-    public ResponseEntity<List<PracticalExamDTO>>getAll(){
-        try{
+    public ResponseEntity<List<PracticalExamDTO>> getAll() {
+        try {
             return ResponseEntity.ok(practicalExamService.getAll());
-        }catch (Exception e ){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }

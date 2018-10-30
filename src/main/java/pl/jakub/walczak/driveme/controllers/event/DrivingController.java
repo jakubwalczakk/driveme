@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.jakub.walczak.driveme.dto.event.CalendarEventDTO;
 import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
-import pl.jakub.walczak.driveme.model.event.CalendarEvent;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.services.event.DrivingService;
 

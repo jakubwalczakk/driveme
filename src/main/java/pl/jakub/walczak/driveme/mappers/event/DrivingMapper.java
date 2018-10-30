@@ -3,7 +3,6 @@ package pl.jakub.walczak.driveme.mappers.event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
-import pl.jakub.walczak.driveme.dto.city.DrivingCityDTO;
 import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 import pl.jakub.walczak.driveme.enums.Rating;

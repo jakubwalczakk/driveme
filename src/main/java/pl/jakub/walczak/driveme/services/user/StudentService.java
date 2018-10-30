@@ -2,10 +2,8 @@ package pl.jakub.walczak.driveme.services.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.jakub.walczak.driveme.dto.user.InstructorDTO;
 import pl.jakub.walczak.driveme.dto.user.StudentDTO;
 import pl.jakub.walczak.driveme.mappers.user.StudentMapper;
-import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.repos.user.StudentRepository;
 

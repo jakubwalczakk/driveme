@@ -22,31 +22,31 @@ public class ExamController {
     }
 
     @PostMapping
-    public ResponseEntity<Exam> addExam(@RequestBody ExamDTO examDTO){
-        try{
+    public ResponseEntity<Exam> addExam(@RequestBody ExamDTO examDTO) {
+        try {
             return ResponseEntity.ok(examService.addExam(examDTO));
-        }catch (Exception e ){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity deleteExam(@PathVariable("id") Long id){
-        try{
+    public ResponseEntity deleteExam(@PathVariable("id") Long id) {
+        try {
             examService.deleteExam(id);
             return ResponseEntity.ok().build();
-        }catch (Exception e ){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<ExamDTO> getExam(@PathVariable("id") Long id){
-        try{
+    public ResponseEntity<ExamDTO> getExam(@PathVariable("id") Long id) {
+        try {
             return ResponseEntity.ok(examService.getExam(id));
-        }catch (Exception e ){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }

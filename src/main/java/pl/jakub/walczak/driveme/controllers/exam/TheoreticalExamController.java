@@ -22,10 +22,10 @@ public class TheoreticalExamController {
     }
 
     @PostMapping
-    public ResponseEntity<TheoreticalExam> addTheoreticalExam(@RequestBody TheoreticalExamDTO theoreticalExamDTO){
-        try{
+    public ResponseEntity<TheoreticalExam> addTheoreticalExam(@RequestBody TheoreticalExamDTO theoreticalExamDTO) {
+        try {
             return ResponseEntity.ok(theoreticalExamService.addTheoreticalExam(theoreticalExamDTO));
-        }catch (Exception  e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
@@ -33,21 +33,21 @@ public class TheoreticalExamController {
 
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity deleteTheoreticalExam(@PathVariable("id") Long id){
-        try{
+    public ResponseEntity deleteTheoreticalExam(@PathVariable("id") Long id) {
+        try {
             theoreticalExamService.deleteTheoreticalExam(id);
             return ResponseEntity.ok().build();
-        }catch (Exception e ){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<TheoreticalExamDTO> getTheoreticalExam(@PathVariable("id") Long id){
-        try{
+    public ResponseEntity<TheoreticalExamDTO> getTheoreticalExam(@PathVariable("id") Long id) {
+        try {
             return ResponseEntity.ok(theoreticalExamService.getExam(id));
-        }catch (Exception e ){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }

@@ -1,12 +1,9 @@
 package pl.jakub.walczak.driveme.model.exam;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.user.Student;
-import pl.jakub.walczak.driveme.model.user.User;
 
 import javax.persistence.*;
 import java.time.Instant;

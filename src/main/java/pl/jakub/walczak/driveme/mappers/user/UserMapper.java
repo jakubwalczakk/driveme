@@ -14,7 +14,6 @@ public class UserMapper {
         dto.setSurname(model.getSurname());
         dto.setEmail(model.getEmail());
         dto.setPhoneNumber(model.getPhoneNumber());
-//        dto.setPassword(model.getPassword());
         dto.setUserRole(model.getUserRole().toString());
         dto.setActive(model.getActive());
         return dto;
@@ -26,8 +25,7 @@ public class UserMapper {
         model.setSurname(dto.getSurname());
         model.setEmail(dto.getEmail());
         model.setPhoneNumber(dto.getPhoneNumber());
-//        model.setPassword(dto.getPassword());
-        try{
+        try {
             model.setUserRole(UserRole.valueOf(dto.getUserRole()));
         } catch (IllegalArgumentException | NullPointerException e) {
             e.printStackTrace();

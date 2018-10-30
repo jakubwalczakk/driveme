@@ -1,8 +1,8 @@
 package pl.jakub.walczak.driveme.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import pl.jakub.walczak.driveme.model.address.Address;
@@ -14,6 +14,7 @@ import java.time.Instant;
 @Data
 @SuperBuilder
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = "course")
 @Entity(name = "students")
 public class Student extends User {
 
@@ -23,6 +24,7 @@ public class Student extends User {
     private Address address;
     @Column(name = "registration_date", nullable = false)
     private Instant registrationDate;
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL)
     private Course course;
 }

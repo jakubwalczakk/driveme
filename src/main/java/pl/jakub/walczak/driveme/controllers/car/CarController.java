@@ -52,7 +52,7 @@ public class CarController {
         }
     }
 
-    @GetMapping(path="/active")
+    @GetMapping(path = "/active")
     public ResponseEntity<List<CarDTO>> getActiveCars() {
         try {
             return ResponseEntity.ok(carService.getActiveCars());

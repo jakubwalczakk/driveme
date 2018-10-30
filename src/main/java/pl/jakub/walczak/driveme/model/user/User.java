@@ -1,13 +1,11 @@
 package pl.jakub.walczak.driveme.model.user;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import pl.jakub.walczak.driveme.enums.UserRole;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Data
 @SuperBuilder

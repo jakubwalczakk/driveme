@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.city.DrivingCityDTO;
 import pl.jakub.walczak.driveme.mappers.city.DrivingCityMapper;
 import pl.jakub.walczak.driveme.model.city.DrivingCity;
-import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.repos.city.DrivingCityRepository;
 
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,7 +59,7 @@ public class CityService {
     }
 
     public List<DrivingCityDTO> getActiveCities() {
-        return findActiveCities().stream().map(city->mapModelToDTO(city, DrivingCityDTO.builder().build()))
+        return findActiveCities().stream().map(city -> mapModelToDTO(city, DrivingCityDTO.builder().build()))
                 .collect(Collectors.toList());
     }
 
@@ -71,7 +73,7 @@ public class CityService {
     }
 
     // -- dao methods --
-    public Optional<DrivingCity>findByName(String name){
+    public Optional<DrivingCity> findByName(String name) {
         return drivingCityRepository.findByName(name);
     }
 

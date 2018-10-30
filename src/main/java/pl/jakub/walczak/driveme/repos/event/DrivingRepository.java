@@ -8,5 +8,5 @@ import javax.transaction.Transactional;
 
 @Repository
 @Transactional
-public interface DrivingRepository extends JpaRepository<Driving,Long> {
+public interface DrivingRepository extends JpaRepository<Driving, Long> {
 }

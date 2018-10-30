@@ -1,15 +1,14 @@
 package pl.jakub.walczak.driveme.model.course;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 import pl.jakub.walczak.driveme.enums.CourseStatus;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.model.exam.PracticalExam;
 import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
 import pl.jakub.walczak.driveme.model.payment.Payment;
+import pl.jakub.walczak.driveme.model.user.Student;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,6 +18,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = "student")
 @Entity(name = "courses")
 public class Course {
 
@@ -35,27 +35,21 @@ public class Course {
     private final Integer lectureHours = 30;
     @Column(name = "taken_driving_hours", nullable = false)
     private Integer takenDrivingHours;
-
-    //FIXME
-    //IF IT IS NECESSARY HERE???
-//    @OneToOne//(cascade = CascadeType.ALL)
-//    private Student student;
-
+    @JsonBackReference
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Student student;
     @OneToMany(
-            mappedBy = "course",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     private Set<Payment> payments;
     private Double currentPayment;
     @OneToMany(
-            mappedBy = "course",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     private Set<Reservation> reservations;
     @OneToMany(
-            mappedBy = "course",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )

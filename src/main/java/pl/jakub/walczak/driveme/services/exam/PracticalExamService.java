@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.exam.PracticalExamDTO;
 import pl.jakub.walczak.driveme.mappers.exam.PracticalExamMapper;
 import pl.jakub.walczak.driveme.model.exam.PracticalExam;
-import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
 import pl.jakub.walczak.driveme.repos.exam.PracticalExamRepository;
 
 import java.util.List;
