@@ -29,9 +29,9 @@ public class Car {
     @Enumerated
     @Column(name = "gas_type", nullable = false)
     private GasType gasType;
-    @Column(name = "activity")
-    private Boolean active;
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte[] carPhoto;
+    @Column(name = "activity")
+    private Boolean active;
 }

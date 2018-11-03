@@ -34,7 +34,7 @@ public class ReservationMapper {
     public ReservationDTO mapModelToDTO(Reservation model, ReservationDTO dto) {
         dto.setId(model.getId());
         dto.setDate(model.getDate());
-        dto.setMinutesOfEvent(model.getMinutesOfEvent());
+        dto.setMinutesOfEvent(model.getDuration());
         dto.setCar(carService.mapModelToDTO(model.getCar(), CarDTO.builder().build()));
         dto.setDrivingCity(model.getDrivingCity().getName());
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
@@ -46,7 +46,7 @@ public class ReservationMapper {
     public Reservation mapDTOToModel(ReservationDTO dto, Reservation model) {
         model.setId(dto.getId());
         model.setDate(dto.getDate());
-        model.setMinutesOfEvent(dto.getMinutesOfEvent());
+        model.setDuration(dto.getMinutesOfEvent());
         Optional<Car> optionalCar = carService.findById(dto.getCar().getId());
         if (optionalCar.isPresent()) {
             model.setCar(optionalCar.get());

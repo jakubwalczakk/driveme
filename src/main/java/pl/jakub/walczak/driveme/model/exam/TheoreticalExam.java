@@ -19,7 +19,5 @@ public class TheoreticalExam extends Exam {
     private Integer scoredPoints;
     @Column(name = "result", nullable = false)
     private Double result;
-    @Column(name = "status", nullable = false)
-    private Boolean passed;
 
 }

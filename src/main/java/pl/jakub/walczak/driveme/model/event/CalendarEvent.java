@@ -32,5 +32,5 @@ public class CalendarEvent {
     @Column(name = "event_date", nullable = false)
     private Instant date;
     @Column(name = "event_duration", nullable = false)
-    private Integer minutesOfEvent;
+    private Integer duration;
 }

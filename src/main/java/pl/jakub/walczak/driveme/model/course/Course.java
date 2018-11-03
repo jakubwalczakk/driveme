@@ -18,7 +18,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = "student")
+//@EqualsAndHashCode(exclude = "student")
 @Entity(name = "courses")
 public class Course {
 
@@ -35,9 +35,9 @@ public class Course {
     private final Integer lectureHours = 30;
     @Column(name = "taken_driving_hours", nullable = false)
     private Integer takenDrivingHours;
-    @JsonBackReference
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Student student;
+//    @JsonBackReference
+//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private Student student;
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true

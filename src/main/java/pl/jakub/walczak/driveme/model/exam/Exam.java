@@ -20,8 +20,10 @@ public class Exam {
     private Long id;
     @Column(name = "exam_date", nullable = false)
     private Instant dateOfExam;
-    @Column(name = "activity")
-    private Boolean active;
     @ManyToOne(fetch = FetchType.LAZY)
     private Student student;
+    @Column(name = "status", nullable = false)
+    private Boolean passed;
+    @Column(name = "activity")
+    private Boolean active;
 }

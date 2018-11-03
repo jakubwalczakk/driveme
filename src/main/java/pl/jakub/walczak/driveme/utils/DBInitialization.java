@@ -395,14 +395,13 @@ public class DBInitialization {
             }
 
             Course course = Course.builder()
-                    .student(student)
                     .takenDrivingHours(takenDrivingHours)
                     .startDate(startDate)
                     .currentPayment(0.0)
                     .status(CourseStatus.IN_PROGRESS)
                     .build();
             student.setCourse(course);
-            initializePayments(course);
+            initializePayments(student);
             initializeTheoreticalExams(student);
             initializePracticalExam(student);
             initializeReservations(student);
@@ -413,8 +412,9 @@ public class DBInitialization {
         }
     }
 
-    private void initializePayments(Course course) {
+    private void initializePayments(Student student) {
         Set<Payment> payments = new HashSet<>();
+        Course course = student.getCourse();
         final Double coursePrice = 1500.0;
         Double sumOfAmounts = 0.0;
         do {
@@ -423,7 +423,7 @@ public class DBInitialization {
             if ((sumOfAmounts + amount) > coursePrice) {
                 amount = coursePrice - sumOfAmounts;
             }
-            Payment payment = Payment.builder().date(paymentDate).amount(amount).build();
+            Payment payment = Payment.builder().date(paymentDate).student(student).amount(amount).build();
             payments.add(payment);
             sumOfAmounts += amount;
         } while (!sumOfAmounts.equals(coursePrice));
@@ -434,12 +434,15 @@ public class DBInitialization {
     private void initializePracticalExam(Student student) {
         Course course = student.getCourse();
         Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
+
+        boolean status = RANDOM.nextInt(100) % 2 == 0 ? true : false;
         PracticalExam practicalExam = PracticalExam.builder()
                 .active(true)
                 .student(student)
                 .car(cars.get(RANDOM.nextInt(cars.size())))
                 .instructor(instructor)
                 .dateOfExam(Instant.now().minusSeconds(RANDOM.nextInt(4) * ONE_DAY_IN_SECONDS))
+                .passed(status)
                 .build();
         course.setPracticalExam(practicalExam);
     }
@@ -479,7 +482,7 @@ public class DBInitialization {
                             .instructor(instructor)
                             .car(cars.get(RANDOM.nextInt(cars.size())))
                             .date(Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60))
-                            .minutesOfEvent(RANDOM.nextInt(22) * 10)
+                            .duration(RANDOM.nextInt(22) * 10)
                             .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
                             .status(true).build();
             reservations.add(reservation);
@@ -508,7 +511,7 @@ public class DBInitialization {
                             .instructor(instructor)
                             .car(cars.get(RANDOM.nextInt(cars.size())))
                             .date(Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60))
-                            .minutesOfEvent(RANDOM.nextInt(22) * 10)
+                            .duration(RANDOM.nextInt(22) * 10)
                             .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
                             .rating(rating).build();
             drivings.add(driving);
