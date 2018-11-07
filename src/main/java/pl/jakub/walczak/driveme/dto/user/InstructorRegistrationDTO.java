@@ -9,11 +9,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRegistrationDTO {
+public class InstructorRegistrationDTO extends UserRegistrationDTO {
 
-    private String name;
-    private String surname;
-    private String email;
-    private String password;
-    private String phoneNumber;
+    private Integer availableHours;
 }

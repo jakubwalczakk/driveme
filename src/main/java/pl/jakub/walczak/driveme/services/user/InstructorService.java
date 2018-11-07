@@ -3,7 +3,9 @@ package pl.jakub.walczak.driveme.services.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.user.InstructorDTO;
+import pl.jakub.walczak.driveme.dto.user.InstructorRegistrationDTO;
 import pl.jakub.walczak.driveme.mappers.user.InstructorMapper;
+import pl.jakub.walczak.driveme.mappers.user.RegistrationMapper;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.repos.user.InstructorRepository;
 
@@ -17,14 +19,33 @@ public class InstructorService {
 
     private InstructorRepository instructorRepository;
     private InstructorMapper instructorMapper;
+    private RegistrationMapper registrationMapper;
 
     @Autowired
-    public InstructorService(InstructorRepository instructorRepository, InstructorMapper instructorMapper) {
+    public InstructorService(InstructorRepository instructorRepository, InstructorMapper instructorMapper,
+                             RegistrationMapper registrationMapper) {
         this.instructorRepository = instructorRepository;
         this.instructorMapper = instructorMapper;
+        this.registrationMapper = registrationMapper;
     }
 
     // -- methods for controller --
+    public Instructor createInstructor(InstructorRegistrationDTO instructorRegistrationDTO) {
+        Instructor instructor = registrationMapper.mapRegistrationDTOToInstructor(instructorRegistrationDTO);
+        return instructorRepository.save(instructor);
+    }
+
+    public Instructor activateInstructor(Long id) {
+        Optional<Instructor> instructorToActivate = instructorRepository.findById(id);
+        if (instructorToActivate.isPresent()) {
+            Instructor instructor = instructorToActivate.get();
+            instructor.setActive(true);
+            return instructorRepository.save(instructor);
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
     public void deleteInstructor(Long id) {
         Optional<Instructor> instructorToDelete = instructorRepository.findById(id);
         if (instructorToDelete.isPresent()) {

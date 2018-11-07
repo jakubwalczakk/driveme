@@ -3,6 +3,8 @@ package pl.jakub.walczak.driveme.services.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.user.StudentDTO;
+import pl.jakub.walczak.driveme.dto.user.StudentRegistrationDTO;
+import pl.jakub.walczak.driveme.mappers.user.RegistrationMapper;
 import pl.jakub.walczak.driveme.mappers.user.StudentMapper;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.repos.user.StudentRepository;
@@ -17,14 +19,33 @@ public class StudentService {
 
     private StudentRepository studentRepository;
     private StudentMapper studentMapper;
+    private RegistrationMapper registrationMapper;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository, StudentMapper studentMapper) {
+    public StudentService(StudentRepository studentRepository, StudentMapper studentMapper,
+                          RegistrationMapper registrationMapper) {
         this.studentRepository = studentRepository;
         this.studentMapper = studentMapper;
+        this.registrationMapper = registrationMapper;
     }
 
     // -- methods for controller --
+    public Student createStudent(StudentRegistrationDTO studentRegistrationDTO) {
+        Student student = registrationMapper.mapRegistrationDTOToStudent(studentRegistrationDTO);
+        return studentRepository.save(student);
+    }
+
+    public Student activateStudent(Long id) {
+        Optional<Student> studentToActivate = studentRepository.findById(id);
+        if (studentToActivate.isPresent()) {
+            Student student = studentToActivate.get();
+            student.setActive(true);
+            return studentRepository.save(student);
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
     public void deleteStudent(Long id) {
         Optional<Student> studentToDelete = studentRepository.findById(id);
         if (studentToDelete.isPresent()) {

@@ -35,8 +35,7 @@ public class UserService {
 
     // -- methods for controller --
     public User createUser(UserRegistrationDTO userRegistrationDTO) {
-        User user = registrationMapper.mapDTOToModel(userRegistrationDTO);
-        user.setActive(true);
+        User user = registrationMapper.mapRegistrationDTOToUser(userRegistrationDTO);
         return userRepository.save(user);
     }
 

@@ -4,16 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import pl.jakub.walczak.driveme.dto.address.AddressDTO;
 
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRegistrationDTO {
+public class StudentRegistrationDTO extends UserRegistrationDTO {
 
-    private String name;
-    private String surname;
-    private String email;
-    private String password;
-    private String phoneNumber;
+    private String pesel;
+    private AddressDTO address;
 }
