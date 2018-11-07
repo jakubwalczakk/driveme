@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.services.event;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
@@ -10,6 +11,7 @@ import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class DrivingService {
 
@@ -24,29 +26,33 @@ public class DrivingService {
 
     // -- methods for controller --
     public Driving addDriving(DrivingDTO drivingDTO) {
+        log.info("Adding new Driving...");
         Driving driving = mapDTOToModel(drivingDTO, Driving.builder().build());
         return drivingRepository.save(driving);
     }
 
     public void deleteDriving(Long id) {
+        log.info("Deleting the Driving with id = " + id);
         Optional<Driving> drivingToDelete = drivingRepository.findById(id);
         if (drivingToDelete.isPresent()) {
             drivingRepository.delete(drivingToDelete.get());
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot DELETE Driving with given id = " + id);
         }
     }
 
     public DrivingDTO getDriving(Long id) {
+        log.info("Getting the Driving with id = " + id);
         Optional<Driving> optionalDriving = drivingRepository.findById(id);
         if (optionalDriving.isPresent()) {
             return mapModelToDTO(optionalDriving.get(), DrivingDTO.builder().build());
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot GET Driving with given id = " + id);
         }
     }
 
     public List<DrivingDTO> getAll() {
+        log.info("Getting all Drivings");
         return findAll().stream().map(driving -> mapModelToDTO(driving, DrivingDTO.builder().build())).collect(Collectors.toList());
     }
 

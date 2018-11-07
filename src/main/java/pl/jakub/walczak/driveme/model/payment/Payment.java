@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import pl.jakub.walczak.driveme.model.user.Student;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.Date;
 
 @Data
@@ -22,7 +23,7 @@ public class Payment {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Student student;
     @Column(name = "payment_date")
-    private Date date;
+    private Instant date;
     @Column(name = "amount", nullable = false)
     private Double amount;
 }

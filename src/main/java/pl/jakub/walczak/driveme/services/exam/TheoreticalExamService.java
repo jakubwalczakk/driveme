@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.services.exam;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.exam.TheoreticalExamDTO;
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class TheoreticalExamService {
 
@@ -27,32 +29,36 @@ public class TheoreticalExamService {
 
     // -- methods for controller --
     public TheoreticalExam addTheoreticalExam(TheoreticalExamDTO theoreticalExamDTO) {
+        log.info("Adding new TheoreticalExam...");
         TheoreticalExam theoreticalExam = mapDTOToModel(theoreticalExamDTO, TheoreticalExam.builder().build());
         theoreticalExam.setActive(true);
         return theoreticalExamRepository.save(theoreticalExam);
     }
 
     public void deleteTheoreticalExam(Long id) {
+        log.info("Deleting the TheoreticalExam with id = " + id);
         Optional<TheoreticalExam> theoreticalExamToDelete = theoreticalExamRepository.findById(id);
         if (theoreticalExamToDelete.isPresent()) {
             TheoreticalExam theoreticalExam = theoreticalExamToDelete.get();
             theoreticalExam.setActive(false);
             theoreticalExamRepository.save(theoreticalExam);
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot DELETE TheoreticalExam with given id = " + id);
         }
     }
 
     public TheoreticalExamDTO getExam(Long id) {
+        log.info("Getting the TheoreticalExam with id = " + id);
         Optional<TheoreticalExam> optionalTheoreticalExam = theoreticalExamRepository.findById(id);
         if (optionalTheoreticalExam.isPresent()) {
             return mapModelToDTO(optionalTheoreticalExam.get(), TheoreticalExamDTO.builder().build());
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot GET TheoreticalExam with given id = " + id);
         }
     }
 
     public List<TheoreticalExamDTO> getAll() {
+        log.info("Getting all TheoreticalExams");
         return findAll().stream().map(exam -> mapModelToDTO(exam, TheoreticalExamDTO.builder().build())).collect(Collectors.toList());
     }
 

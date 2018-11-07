@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.services.event;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.event.CalendarEventDTO;
@@ -12,6 +13,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class CalendarEventService {
 
@@ -26,29 +28,33 @@ public class CalendarEventService {
 
     // -- methods for controller --
     public CalendarEvent addCalendarEvent(CalendarEventDTO calendarEventDTO) {
+        log.info("Adding new CalendarEvent...");
         CalendarEvent calendarEvent = mapDTOToModel(calendarEventDTO, CalendarEvent.builder().build());
         return calendarEventRepository.save(calendarEvent);
     }
 
     public void deleteCalendarEvent(Long id) {
+        log.info("Deleting the CalendarEvent with id = " + id);
         Optional<CalendarEvent> calendarEventToDelete = calendarEventRepository.findById(id);
         if (calendarEventToDelete.isPresent()) {
             calendarEventRepository.delete(calendarEventToDelete.get());
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot DELETE CalendarEvent with given id = " + id);
         }
     }
 
     public CalendarEventDTO getCalendarEvent(Long id) {
+        log.info("Getting the CalendarEvent with id = " + id);
         Optional<CalendarEvent> optionalCalendarEvent = calendarEventRepository.findById(id);
         if (optionalCalendarEvent.isPresent()) {
             return mapModelToDTO(optionalCalendarEvent.get(), CalendarEventDTO.builder().build());
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot GET CalendarEvent with given id = " + id);
         }
     }
 
     public List<CalendarEventDTO> getAll() {
+        log.info("Getting all CalendarEvents");
         return findAll().stream().map(event -> mapModelToDTO(event, CalendarEventDTO.builder().build())).collect(Collectors.toList());
     }
 

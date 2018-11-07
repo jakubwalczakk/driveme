@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.services.user;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.user.StudentDTO;
@@ -14,6 +15,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class StudentService {
 
@@ -31,42 +33,47 @@ public class StudentService {
 
     // -- methods for controller --
     public Student createStudent(StudentRegistrationDTO studentRegistrationDTO) {
+        log.info("Creating new Student...");
         Student student = registrationMapper.mapRegistrationDTOToStudent(studentRegistrationDTO);
         return studentRepository.save(student);
     }
 
     public Student activateStudent(Long id) {
+        log.info("Activating Student with id = " + id);
         Optional<Student> studentToActivate = studentRepository.findById(id);
         if (studentToActivate.isPresent()) {
             Student student = studentToActivate.get();
             student.setActive(true);
             return studentRepository.save(student);
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot ACTIVATE Student with given id = " + id);
         }
     }
 
     public void deleteStudent(Long id) {
+        log.info("Deleting the Student with id = " + id);
         Optional<Student> studentToDelete = studentRepository.findById(id);
         if (studentToDelete.isPresent()) {
             Student student = studentToDelete.get();
             student.setActive(false);
             studentRepository.save(student);
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot DELETE Student with given id = " + id);
         }
     }
 
     public StudentDTO getStudent(Long id) {
+        log.info("Getting the Student with id = " + id);
         Optional<Student> optionalStudent = studentRepository.findById(id);
         if (optionalStudent.isPresent()) {
             return mapModelToDTO(optionalStudent.get(), StudentDTO.builder().build());
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot GET Student with given id = " + id);
         }
     }
 
     public List<StudentDTO> getAll() {
+        log.info("Getting all Students");
         return findAll().stream().map(student -> mapModelToDTO(student, StudentDTO.builder().build())).collect(Collectors.toList());
     }
 

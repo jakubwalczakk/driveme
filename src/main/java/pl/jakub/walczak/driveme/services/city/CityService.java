@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.services.city;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.city.DrivingCityDTO;
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class CityService {
 
@@ -27,8 +29,10 @@ public class CityService {
 
     // -- methods for controller --
     public DrivingCity addDrivingCity(DrivingCityDTO drivingCityDTO) {
+        log.info("Adding new DrivingCity...");
         Optional<DrivingCity> drivingCityOptional = drivingCityRepository.findByName(drivingCityDTO.getName());
         if (drivingCityOptional.isPresent()) {
+            log.info("DrivingCity just exists in database, now is also activated");
             DrivingCity drivingCity = drivingCityOptional.get();
             drivingCity.setActive(true);
             return drivingCityRepository.save(drivingCity);
@@ -39,35 +43,35 @@ public class CityService {
     }
 
     public void deleteDrivingCity(Long id) {
+        log.info("Deleting the DrivingCity with id = " + id);
         Optional<DrivingCity> drivingCityToDelete = drivingCityRepository.findById(id);
         if (drivingCityToDelete.isPresent()) {
             DrivingCity drivingCity = drivingCityToDelete.get();
             drivingCity.setActive(false);
             drivingCityRepository.save(drivingCity);
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot DELETE DrivingCity with given id = " + id);
         }
     }
 
     public DrivingCityDTO getDrivingCity(Long id) {
+        log.info("Getting the DrivingCity with id = " + id);
         Optional<DrivingCity> optionalDrivingCity = drivingCityRepository.findById(id);
         if (optionalDrivingCity.isPresent()) {
             return mapModelToDTO(optionalDrivingCity.get(), DrivingCityDTO.builder().build());
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot GET DrivingCity with given id = " + id);
         }
     }
 
     public List<DrivingCityDTO> getActiveCities() {
+        log.info("Getting all active DrivingCities");
         return findActiveCities().stream().map(city -> mapModelToDTO(city, DrivingCityDTO.builder().build()))
                 .collect(Collectors.toList());
     }
 
-    private Set<DrivingCity> findActiveCities() {
-        return drivingCityRepository.findAllByActive(true);
-    }
-
     public List<DrivingCityDTO> getAll() {
+        log.info("Getting all DrivingCities");
         return findAll().stream().map(city -> mapModelToDTO(city, DrivingCityDTO.builder().build()))
                 .collect(Collectors.toList());
     }
@@ -75,6 +79,10 @@ public class CityService {
     // -- dao methods --
     public Optional<DrivingCity> findByName(String name) {
         return drivingCityRepository.findByName(name);
+    }
+
+    private Set<DrivingCity> findActiveCities() {
+        return drivingCityRepository.findAllByActive(true);
     }
 
     public List<DrivingCity> findAll() {

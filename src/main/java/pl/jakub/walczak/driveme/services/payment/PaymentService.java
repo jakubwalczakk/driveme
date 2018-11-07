@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.services.payment;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.payment.PaymentDTO;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class PaymentService {
 
@@ -34,12 +36,12 @@ public class PaymentService {
 
     // -- methods for controller --
     public Payment addPayment(PaymentDTO paymentDTO) {
-
+        log.info("Adding new Payment...");
         Student student = (Student) userService.mapUserBasicDTOToModel(paymentDTO.getStudent());
         Course course = student.getCourse();
 
         if(course.getCurrentPayment()==COURSE_PRICE){
-            throw new IllegalStateException("Cannot ADD payment, because you can't pay more than the course price = " + COURSE_PRICE);
+            throw new IllegalStateException("Cannot ADD Payment, because you can't pay more than the course price = " + COURSE_PRICE);
         }
         Payment payment = mapDTOToModel(paymentDTO, Payment.builder().build());
         course.getPayments().add(payment);
@@ -49,24 +51,27 @@ public class PaymentService {
     }
 
     public void deletePayment(Long id) {
+        log.info("Deleting the Payment with id = " + id);
         Optional<Payment> paymentToDelete = paymentRepository.findById(id);
         if (paymentToDelete.isPresent()) {
             paymentRepository.delete(paymentToDelete.get());
         } else {
-            throw new NoSuchElementException("Cannot DELETE payment with given id = " + id);
+            throw new NoSuchElementException("Cannot DELETE Payment with given id = " + id);
         }
     }
 
     public PaymentDTO getPayment(Long id) {
+        log.info("Getting the Payment with id = " + id);
         Optional<Payment> optionalPayment = paymentRepository.findById(id);
         if (optionalPayment.isPresent()) {
             return mapModelToDTO(optionalPayment.get(), PaymentDTO.builder().build());
         } else {
-            throw new NoSuchElementException("Cannot GET payment with given id = " + id);
+            throw new NoSuchElementException("Cannot GET Payment with given id = " + id);
         }
     }
 
     public List<PaymentDTO> getAll() {
+        log.info("Getting all Payments");
         return findAll().stream().map(payment -> mapModelToDTO(payment, PaymentDTO.builder().build())).collect(Collectors.toList());
     }
 

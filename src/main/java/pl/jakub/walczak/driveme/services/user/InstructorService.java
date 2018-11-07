@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.services.user;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.user.InstructorDTO;
@@ -14,6 +15,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class InstructorService {
 
@@ -31,42 +33,47 @@ public class InstructorService {
 
     // -- methods for controller --
     public Instructor createInstructor(InstructorRegistrationDTO instructorRegistrationDTO) {
+        log.info("Creating new Instructor...");
         Instructor instructor = registrationMapper.mapRegistrationDTOToInstructor(instructorRegistrationDTO);
         return instructorRepository.save(instructor);
     }
 
     public Instructor activateInstructor(Long id) {
+        log.info("Activating the Instructor with id = " + id);
         Optional<Instructor> instructorToActivate = instructorRepository.findById(id);
         if (instructorToActivate.isPresent()) {
             Instructor instructor = instructorToActivate.get();
             instructor.setActive(true);
             return instructorRepository.save(instructor);
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot ACTIVATE Instructor with given id = " + id);
         }
     }
 
     public void deleteInstructor(Long id) {
+        log.info("Deleting the Instructor with id = " + id);
         Optional<Instructor> instructorToDelete = instructorRepository.findById(id);
         if (instructorToDelete.isPresent()) {
             Instructor instructor = instructorToDelete.get();
             instructor.setActive(false);
             instructorRepository.save(instructor);
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot DELETE Instructor with given id = " + id);
         }
     }
 
     public InstructorDTO getInstructor(Long id) {
+        log.info("Getting Instructor with id = " + id);
         Optional<Instructor> optionalInstructor = instructorRepository.findById(id);
         if (optionalInstructor.isPresent()) {
             return mapModelToDTO(optionalInstructor.get(), InstructorDTO.builder().build());
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot GET instructor with given id = " + id);
         }
     }
 
     public List<InstructorDTO> getAll() {
+        log.info("Getting all instructors");
         return findAll().stream().map(instructor -> mapModelToDTO(instructor, InstructorDTO.builder().build())).collect(Collectors.toList());
     }
 

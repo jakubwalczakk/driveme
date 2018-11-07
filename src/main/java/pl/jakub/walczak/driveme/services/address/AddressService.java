@@ -28,6 +28,7 @@ public class AddressService {
 
     // -- methods for controller --
     public Address addAddress(AddressDTO addressDTO) {
+        log.info("Adding new Address...");
         Optional<Address> optionalAddress = addressRepository.findByCityAndZipCodeAndStreetAndHouseNo(
                 addressDTO.getCity(), addressDTO.getZipCode(), addressDTO.getStreet(), addressDTO.getHouseNo());
         if (!optionalAddress.isPresent()) {
@@ -39,15 +40,17 @@ public class AddressService {
     }
 
     public AddressDTO getAddress(Long id) {
+        log.info("Getting the Address with id = " + id);
         Optional<Address> optionalAddress = addressRepository.findById(id);
         if (optionalAddress.isPresent()) {
             return mapModelToDTO(optionalAddress.get(), AddressDTO.builder().build());
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot GET Address with given id = " + id);
         }
     }
 
     public List<AddressDTO> getAll() {
+        log.info("Getting all Addresses");
         return findAll().stream().map(address -> mapModelToDTO(address, AddressDTO.builder().build())).collect(Collectors.toList());
     }
 

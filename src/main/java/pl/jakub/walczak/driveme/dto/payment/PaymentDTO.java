@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Builder
@@ -17,7 +15,7 @@ import java.util.Date;
 public class PaymentDTO {
 
     private Long id;
-    private Date date;
+    private Instant date;
     private Double amount;
     private UserBasicDTO student;
 }

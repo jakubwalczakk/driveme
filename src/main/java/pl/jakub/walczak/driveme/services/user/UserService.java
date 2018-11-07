@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.services.user;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
@@ -16,6 +17,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class UserService {
 
@@ -35,31 +37,35 @@ public class UserService {
 
     // -- methods for controller --
     public User createUser(UserRegistrationDTO userRegistrationDTO) {
+        log.info("Creating new User...");
         User user = registrationMapper.mapRegistrationDTOToUser(userRegistrationDTO);
         return userRepository.save(user);
     }
 
     public void deleteUser(Long id) {
+        log.info("Deleting the User with id = " + id);
         Optional<User> userToDelete = userRepository.findById(id);
         if (userToDelete.isPresent()) {
             User user = userToDelete.get();
             user.setActive(false);
             userRepository.save(user);
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot DELETE User with given id = " + id);
         }
     }
 
     public UserDTO getUser(Long id) {
+        log.info("Getting the User with id = " + id);
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             return mapModelToDTO(optionalUser.get(), UserDTO.builder().build());
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot GET User with given id = " + id);
         }
     }
 
     public List<UserDTO> getAll() {
+        log.info("Getting all Users");
         return findAll().stream().map(user -> mapModelToDTO(user, UserDTO.builder().build())).collect(Collectors.toList());
     }
 
@@ -99,6 +105,6 @@ public class UserService {
                 return optionalUser.get();
             }
         }
-        throw new NoSuchElementException();
+        throw new NoSuchElementException("Cannot MAP UserBasicDTO into User model");
     }
 }

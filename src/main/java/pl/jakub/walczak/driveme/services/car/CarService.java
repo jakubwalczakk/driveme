@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.services.car;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class CarService {
 
@@ -27,37 +29,42 @@ public class CarService {
 
     // -- methods for controller --
     public Car addCar(CarDTO carDTO) {
+        log.info("Adding new Car...");
         Car car = mapDTOToModel(carDTO, Car.builder().build());
         car.setActive(true);
         return carRepository.save(car);
     }
 
     public void deleteCar(Long id) {
+        log.info("Deleting the Car with id = " + id);
         Optional<Car> carToDelete = carRepository.findById(id);
         if (carToDelete.isPresent()) {
             Car car = carToDelete.get();
             car.setActive(false);
             carRepository.save(car);
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot DELETE Car with given id = " + id);
         }
     }
 
     public CarDTO getCar(Long id) {
+        log.info("Getting the Car with id = " + id);
         Optional<Car> optionalCar = carRepository.findById(id);
         if (optionalCar.isPresent()) {
             return mapModelToDTO(optionalCar.get(), CarDTO.builder().build());
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot GET Car with given id = " + id);
         }
     }
 
     public List<CarDTO> getActiveCars() {
+        log.info("Getting all active Cars");
         return findActiveCars().stream().map(car -> mapModelToDTO(car, CarDTO.builder().build()))
                 .collect(Collectors.toList());
     }
 
     public List<CarDTO> getAll() {
+        log.info("Getting all Cars");
         return findAll().stream().map(car -> mapModelToDTO(car, CarDTO.builder().build()))
                 .collect(Collectors.toList());
     }
