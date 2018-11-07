@@ -27,6 +27,7 @@ public class ExamService {
     // -- methods for controller --
     public Exam addExam(ExamDTO examDTO) {
         Exam exam = mapDTOToModel(examDTO, Exam.builder().build());
+        exam.setActive(true);
         return examRepository.save(exam);
     }
 

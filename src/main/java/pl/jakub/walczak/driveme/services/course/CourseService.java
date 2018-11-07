@@ -3,6 +3,7 @@ package pl.jakub.walczak.driveme.services.course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.course.CourseDTO;
+import pl.jakub.walczak.driveme.enums.CourseStatus;
 import pl.jakub.walczak.driveme.mappers.course.CourseMapper;
 import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.repos.course.CourseRepository;
@@ -27,6 +28,7 @@ public class CourseService {
     // -- methods for controller --
     public Course addCourse(CourseDTO courseDTO) {
         Course course = mapDTOToModel(courseDTO, Course.builder().build());
+        course.setStatus(CourseStatus.IN_PROGRESS);
         return courseRepository.save(course);
     }
 

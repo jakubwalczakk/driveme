@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.model.exam;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -20,6 +21,7 @@ public class Exam {
     private Long id;
     @Column(name = "exam_date", nullable = false)
     private Instant dateOfExam;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Student student;
     @Column(name = "status", nullable = false)

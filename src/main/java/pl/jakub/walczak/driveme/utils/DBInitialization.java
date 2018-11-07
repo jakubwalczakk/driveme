@@ -28,6 +28,7 @@ import pl.jakub.walczak.driveme.repos.user.UserRepository;
 import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -418,7 +419,7 @@ public class DBInitialization {
         final Double coursePrice = 1500.0;
         Double sumOfAmounts = 0.0;
         do {
-            Instant paymentDate = Instant.now().minusSeconds((1 + RANDOM.nextInt(30)) * ONE_DAY_IN_SECONDS);
+            Date paymentDate = Date.from(Instant.now().minusSeconds((1 + RANDOM.nextInt(30)) * ONE_DAY_IN_SECONDS));
             Double amount = (RANDOM.nextInt(15) + 1) * 100.0;
             if ((sumOfAmounts + amount) > coursePrice) {
                 amount = coursePrice - sumOfAmounts;

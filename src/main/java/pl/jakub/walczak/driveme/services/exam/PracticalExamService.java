@@ -27,6 +27,7 @@ public class PracticalExamService {
     // -- methods for controller
     public PracticalExam addPracticalExam(PracticalExamDTO practicalExamDTO) {
         PracticalExam practicalExam = mapDTOToModel(practicalExamDTO, PracticalExam.builder().build());
+        practicalExam.setActive(true);
         return practicalExamRepository.save(practicalExam);
     }
 

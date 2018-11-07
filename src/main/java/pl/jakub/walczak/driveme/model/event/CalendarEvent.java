@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.model.event;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -25,8 +26,10 @@ public class CalendarEvent {
     private Car car;
     @ManyToOne(fetch = FetchType.LAZY)
     private DrivingCity drivingCity;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Student student;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Instructor instructor;
     @Column(name = "event_date", nullable = false)

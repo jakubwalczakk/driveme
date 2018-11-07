@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.payment.PaymentDTO;
 import pl.jakub.walczak.driveme.mappers.payment.PaymentMapper;
+import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.payment.Payment;
+import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.repos.payment.PaymentRepository;
+import pl.jakub.walczak.driveme.services.user.UserService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -16,18 +19,32 @@ import java.util.stream.Collectors;
 @Service
 public class PaymentService {
 
+    private static final int COURSE_PRICE = 1500;
+
     private PaymentRepository paymentRepository;
     private PaymentMapper paymentMapper;
+    private UserService userService;
 
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper) {
+    public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper, UserService userService) {
         this.paymentRepository = paymentRepository;
         this.paymentMapper = paymentMapper;
+        this.userService = userService;
     }
 
     // -- methods for controller --
     public Payment addPayment(PaymentDTO paymentDTO) {
+
+        Student student = (Student) userService.mapUserBasicDTOToModel(paymentDTO.getStudent());
+        Course course = student.getCourse();
+
+        if(course.getCurrentPayment()==COURSE_PRICE){
+            throw new IllegalStateException("Cannot ADD payment, because you can't pay more than the course price = " + COURSE_PRICE);
+        }
         Payment payment = mapDTOToModel(paymentDTO, Payment.builder().build());
+        course.getPayments().add(payment);
+        Double actualSumOfPayments = course.getCurrentPayment();
+        course.setCurrentPayment(actualSumOfPayments + payment.getAmount());
         return paymentRepository.save(payment);
     }
 
@@ -36,7 +53,7 @@ public class PaymentService {
         if (paymentToDelete.isPresent()) {
             paymentRepository.delete(paymentToDelete.get());
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot DELETE payment with given id = " + id);
         }
     }
 
@@ -45,7 +62,7 @@ public class PaymentService {
         if (optionalPayment.isPresent()) {
             return mapModelToDTO(optionalPayment.get(), PaymentDTO.builder().build());
         } else {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Cannot GET payment with given id = " + id);
         }
     }
 

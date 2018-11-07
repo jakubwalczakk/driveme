@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.model.exam;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class PracticalExam extends Exam {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Car car;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Instructor instructor;
     private final Integer durationTime = 60;

@@ -28,6 +28,7 @@ public class TheoreticalExamService {
     // -- methods for controller --
     public TheoreticalExam addTheoreticalExam(TheoreticalExamDTO theoreticalExamDTO) {
         TheoreticalExam theoreticalExam = mapDTOToModel(theoreticalExamDTO, TheoreticalExam.builder().build());
+        theoreticalExam.setActive(true);
         return theoreticalExamRepository.save(theoreticalExam);
     }
 

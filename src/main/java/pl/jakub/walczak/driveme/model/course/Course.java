@@ -1,14 +1,15 @@
 package pl.jakub.walczak.driveme.model.course;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import pl.jakub.walczak.driveme.enums.CourseStatus;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.model.exam.PracticalExam;
 import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
 import pl.jakub.walczak.driveme.model.payment.Payment;
-import pl.jakub.walczak.driveme.model.user.Student;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -18,7 +19,6 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-//@EqualsAndHashCode(exclude = "student")
 @Entity(name = "courses")
 public class Course {
 
@@ -35,9 +35,6 @@ public class Course {
     private final Integer lectureHours = 30;
     @Column(name = "taken_driving_hours", nullable = false)
     private Integer takenDrivingHours;
-//    @JsonBackReference
-//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private Student student;
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true
