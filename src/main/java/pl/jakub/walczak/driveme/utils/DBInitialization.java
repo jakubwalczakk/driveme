@@ -504,6 +504,8 @@ public class DBInitialization {
                 rating = Rating.DISAPPOINTING;
             }
 
+            final String drivingTitle = "DEFAULT DRIVINGS TITLE";
+
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
             Driving driving =
                     Driving.builder()
@@ -513,6 +515,7 @@ public class DBInitialization {
                             .date(Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60))
                             .duration(RANDOM.nextInt(22) * 10)
                             .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
+                            .title(drivingTitle)
                             .rating(rating).build();
             drivings.add(driving);
         }

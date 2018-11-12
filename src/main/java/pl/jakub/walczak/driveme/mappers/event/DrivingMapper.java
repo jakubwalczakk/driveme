@@ -39,6 +39,7 @@ public class DrivingMapper {
         dto.setDrivingCity(model.getDrivingCity().getName());
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
         dto.setInstructor(userService.mapUserBasicModelToDTO(model.getInstructor(), UserBasicDTO.builder().build()));
+        dto.setTitle(model.getTitle());
         dto.setRating(model.getRating().toString());
         return dto;
     }
@@ -60,6 +61,7 @@ public class DrivingMapper {
         if (instructor instanceof Instructor) {
             model.setInstructor((Instructor) instructor);
         }
+        model.setTitle(dto.getTitle());
         try {
             model.setRating(Rating.valueOf(dto.getRating()));
         } catch (IllegalArgumentException | NullPointerException e) {

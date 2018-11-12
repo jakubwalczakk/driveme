@@ -14,6 +14,7 @@ import javax.persistence.Enumerated;
 @Entity(name = "drivings")
 public class Driving extends CalendarEvent {
 
+    private String title;
     @Enumerated
     private Rating rating;
 }

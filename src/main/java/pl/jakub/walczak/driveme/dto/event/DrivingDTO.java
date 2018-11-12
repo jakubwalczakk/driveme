@@ -11,5 +11,6 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class DrivingDTO extends CalendarEventDTO {
 
+    private String title;
     private String rating;
 }
