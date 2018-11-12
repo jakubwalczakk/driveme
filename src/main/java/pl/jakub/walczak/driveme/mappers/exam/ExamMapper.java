@@ -19,6 +19,7 @@ public class ExamMapper {
         dto.setId(model.getId());
         dto.setDateOfExam(model.getDateOfExam());
         dto.setActive(model.getActive());
+        dto.setPassed(model.getPassed());
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
         return dto;
     }
@@ -27,6 +28,7 @@ public class ExamMapper {
         model.setId(dto.getId());
         model.setDateOfExam(dto.getDateOfExam());
         model.setActive(dto.getActive());
+        model.setPassed(dto.getPassed());
         User student = userService.mapUserBasicDTOToModel(dto.getStudent());
         if (student instanceof Student)
             model.setStudent((Student) student);

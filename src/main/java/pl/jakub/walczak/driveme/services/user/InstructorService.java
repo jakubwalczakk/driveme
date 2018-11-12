@@ -78,6 +78,10 @@ public class InstructorService {
     }
 
     // -- dao methods --
+    public Optional<Instructor> findById(Long id) {
+        return instructorRepository.findById(id);
+    }
+
     public List<Instructor> findAll() {
         return instructorRepository.findAll();
     }

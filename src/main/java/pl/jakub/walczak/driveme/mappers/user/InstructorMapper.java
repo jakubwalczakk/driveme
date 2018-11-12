@@ -2,6 +2,7 @@ package pl.jakub.walczak.driveme.mappers.user;
 
 import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.dto.user.InstructorDTO;
+import pl.jakub.walczak.driveme.enums.UserRole;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 
 @Component
@@ -21,8 +22,26 @@ public class InstructorMapper {
         return dto;
     }
 
-    //TODO
     public Instructor mapDTOToModel(InstructorDTO dto, Instructor model) {
+
+        model.setId(dto.getId());
+        model.setName(dto.getName());
+        model.setSurname(dto.getSurname());
+        model.setEmail(dto.getEmail());
+        model.setPhoneNumber(dto.getPhoneNumber());
+
+        try {
+            model.setUserRole(UserRole.valueOf(dto.getUserRole()));
+        } catch (IllegalArgumentException | NullPointerException e) {
+            e.printStackTrace();
+            model.setUserRole(UserRole.DEFAULT);
+        }
+
+        model.setActive(dto.getActive());
+        model.setAvailableHours(dto.getAvailableHours());
+        model.setTakenHours(dto.getTakenHours());
+        model.setWorkingHours(dto.getWorkingHours());
+
         return model;
     }
 }

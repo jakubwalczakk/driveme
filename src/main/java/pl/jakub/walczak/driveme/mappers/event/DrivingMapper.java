@@ -6,6 +6,7 @@ import pl.jakub.walczak.driveme.dto.car.CarDTO;
 import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 import pl.jakub.walczak.driveme.enums.Rating;
+import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.user.Instructor;
@@ -48,7 +49,15 @@ public class DrivingMapper {
         model.setId(dto.getId());
         model.setDate(dto.getDate());
         model.setDuration(dto.getMinutesOfEvent());
-        model.setCar(carService.mapDTOToModel(dto.getCar(), model.getCar()));
+
+        CarDTO carDTO = dto.getCar();
+        if(carDTO!=null){
+            Optional<Car> carOptional = carService.findById(carDTO.getId());
+            if(carOptional.isPresent()){
+                model.setCar(carOptional.get());
+            }
+        }
+
         Optional<DrivingCity> optionalDrivingCity = cityService.findByName(dto.getDrivingCity());
         if (optionalDrivingCity.isPresent()) {
             model.setDrivingCity(optionalDrivingCity.get());

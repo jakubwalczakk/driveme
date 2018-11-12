@@ -8,11 +8,9 @@ import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
 import pl.jakub.walczak.driveme.dto.exam.PracticalExamDTO;
 import pl.jakub.walczak.driveme.dto.exam.TheoreticalExamDTO;
 import pl.jakub.walczak.driveme.dto.payment.PaymentDTO;
-import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 import pl.jakub.walczak.driveme.enums.CourseStatus;
 import pl.jakub.walczak.driveme.model.course.Course;
-import pl.jakub.walczak.driveme.model.user.Student;
-import pl.jakub.walczak.driveme.model.user.User;
+import pl.jakub.walczak.driveme.model.exam.PracticalExam;
 import pl.jakub.walczak.driveme.services.event.DrivingService;
 import pl.jakub.walczak.driveme.services.event.ReservationService;
 import pl.jakub.walczak.driveme.services.exam.PracticalExamService;
@@ -20,6 +18,7 @@ import pl.jakub.walczak.driveme.services.exam.TheoreticalExamService;
 import pl.jakub.walczak.driveme.services.payment.PaymentService;
 import pl.jakub.walczak.driveme.services.user.UserService;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -76,7 +75,15 @@ public class CourseMapper {
 //        }
         model.setStartDate(dto.getStartDate());
         model.setTakenDrivingHours(dto.getTakenDrivingHours());
-        model.setPracticalExam(practicalExamService.mapDTOToModel(dto.getPracticalExam(), model.getPracticalExam()));
+
+        PracticalExamDTO practicalExamDTO = dto.getPracticalExam();
+        if (practicalExamDTO != null) {
+            Optional<PracticalExam> optionalPracticalExam = practicalExamService.findById(practicalExamDTO.getId());
+            if (optionalPracticalExam.isPresent()) {
+                model.setPracticalExam(optionalPracticalExam.get());
+            }
+        }
+
         Set<Long> theoreticalExamsToAdd = dto.getTheoreticalExams().stream().map(exam -> exam.getId())
                 .collect(Collectors.toSet());
         model.setTheoreticalExams(theoreticalExamService.findAllById(theoreticalExamsToAdd));

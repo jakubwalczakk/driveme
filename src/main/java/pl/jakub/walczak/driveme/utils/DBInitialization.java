@@ -423,7 +423,7 @@ public class DBInitialization {
             if ((sumOfAmounts + amount) > coursePrice) {
                 amount = coursePrice - sumOfAmounts;
             }
-            Payment payment = Payment.builder().date(paymentDate).student(student).amount(amount).build();
+            Payment payment = Payment.builder().date(paymentDate)./*student(student).*/amount(amount).build();
             payments.add(payment);
             sumOfAmounts += amount;
         } while (!sumOfAmounts.equals(coursePrice));

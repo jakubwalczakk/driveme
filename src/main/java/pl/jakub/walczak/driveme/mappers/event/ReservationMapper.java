@@ -47,10 +47,15 @@ public class ReservationMapper {
         model.setId(dto.getId());
         model.setDate(dto.getDate());
         model.setDuration(dto.getMinutesOfEvent());
-        Optional<Car> optionalCar = carService.findById(dto.getCar().getId());
-        if (optionalCar.isPresent()) {
-            model.setCar(optionalCar.get());
+
+        CarDTO carDTO = dto.getCar();
+        if(carDTO!=null){
+            Optional<Car> carOptional = carService.findById(carDTO.getId());
+            if(carOptional.isPresent()){
+                model.setCar(carOptional.get());
+            }
         }
+
         Optional<DrivingCity> optionalDrivingCity = cityService.findByName(dto.getDrivingCity());
         if (optionalDrivingCity.isPresent()) {
             model.setDrivingCity(optionalDrivingCity.get());

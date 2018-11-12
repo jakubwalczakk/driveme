@@ -1,6 +1,7 @@
 package pl.jakub.walczak.driveme.services.exam;
 
 import lombok.extern.slf4j.Slf4j;
+import org.omg.CORBA.PERSIST_STORE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.exam.PracticalExamDTO;
@@ -62,6 +63,10 @@ public class PracticalExamService {
     }
 
     // -- dao methods --
+    public Optional<PracticalExam> findById(Long id){
+        return practicalExamRepository.findById(id);
+    }
+
     public List<PracticalExam> findAll() {
         return practicalExamRepository.findAll();
     }

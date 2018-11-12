@@ -7,6 +7,7 @@ import pl.jakub.walczak.driveme.dto.user.StudentDTO;
 import pl.jakub.walczak.driveme.dto.user.StudentRegistrationDTO;
 import pl.jakub.walczak.driveme.mappers.user.RegistrationMapper;
 import pl.jakub.walczak.driveme.mappers.user.StudentMapper;
+import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.repos.user.StudentRepository;
 
@@ -78,6 +79,10 @@ public class StudentService {
     }
 
     // -- dao methods --
+    public Optional<Student> findById(Long id) {
+        return studentRepository.findById(id);
+    }
+
     public List<Student> findAll() {
         return studentRepository.findAll();
     }

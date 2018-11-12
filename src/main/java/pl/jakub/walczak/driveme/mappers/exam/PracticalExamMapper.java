@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
 import pl.jakub.walczak.driveme.dto.exam.PracticalExamDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
+import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.exam.PracticalExam;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
@@ -12,11 +13,15 @@ import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.services.car.CarService;
 import pl.jakub.walczak.driveme.services.user.UserService;
 
+import java.util.Optional;
+
 @Component
 public class PracticalExamMapper {
 
     private UserService userService;
     private CarService carService;
+//    private StudentService studentService;
+//    private InstructorService instructorService;
 
     @Autowired
     public PracticalExamMapper(UserService userService, CarService carService) {
@@ -29,6 +34,7 @@ public class PracticalExamMapper {
         dto.setId(model.getId());
         dto.setDateOfExam(model.getDateOfExam());
         dto.setActive(model.getActive());
+        dto.setPassed(model.getPassed());
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
         dto.setCar(carService.mapModelToDTO(model.getCar(), CarDTO.builder().build()));
         dto.setInstructor(userService.mapUserBasicModelToDTO(model.getInstructor(), UserBasicDTO.builder().build()));
@@ -41,14 +47,34 @@ public class PracticalExamMapper {
         model.setId(dto.getId());
         model.setDateOfExam(dto.getDateOfExam());
         model.setActive(dto.getActive());
-        model.setCar(carService.mapDTOToModel(dto.getCar(), model.getCar()));
-        User student = userService.mapUserBasicDTOToModel(dto.getStudent());
-        if (student instanceof Student)
-            model.setStudent((Student) student);
-        User instructor = userService.mapUserBasicDTOToModel(dto.getInstructor());
-        if (instructor instanceof Instructor) {
-            model.setInstructor((Instructor) instructor);
+        model.setPassed(dto.getPassed());
+
+        CarDTO carDTO = dto.getCar();
+        if (carDTO != null) {
+            Optional<Car> carOptional = carService.findById(carDTO.getId());
+            if (carOptional.isPresent()) {
+                model.setCar(carOptional.get());
+            }
         }
+
+        UserBasicDTO studentDTO = dto.getStudent();
+        if (studentDTO != null) {
+            Optional<User> optionalStudent = userService.findById(studentDTO.getId());
+            if (optionalStudent.isPresent()) {
+                Student student = (Student) optionalStudent.get();
+                model.setStudent(student);
+            }
+        }
+
+        UserBasicDTO instructorDTO = dto.getInstructor();
+        if (instructorDTO != null) {
+            Optional<User> optionalInstructor = userService.findById(instructorDTO.getId());
+            if (optionalInstructor.isPresent()) {
+                Instructor instructor = (Instructor) optionalInstructor.get();
+                model.setInstructor(instructor);
+            }
+        }
+
         return model;
     }
 }

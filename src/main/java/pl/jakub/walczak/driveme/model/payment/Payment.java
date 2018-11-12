@@ -20,8 +20,8 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Student student;
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Student student;
     @Column(name = "payment_date")
     private Instant date;
     @Column(name = "amount", nullable = false)

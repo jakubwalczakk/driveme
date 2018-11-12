@@ -17,5 +17,6 @@ public class ExamDTO {
     private Long id;
     private Instant dateOfExam;
     private Boolean active;
+    private Boolean passed;
     private UserBasicDTO student;
 }

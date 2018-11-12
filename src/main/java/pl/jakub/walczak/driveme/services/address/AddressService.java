@@ -55,6 +55,10 @@ public class AddressService {
     }
 
     // -- dao methods --
+    public Optional<Address> findById(Long id) {
+        return addressRepository.findById(id);
+    }
+
     public List<Address> findAll() {
         return addressRepository.findAll();
     }

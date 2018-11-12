@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.course.CourseDTO;
 import pl.jakub.walczak.driveme.enums.CourseStatus;
 import pl.jakub.walczak.driveme.mappers.course.CourseMapper;
+import pl.jakub.walczak.driveme.model.address.Address;
 import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.repos.course.CourseRepository;
 
@@ -61,6 +62,10 @@ public class CourseService {
     }
 
     // -- dao methods --
+    public Optional<Course> findById(Long id) {
+        return courseRepository.findById(id);
+    }
+
     public List<Course> findAll() {
         return courseRepository.findAll();
     }
