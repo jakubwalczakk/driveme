@@ -32,7 +32,7 @@ public class TheoreticalExamMapper {
         model.setDateOfExam(dto.getDateOfExam());
         model.setActive(dto.getActive());
         model.setPassed(dto.getPassed());
-        model.setScoredPoints(model.getScoredPoints());
+        model.setScoredPoints(dto.getScoredPoints());
         model.setResult(dto.getResult());
         model.setPassed(dto.getPassed());
         User student = userService.mapUserBasicDTOToModel(dto.getStudent());

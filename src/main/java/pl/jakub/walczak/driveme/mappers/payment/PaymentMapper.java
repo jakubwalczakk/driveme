@@ -4,10 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.dto.payment.PaymentDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
+import pl.jakub.walczak.driveme.dto.user.UserDTO;
 import pl.jakub.walczak.driveme.model.payment.Payment;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.services.user.UserService;
+
+import javax.swing.text.html.Option;
+import java.util.Optional;
 
 @Component
 public class PaymentMapper {
@@ -31,9 +35,15 @@ public class PaymentMapper {
         model.setId(dto.getId());
         model.setDate(dto.getDate());
         model.setAmount(dto.getAmount());
-//        User student = userService.mapUserBasicDTOToModel(dto.getStudent());
-//        if (student instanceof Student)
-//            model.setStudent((Student) student);
+
+//        UserBasicDTO studentDTO = dto.getStudent();
+//        if(studentDTO!=null){
+//            Optional<User> optionalUser = userService.findById(studentDTO.getId());
+//            if(optionalUser.isPresent()){
+//                Student student = (Student) optionalUser.get();
+//                model.setStudent(student);
+//            }
+//        }
         return model;
     }
 }

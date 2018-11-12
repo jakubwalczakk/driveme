@@ -16,7 +16,6 @@ import pl.jakub.walczak.driveme.services.event.ReservationService;
 import pl.jakub.walczak.driveme.services.exam.PracticalExamService;
 import pl.jakub.walczak.driveme.services.exam.TheoreticalExamService;
 import pl.jakub.walczak.driveme.services.payment.PaymentService;
-import pl.jakub.walczak.driveme.services.user.UserService;
 
 import java.util.Optional;
 import java.util.Set;
@@ -30,18 +29,15 @@ public class CourseMapper {
     private PaymentService paymentService;
     private DrivingService drivingService;
     private ReservationService reservationService;
-    private UserService userService;
 
     @Autowired
     public CourseMapper(PracticalExamService practicalExamService, TheoreticalExamService theoreticalExamService,
-                        PaymentService paymentService, DrivingService drivingService, ReservationService reservationService,
-                        UserService userService) {
+                        PaymentService paymentService, DrivingService drivingService, ReservationService reservationService) {
         this.practicalExamService = practicalExamService;
         this.theoreticalExamService = theoreticalExamService;
         this.paymentService = paymentService;
         this.drivingService = drivingService;
         this.reservationService = reservationService;
-        this.userService = userService;
     }
 
     public CourseDTO mapModelToDTO(Course model, CourseDTO dto) {
