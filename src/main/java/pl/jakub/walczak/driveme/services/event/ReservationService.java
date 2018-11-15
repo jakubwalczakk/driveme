@@ -5,8 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
 import pl.jakub.walczak.driveme.mappers.event.ReservationMapper;
+import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.event.Reservation;
+import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
+import pl.jakub.walczak.driveme.services.car.CarService;
+import pl.jakub.walczak.driveme.services.user.InstructorService;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -18,10 +22,16 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
     private ReservationMapper reservationMapper;
 
+    private CarService carService;
+    private InstructorService instructorService;
+
     @Autowired
-    public ReservationService(ReservationRepository reservationRepository, ReservationMapper reservationMapper) {
+    public ReservationService(ReservationRepository reservationRepository, ReservationMapper reservationMapper,
+                              CarService carService, InstructorService instructorService) {
         this.reservationRepository = reservationRepository;
         this.reservationMapper = reservationMapper;
+        this.carService = carService;
+        this.instructorService = instructorService;
     }
 
     // -- methods for controller --
@@ -39,6 +49,34 @@ public class ReservationService {
         } else {
             throw new NoSuchElementException("Cannot DELETE Reservation with given id = " + id);
         }
+    }
+
+    public Set<Reservation> isTermAvailable(ReservationDTO reservationDTO) {
+        log.info("Hello it's me");
+        Optional<Car> optionalCar = carService.findById(reservationDTO.getCar().getId());
+        Car car;
+        if (optionalCar.isPresent()) {
+            car = optionalCar.get();
+        } else {
+            return null;
+        }
+        Instructor instructor;
+        Optional<Instructor> optionalInstructor = instructorService.findById(reservationDTO.getInstructor().getId());
+        if (optionalInstructor.isPresent()) {
+            instructor = optionalInstructor.get();
+        } else {            return null;
+
+        }
+
+        Set<Reservation> allByCarAndInstructor =
+                reservationRepository.findAllByCarAndInstructor(car, instructor);
+
+        //FIXME
+        for (Reservation reservation : allByCarAndInstructor) {
+            log.info(reservation.toString());
+        }
+
+        return allByCarAndInstructor;
     }
 
     public ReservationDTO getReservation(Long id) {

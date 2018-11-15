@@ -34,8 +34,8 @@ public class DrivingMapper {
 
     public DrivingDTO mapModelToDTO(Driving model, DrivingDTO dto) {
         dto.setId(model.getId());
-        dto.setDate(model.getDate());
-        dto.setMinutesOfEvent(model.getDuration());
+        dto.setStartDate(model.getStartDate());
+        dto.setFinishDate(model.getFinishDate());
         dto.setCar(carService.mapModelToDTO(model.getCar(), CarDTO.builder().build()));
         dto.setDrivingCity(model.getDrivingCity().getName());
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
@@ -47,13 +47,13 @@ public class DrivingMapper {
 
     public Driving mapDTOToModel(DrivingDTO dto, Driving model) {
         model.setId(dto.getId());
-        model.setDate(dto.getDate());
-        model.setDuration(dto.getMinutesOfEvent());
+        model.setStartDate(dto.getStartDate());
+        model.setFinishDate(dto.getFinishDate());
 
         CarDTO carDTO = dto.getCar();
-        if(carDTO!=null){
+        if (carDTO != null) {
             Optional<Car> carOptional = carService.findById(carDTO.getId());
-            if(carOptional.isPresent()){
+            if (carOptional.isPresent()) {
                 model.setCar(carOptional.get());
             }
         }

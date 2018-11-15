@@ -9,6 +9,7 @@ import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.services.event.ReservationService;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/reservation")
@@ -39,6 +40,16 @@ public class ReservationController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping(path = "/availability")
+    public ResponseEntity<Set<Reservation>> isTermAvailable(@RequestBody ReservationDTO reservationDTO) {
+        try {
+            return ResponseEntity.ok(reservationService.isTermAvailable(reservationDTO));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
         }
     }
 

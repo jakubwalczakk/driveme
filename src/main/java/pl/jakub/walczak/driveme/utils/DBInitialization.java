@@ -37,6 +37,7 @@ public class DBInitialization {
     private final static String DEFAULT_PASSWORD = "password";
     private final static Random RANDOM = new Random();
     private final static Long ONE_DAY_IN_SECONDS = 24 * 60 * 60L;
+    private final static Integer HALF_HOUR_IN_SECONDS = 30 * 60;
     private final static ZoneId DEFAULT_ZONE_ID = ZoneId.systemDefault();
 
     private Generator generator;
@@ -476,15 +477,18 @@ public class DBInitialization {
         for (int i = 0; i < 10; i++) {
 
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
+            Instant startDate = Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60);
+            Instant finishDate = startDate.plusSeconds((RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_SECONDS);
             Reservation reservation =
                     Reservation.builder()
                             .student(student)
                             .instructor(instructor)
                             .car(cars.get(RANDOM.nextInt(cars.size())))
-                            .date(Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60))
-                            .duration(RANDOM.nextInt(22) * 10)
+                            .startDate(startDate)
+                            .finishDate(finishDate)
                             .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
-                            .status(true).build();
+                            .status(true)
+                            .build();
             reservations.add(reservation);
         }
         course.setReservations(reservations);
@@ -507,13 +511,15 @@ public class DBInitialization {
             final String drivingTitle = "DEFAULT DRIVINGS TITLE";
 
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
+            Instant startDate = Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60);
+            Instant finishDate = startDate.plusSeconds((RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_SECONDS);
             Driving driving =
                     Driving.builder()
                             .student(student)
                             .instructor(instructor)
                             .car(cars.get(RANDOM.nextInt(cars.size())))
-                            .date(Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60))
-                            .duration(RANDOM.nextInt(22) * 10)
+                            .startDate(startDate)
+                            .finishDate(finishDate)
                             .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
                             .title(drivingTitle)
                             .rating(rating).build();

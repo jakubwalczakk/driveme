@@ -16,8 +16,8 @@ import java.time.Instant;
 public class CalendarEventDTO {
 
     private Long id;
-    private Instant date;
-    private Integer minutesOfEvent;
+    private Instant startDate;
+    private Instant finishDate;
     private CarDTO car;
     private String drivingCity;
     private UserBasicDTO student;

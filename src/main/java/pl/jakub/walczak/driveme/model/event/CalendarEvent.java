@@ -15,12 +15,13 @@ import java.time.Instant;
 @Data
 @SuperBuilder
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
+//@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Entity(name = "events")
 public class CalendarEvent {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     private Car car;
@@ -32,8 +33,8 @@ public class CalendarEvent {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Instructor instructor;
-    @Column(name = "event_date", nullable = false)
-    private Instant date;
-    @Column(name = "event_duration", nullable = false)
-    private Integer duration;
+    @Column(name = "event_start_date", nullable = false)
+    private Instant startDate;
+    @Column(name = "event_finish_date", nullable = false)
+    private Instant finishDate;
 }
