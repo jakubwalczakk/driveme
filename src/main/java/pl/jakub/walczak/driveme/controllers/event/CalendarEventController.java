@@ -10,6 +10,7 @@ import pl.jakub.walczak.driveme.services.event.CalendarEventService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/event")
 public class CalendarEventController {

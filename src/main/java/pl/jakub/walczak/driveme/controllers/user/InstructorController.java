@@ -12,6 +12,7 @@ import pl.jakub.walczak.driveme.services.user.InstructorService;
 import javax.xml.ws.Response;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/instructor")
 public class InstructorController {

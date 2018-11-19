@@ -11,6 +11,7 @@ import pl.jakub.walczak.driveme.services.user.StudentService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/student")
 public class StudentController {

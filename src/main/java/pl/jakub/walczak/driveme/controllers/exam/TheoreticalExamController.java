@@ -10,6 +10,7 @@ import pl.jakub.walczak.driveme.services.exam.TheoreticalExamService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/theoretical_exam")
 public class TheoreticalExamController {

@@ -10,6 +10,7 @@ import pl.jakub.walczak.driveme.services.address.AddressService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/address")
 public class AddressController {

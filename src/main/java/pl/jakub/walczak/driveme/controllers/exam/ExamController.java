@@ -10,6 +10,7 @@ import pl.jakub.walczak.driveme.services.exam.ExamService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/exam")
 public class ExamController {

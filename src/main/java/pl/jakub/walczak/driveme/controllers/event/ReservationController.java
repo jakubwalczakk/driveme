@@ -11,6 +11,7 @@ import pl.jakub.walczak.driveme.services.event.ReservationService;
 import java.util.List;
 import java.util.Set;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/reservation")
 public class ReservationController {

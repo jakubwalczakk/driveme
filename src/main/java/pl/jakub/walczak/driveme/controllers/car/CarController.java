@@ -10,6 +10,7 @@ import pl.jakub.walczak.driveme.services.car.CarService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/car")
 public class CarController {

@@ -10,6 +10,7 @@ import pl.jakub.walczak.driveme.services.event.DrivingService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/driving")
 public class DrivingController {

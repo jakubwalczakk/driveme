@@ -9,6 +9,7 @@ import pl.jakub.walczak.driveme.services.exam.PracticalExamService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/practical_exam")
 public class PracticalExamController {

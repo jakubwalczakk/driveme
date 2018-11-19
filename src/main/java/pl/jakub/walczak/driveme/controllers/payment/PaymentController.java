@@ -10,6 +10,7 @@ import pl.jakub.walczak.driveme.services.payment.PaymentService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/payment")
 public class PaymentController {

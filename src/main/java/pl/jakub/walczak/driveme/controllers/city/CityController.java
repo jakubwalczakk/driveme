@@ -10,6 +10,7 @@ import pl.jakub.walczak.driveme.services.city.CityService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/city")
 public class CityController {

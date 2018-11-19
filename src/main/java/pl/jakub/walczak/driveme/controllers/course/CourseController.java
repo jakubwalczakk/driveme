@@ -9,6 +9,7 @@ import pl.jakub.walczak.driveme.services.course.CourseService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/course")
 public class CourseController {
