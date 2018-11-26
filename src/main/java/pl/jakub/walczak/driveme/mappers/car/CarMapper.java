@@ -6,6 +6,8 @@ import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.enums.GasType;
 import pl.jakub.walczak.driveme.model.car.Car;
 
+import java.util.Base64;
+
 @Component
 public class CarMapper {
 
@@ -16,6 +18,12 @@ public class CarMapper {
         dto.setLicensePlate(model.getLicensePlate());
         dto.setGasType(model.getGasType().toString());
         dto.setActive(model.getActive());
+        try {
+            dto.setCarPhoto(Base64.getEncoder().encodeToString(model.getCarPhoto()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            dto.setCarPhoto(null);
+        }
         return dto;
     }
 
@@ -36,6 +44,12 @@ public class CarMapper {
             model.setGasType(GasType.DEFAULT);
         }
         model.setActive(dto.getActive());
+        try {
+            model.setCarPhoto(Base64.getDecoder().decode(dto.getCarPhoto()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.setCarPhoto(null);
+        }
         return model;
     }
 }

@@ -39,8 +39,12 @@ public class DBInitialization {
     private final static Long ONE_DAY_IN_SECONDS = 24 * 60 * 60L;
     private final static Integer HALF_HOUR_IN_SECONDS = 30 * 60;
     private final static ZoneId DEFAULT_ZONE_ID = ZoneId.systemDefault();
+    private final static String LOREM_IPSUM = "Lorem ipsum dolor sit amet, ad nam debet copiosae, eu omnesque scriptorem mel. " +
+            "Elit persius apeirian duo ea, iisque minimum eam ea. Est ad iudico persecuti, ea usu aliquip phaedrum. " +
+            "Ex consul voluptaria eum, mel esse natum altera te, ne vide appellantur ius.";
 
     private Generator generator;
+    private ImageUploader imageUploader;
 
     private DrivingCityRepository drivingCityRepository;
     private CarRepository carRepository;
@@ -60,11 +64,12 @@ public class DBInitialization {
     private List<Course> courses;
 
     @Autowired
-    public DBInitialization(Generator generator, DrivingCityRepository drivingCityRepository, CarRepository carRepository,
+    public DBInitialization(Generator generator, ImageUploader imageUploader, DrivingCityRepository drivingCityRepository, CarRepository carRepository,
                             AddressRepository addressRepository, InstructorRepository instructorRepository,
                             UserRepository userRepository, CourseRepository courseRepository, StudentRepository studentRepository,
                             DrivingRepository drivingRepository, ReservationRepository reservationRepository) {
         this.generator = generator;
+        this.imageUploader = imageUploader;
 
         this.drivingCityRepository = drivingCityRepository;
         this.carRepository = carRepository;
@@ -96,25 +101,37 @@ public class DBInitialization {
     //10
     private void initializeDrivingCities() {
 
-        DrivingCity katowice = DrivingCity.builder().name("Katowice").active(true).build();
+        String drivingCityImageFileName = "city.png";
+
+        DrivingCity katowice = DrivingCity.builder().name("Katowice").image(imageUploader.uploadFile(drivingCityImageFileName))
+                .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(katowice);
-        DrivingCity czwa = DrivingCity.builder().name("Częstochowa").active(true).build();
+        DrivingCity czwa = DrivingCity.builder().name("Częstochowa").image(imageUploader.uploadFile(drivingCityImageFileName))
+                .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(czwa);
-        DrivingCity sosnowiec = DrivingCity.builder().name("Sosnowiec").active(true).build();
+        DrivingCity sosnowiec = DrivingCity.builder().name("Sosnowiec").image(imageUploader.uploadFile(drivingCityImageFileName))
+                .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(sosnowiec);
-        DrivingCity gliwice = DrivingCity.builder().name("Gliwice").active(true).build();
+        DrivingCity gliwice = DrivingCity.builder().name("Gliwice").image(imageUploader.uploadFile(drivingCityImageFileName))
+                .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(gliwice);
-        DrivingCity zabrze = DrivingCity.builder().name("Zabrze").active(true).build();
+        DrivingCity zabrze = DrivingCity.builder().name("Zabrze").image(imageUploader.uploadFile(drivingCityImageFileName))
+                .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(zabrze);
-        DrivingCity bielsko = DrivingCity.builder().name("Bielsko-Biała").active(true).build();
+        DrivingCity bielsko = DrivingCity.builder().name("Bielsko-Biała").image(imageUploader.uploadFile(drivingCityImageFileName))
+                .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(bielsko);
-        DrivingCity bytom = DrivingCity.builder().name("Bytom").active(true).build();
+        DrivingCity bytom = DrivingCity.builder().name("Bytom").image(imageUploader.uploadFile(drivingCityImageFileName))
+                .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(bytom);
-        DrivingCity ruda = DrivingCity.builder().name("Ruda Śląska").active(true).build();
+        DrivingCity ruda = DrivingCity.builder().name("Ruda Śląska").image(imageUploader.uploadFile(drivingCityImageFileName))
+                .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(ruda);
-        DrivingCity rybnik = DrivingCity.builder().name("Rybnik").active(true).build();
+        DrivingCity rybnik = DrivingCity.builder().name("Rybnik").image(imageUploader.uploadFile(drivingCityImageFileName))
+                .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(rybnik);
-        DrivingCity tychy = DrivingCity.builder().name("Tychy").active(true).build();
+        DrivingCity tychy = DrivingCity.builder().name("Tychy").image(imageUploader.uploadFile(drivingCityImageFileName))
+                .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(tychy);
 
         drivingCityRepository.saveAll(drivingCities);
@@ -122,77 +139,104 @@ public class DBInitialization {
 
     //24
     private void initializeCars() {
+
+        String carPhotoFileName = "car.jpg";
+
         Car punto = Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(punto);
         Car punto2 = Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(punto2);
         Car punto3 = Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(punto3);
         Car micra = Car.builder().brand(CarBrand.NISSAN).model("Micra").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(micra);
         Car micra2 = Car.builder().brand(CarBrand.NISSAN).model("Micra").gasType(GasType.OIL)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(micra2);
         Car colt = Car.builder().brand(CarBrand.MITSHUBISHI).model("Colt").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(colt);
         Car colt2 = Car.builder().brand(CarBrand.MITSHUBISHI).model("Colt").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(colt2);
         Car yaris = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(yaris);
         Car yaris2 = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(yaris2);
         Car yaris3 = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.OIL)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(yaris3);
         Car yaris4 = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.OIL)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(yaris4);
         Car yaris5 = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(yaris5);
         Car yaris6 = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(yaris6);
         Car corsa = Car.builder().brand(CarBrand.OPEL).model("Corsa").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(corsa);
         Car corsa2 = Car.builder().brand(CarBrand.OPEL).model("Corsa").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(corsa2);
         Car clio = Car.builder().brand(CarBrand.RENAULT).model("Clio").gasType(GasType.OIL)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(clio);
         Car clio2 = Car.builder().brand(CarBrand.RENAULT).model("Clio").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(clio2);
         Car hyundai = Car.builder().brand(CarBrand.HYUNDAI).model("i20").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(hyundai);
         Car hyundai2 = Car.builder().brand(CarBrand.HYUNDAI).model("i20").gasType(GasType.OIL)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(hyundai2);
         Car rio = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.OIL)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(rio);
         Car rio2 = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.OIL)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(rio2);
         Car rio3 = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(rio3);
         Car rio4 = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(rio4);
         Car rio5 = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).active(true).build();
+                .licensePlate(generator.generateLicensePlate()).active(true)
+                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
         cars.add(rio5);
 
         carRepository.saveAll(cars);
@@ -254,37 +298,39 @@ public class DBInitialization {
     //5
     private void initializeInstructors() {
 
+        String instructorPhotoFileName = "instructor.jpg";
+
         Instructor instructor1 = Instructor.builder().name("Jerzy").surname("Kowalski").email("jerzy.kowalski@driveme.pl")
                 .workingHours(30).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.INSTRUCTOR).active(true)
+                .userRole(UserRole.INSTRUCTOR).active(true).instructorPhoto(imageUploader.uploadFile(instructorPhotoFileName))
                 .build();
         instructors.add(instructor1);
         instructorRepository.save(instructor1);
 
         Instructor instructor2 = Instructor.builder().name("Edward").surname("Majewski").email("edward.majewski@driveme.pl")
                 .workingHours(40).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.INSTRUCTOR).active(true)
+                .userRole(UserRole.INSTRUCTOR).active(true).instructorPhoto(imageUploader.uploadFile(instructorPhotoFileName))
                 .build();
         instructors.add(instructor2);
         instructorRepository.save(instructor2);
 
         Instructor instructor3 = Instructor.builder().name("Tomasz").surname("Majewski").email("tomasz.majewski@driveme.pl")
                 .workingHours(20).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.INSTRUCTOR).active(true)
+                .userRole(UserRole.INSTRUCTOR).active(true).instructorPhoto(imageUploader.uploadFile(instructorPhotoFileName))
                 .build();
         instructors.add(instructor3);
         instructorRepository.save(instructor3);
 
         Instructor instructor4 = Instructor.builder().name("Karol").surname("Gaj").email("karol.gaj@driveme.pl")
                 .workingHours(30).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.INSTRUCTOR).active(true)
+                .userRole(UserRole.INSTRUCTOR).active(true).instructorPhoto(imageUploader.uploadFile(instructorPhotoFileName))
                 .build();
         instructors.add(instructor4);
         instructorRepository.save(instructor4);
 
         Instructor instructor5 = Instructor.builder().name("Bartosz").surname("Bielski").email("bartosz.bielski@driveme.pl")
                 .workingHours(40).password(DEFAULT_PASSWORD).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.INSTRUCTOR).active(true)
+                .userRole(UserRole.INSTRUCTOR).active(true).instructorPhoto(imageUploader.uploadFile(instructorPhotoFileName))
                 .build();
         instructors.add(instructor5);
         instructorRepository.save(instructor5);

@@ -5,6 +5,8 @@ import pl.jakub.walczak.driveme.dto.user.InstructorDTO;
 import pl.jakub.walczak.driveme.enums.UserRole;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 
+import java.util.Base64;
+
 @Component
 public class InstructorMapper {
 
@@ -19,6 +21,12 @@ public class InstructorMapper {
         dto.setAvailableHours(model.getAvailableHours());
         dto.setTakenHours(model.getTakenHours());
         dto.setWorkingHours(model.getWorkingHours());
+        try {
+            dto.setInstructorPhoto(Base64.getEncoder().encodeToString(model.getInstructorPhoto()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            dto.setInstructorPhoto(null);
+        }
         return dto;
     }
 
@@ -41,7 +49,12 @@ public class InstructorMapper {
         model.setAvailableHours(dto.getAvailableHours());
         model.setTakenHours(dto.getTakenHours());
         model.setWorkingHours(dto.getWorkingHours());
-
+        try {
+            model.setInstructorPhoto(Base64.getDecoder().decode(dto.getInstructorPhoto()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.setInstructorPhoto(null);
+        }
         return model;
     }
 }

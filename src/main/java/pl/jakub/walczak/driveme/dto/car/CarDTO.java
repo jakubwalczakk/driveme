@@ -16,5 +16,6 @@ public class CarDTO {
     private String model;
     private String licensePlate;
     private String gasType;
+    private String carPhoto;
     private Boolean active;
 }

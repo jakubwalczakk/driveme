@@ -13,5 +13,7 @@ public class DrivingCityDTO {
 
     private Long id;
     private String name;
+    private String description;
+    private String image;
     private Boolean active;
 }

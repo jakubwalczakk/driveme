@@ -31,6 +31,7 @@ public class Car {
     private GasType gasType;
     @Lob
     @Basic(fetch = FetchType.LAZY)
+    @Column(columnDefinition="mediumblob")
     private byte[] carPhoto;
     @Column(name = "activity")
     private Boolean active;
