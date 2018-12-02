@@ -1,14 +1,18 @@
 package pl.jakub.walczak.driveme.controllers.car;
 
+import javafx.scene.effect.SepiaTone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
+import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.services.car.CarService;
 
+import javax.xml.ws.Response;
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -58,6 +62,26 @@ public class CarController {
         try {
             return ResponseEntity.ok(carService.getActiveCars());
         } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping(path="/brands")
+    public ResponseEntity<Set<CarBrand>> getAllCarBrands(){
+        try{
+            return ResponseEntity.ok(carService.getAllCarBrands());
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping(path="/brand")
+    public ResponseEntity<List<CarDTO>> getCarsByBrand(@RequestParam("brand") String brand){
+        try{
+            return ResponseEntity.ok(carService.getCarsByBrand(brand));
+        }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

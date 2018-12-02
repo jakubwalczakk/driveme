@@ -4,11 +4,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
+import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.mappers.car.CarMapper;
 import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.repos.car.CarRepository;
 
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -58,6 +62,23 @@ public class CarService {
         log.info("Getting all active Cars");
         return findActiveCars().stream().map(car -> mapModelToDTO(car, CarDTO.builder().build()))
                 .collect(Collectors.toList());
+    }
+
+    public Set<CarBrand> getAllCarBrands() {
+        log.info("Getting all Car brands");
+        return carRepository.findAllCarBrands();
+    }
+
+    public List<CarDTO> getCarsByBrand(String brand) {
+        try {
+            CarBrand carBrand = CarBrand.valueOf(brand.toUpperCase());
+            return carRepository.findAllCarByBrand(carBrand).stream()
+                    .map(car -> mapModelToDTO(car, CarDTO.builder().build()))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public List<CarDTO> getAll() {
