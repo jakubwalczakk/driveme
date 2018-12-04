@@ -11,6 +11,7 @@ import pl.jakub.walczak.driveme.mappers.user.UserBasicMapper;
 import pl.jakub.walczak.driveme.mappers.user.UserMapper;
 import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.user.UserRepository;
+import pl.jakub.walczak.driveme.utils.Validator;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -38,8 +39,14 @@ public class UserService {
     // -- methods for controller --
     public User createUser(UserRegistrationDTO userRegistrationDTO) {
         log.info("Creating new User...");
-        User user = registrationMapper.mapRegistrationDTOToUser(userRegistrationDTO);
-        return userRepository.save(user);
+        if(Validator.userRegistrationValidation(userRegistrationDTO)){
+            log.info("Validation of user registration DTO passed.");
+            User user = registrationMapper.mapRegistrationDTOToUser(userRegistrationDTO);
+            return userRepository.save(user);
+        }else{
+            log.warn("User registration DTO were incorrect!");
+            return null;
+        }
     }
 
     public void deleteUser(Long id) {

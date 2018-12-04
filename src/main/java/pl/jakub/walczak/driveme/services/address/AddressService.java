@@ -7,6 +7,7 @@ import pl.jakub.walczak.driveme.dto.address.AddressDTO;
 import pl.jakub.walczak.driveme.mappers.address.AddressMapper;
 import pl.jakub.walczak.driveme.model.address.Address;
 import pl.jakub.walczak.driveme.repos.address.AddressRepository;
+import pl.jakub.walczak.driveme.utils.Validator;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -29,14 +30,20 @@ public class AddressService {
     // -- methods for controller --
     public Address addAddress(AddressDTO addressDTO) {
         log.info("Adding new Address...");
-        Optional<Address> optionalAddress = addressRepository.findByCityAndZipCodeAndStreetAndHouseNo(
-                addressDTO.getCity(), addressDTO.getZipCode(), addressDTO.getStreet(), addressDTO.getHouseNo());
-        if (!optionalAddress.isPresent()) {
-            Address address = mapDTOToModel(addressDTO, Address.builder().build());
-            return addressRepository.save(address);
+        if (Validator.addressValidation(addressDTO)) {
+            log.info("Validation of address DTO passed.");
+            Optional<Address> optionalAddress = addressRepository.findByCityAndZipCodeAndStreetAndHouseNo(
+                    addressDTO.getCity(), addressDTO.getZipCode(), addressDTO.getStreet(), addressDTO.getHouseNo());
+            if (!optionalAddress.isPresent()) {
+                Address address = mapDTOToModel(addressDTO, Address.builder().build());
+                return addressRepository.save(address);
+            }
+            log.info("Given address just exists in database.");
+            return optionalAddress.get();
+        } else {
+            log.warn("Address DTO were incorrect!");
+            return null;
         }
-        log.info("Given address just exists in database.");
-        return optionalAddress.get();
     }
 
     public AddressDTO getAddress(Long id) {
