@@ -101,36 +101,34 @@ public class DBInitialization {
     //10
     private void initializeDrivingCities() {
 
-        String drivingCityImageFileName = "city.png";
-
-        DrivingCity katowice = DrivingCity.builder().name("Katowice").image(imageUploader.uploadFile(drivingCityImageFileName))
+        DrivingCity katowice = DrivingCity.builder().name("Katowice").image(imageUploader.uploadFile("signKatowice.png"))
                 .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(katowice);
-        DrivingCity czwa = DrivingCity.builder().name("Częstochowa").image(imageUploader.uploadFile(drivingCityImageFileName))
+        DrivingCity czwa = DrivingCity.builder().name("Częstochowa").image(imageUploader.uploadFile("signCzestochowa.png"))
                 .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(czwa);
-        DrivingCity sosnowiec = DrivingCity.builder().name("Sosnowiec").image(imageUploader.uploadFile(drivingCityImageFileName))
+        DrivingCity sosnowiec = DrivingCity.builder().name("Sosnowiec").image(imageUploader.uploadFile("signSosnowiec.png"))
                 .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(sosnowiec);
-        DrivingCity gliwice = DrivingCity.builder().name("Gliwice").image(imageUploader.uploadFile(drivingCityImageFileName))
+        DrivingCity gliwice = DrivingCity.builder().name("Gliwice").image(imageUploader.uploadFile("signGliwice.png"))
                 .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(gliwice);
-        DrivingCity zabrze = DrivingCity.builder().name("Zabrze").image(imageUploader.uploadFile(drivingCityImageFileName))
+        DrivingCity zabrze = DrivingCity.builder().name("Zabrze").image(imageUploader.uploadFile("signZabrze.png"))
                 .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(zabrze);
-        DrivingCity bielsko = DrivingCity.builder().name("Bielsko-Biała").image(imageUploader.uploadFile(drivingCityImageFileName))
+        DrivingCity bielsko = DrivingCity.builder().name("Bielsko-Biała").image(imageUploader.uploadFile("signBielsko.png"))
                 .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(bielsko);
-        DrivingCity bytom = DrivingCity.builder().name("Bytom").image(imageUploader.uploadFile(drivingCityImageFileName))
+        DrivingCity bytom = DrivingCity.builder().name("Bytom").image(imageUploader.uploadFile("signBytom.png"))
                 .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(bytom);
-        DrivingCity ruda = DrivingCity.builder().name("Ruda Śląska").image(imageUploader.uploadFile(drivingCityImageFileName))
+        DrivingCity ruda = DrivingCity.builder().name("Ruda Śląska").image(imageUploader.uploadFile("signRuda.png"))
                 .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(ruda);
-        DrivingCity rybnik = DrivingCity.builder().name("Rybnik").image(imageUploader.uploadFile(drivingCityImageFileName))
+        DrivingCity rybnik = DrivingCity.builder().name("Rybnik").image(imageUploader.uploadFile("signRybnik.png"))
                 .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(rybnik);
-        DrivingCity tychy = DrivingCity.builder().name("Tychy").image(imageUploader.uploadFile(drivingCityImageFileName))
+        DrivingCity tychy = DrivingCity.builder().name("Tychy").image(imageUploader.uploadFile("signTychy.png"))
                 .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(tychy);
 
@@ -140,103 +138,111 @@ public class DBInitialization {
     //24
     private void initializeCars() {
 
-        String carPhotoFileName = "car.jpg";
+        String grandePunto = "grande_punto.jpg";
+        String nissanMicra = "nissan_micra.jpg";
+        String mitsubishiColt = "mitsubishi_colt.jpg";
+        String toyotaYaris = "toyota_yaris.jpg";
+        String opelCorsa = "opel_corsa.jpg";
+        String renaultClio = "renault_clio.jpg";
+        String hyundaiI20 = "hyundai_i20.jpg";
+        String kiaRio = "kia_rio.jpg";
+
 
         Car punto = Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.GAS)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(grandePunto)).build();
         cars.add(punto);
         Car punto2 = Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.GAS)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(grandePunto)).build();
         cars.add(punto2);
         Car punto3 = Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.PETROL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(grandePunto)).build();
         cars.add(punto3);
         Car micra = Car.builder().brand(CarBrand.NISSAN).model("Micra").gasType(GasType.GAS)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(nissanMicra)).build();
         cars.add(micra);
         Car micra2 = Car.builder().brand(CarBrand.NISSAN).model("Micra").gasType(GasType.OIL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(nissanMicra)).build();
         cars.add(micra2);
         Car colt = Car.builder().brand(CarBrand.MITSHUBISHI).model("Colt").gasType(GasType.GAS)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(mitsubishiColt)).build();
         cars.add(colt);
         Car colt2 = Car.builder().brand(CarBrand.MITSHUBISHI).model("Colt").gasType(GasType.PETROL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(mitsubishiColt)).build();
         cars.add(colt2);
         Car yaris = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.GAS)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(toyotaYaris)).build();
         cars.add(yaris);
         Car yaris2 = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.GAS)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(toyotaYaris)).build();
         cars.add(yaris2);
         Car yaris3 = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.OIL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(toyotaYaris)).build();
         cars.add(yaris3);
         Car yaris4 = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.OIL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(toyotaYaris)).build();
         cars.add(yaris4);
         Car yaris5 = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.PETROL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(toyotaYaris)).build();
         cars.add(yaris5);
         Car yaris6 = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.PETROL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(toyotaYaris)).build();
         cars.add(yaris6);
         Car corsa = Car.builder().brand(CarBrand.OPEL).model("Corsa").gasType(GasType.PETROL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(opelCorsa)).build();
         cars.add(corsa);
         Car corsa2 = Car.builder().brand(CarBrand.OPEL).model("Corsa").gasType(GasType.GAS)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(opelCorsa)).build();
         cars.add(corsa2);
         Car clio = Car.builder().brand(CarBrand.RENAULT).model("Clio").gasType(GasType.OIL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(renaultClio)).build();
         cars.add(clio);
         Car clio2 = Car.builder().brand(CarBrand.RENAULT).model("Clio").gasType(GasType.GAS)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(renaultClio)).build();
         cars.add(clio2);
         Car hyundai = Car.builder().brand(CarBrand.HYUNDAI).model("i20").gasType(GasType.PETROL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(hyundaiI20)).build();
         cars.add(hyundai);
         Car hyundai2 = Car.builder().brand(CarBrand.HYUNDAI).model("i20").gasType(GasType.OIL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(hyundaiI20)).build();
         cars.add(hyundai2);
         Car rio = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.OIL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(kiaRio)).build();
         cars.add(rio);
         Car rio2 = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.OIL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(kiaRio)).build();
         cars.add(rio2);
         Car rio3 = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.PETROL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(kiaRio)).build();
         cars.add(rio3);
         Car rio4 = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.PETROL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(kiaRio)).build();
         cars.add(rio4);
         Car rio5 = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.GAS)
                 .licensePlate(generator.generateLicensePlate()).active(true)
-                .carPhoto(imageUploader.uploadFile(carPhotoFileName)).build();
+                .carPhoto(imageUploader.uploadFile(kiaRio)).build();
         cars.add(rio5);
 
         carRepository.saveAll(cars);
