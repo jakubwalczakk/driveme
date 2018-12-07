@@ -561,6 +561,7 @@ public class DBInitialization {
             }
 
             final String drivingTitle = "DEFAULT DRIVINGS TITLE";
+            final String drivingComment = "DEFAULT DRIVINGS COMMENT";
 
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
             Instant startDate = Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60);
@@ -574,6 +575,7 @@ public class DBInitialization {
                             .finishDate(finishDate)
                             .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
                             .title(drivingTitle)
+                            .comment(drivingComment)
                             .rating(rating).build();
             drivings.add(driving);
         }

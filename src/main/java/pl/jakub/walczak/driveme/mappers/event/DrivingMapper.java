@@ -41,7 +41,8 @@ public class DrivingMapper {
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
         dto.setInstructor(userService.mapUserBasicModelToDTO(model.getInstructor(), UserBasicDTO.builder().build()));
         dto.setTitle(model.getTitle());
-        dto.setRating(model.getRating().toString());
+        dto.setComment(model.getComment());
+        dto.setRating(model.getRating() == null ? null : model.getRating().toString());
         return dto;
     }
 
@@ -71,6 +72,7 @@ public class DrivingMapper {
             model.setInstructor((Instructor) instructor);
         }
         model.setTitle(dto.getTitle());
+        model.setComment(dto.getComment());
         try {
             model.setRating(Rating.valueOf(dto.getRating()));
         } catch (IllegalArgumentException | NullPointerException e) {

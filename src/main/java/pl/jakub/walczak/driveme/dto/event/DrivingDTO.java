@@ -13,4 +13,5 @@ public class DrivingDTO extends CalendarEventDTO {
 
     private String title;
     private String rating;
+    private String comment;
 }

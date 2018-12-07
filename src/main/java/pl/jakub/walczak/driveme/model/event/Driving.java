@@ -17,5 +17,6 @@ public class Driving extends CalendarEvent {
     private String title;
     @Enumerated
     private Rating rating;
+    private String comment;
 }
 
