@@ -12,7 +12,8 @@ public class UserBasicMapper {
         dto.setName(model.getName());
         dto.setSurname(model.getSurname());
         dto.setEmail(model.getEmail());
-        dto.setUserRole(model.getUserRole().toString());
+        dto.setPassword(model.getPassword());
+        dto.setUserRole(model.getUserRole() != null ? model.getUserRole().toString() : null);
         return dto;
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import pl.jakub.walczak.driveme.model.address.Address;
 import pl.jakub.walczak.driveme.model.course.Course;
@@ -14,6 +15,7 @@ import java.time.Instant;
 @Data
 @SuperBuilder
 @NoArgsConstructor
+@ToString(exclude = "password")
 @EqualsAndHashCode(exclude = "course")
 @Entity(name = "students")
 public class Student extends User {

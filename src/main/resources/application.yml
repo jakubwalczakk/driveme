@@ -1,5 +1,6 @@
 spring:
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: create-drop
   datasource:
@@ -7,3 +8,8 @@ spring:
     username: user
     password: password
     driver-class-name: com.mysql.jdbc.Driver
+jwt:
+  token:
+    secret: secret
+    algorithm: algorithm
+    expiration: 10000
