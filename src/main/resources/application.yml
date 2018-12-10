@@ -10,6 +10,5 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
 jwt:
   token:
-    secret: secret
-    algorithm: algorithm
+    secret: JWTSuperSecretKey
     expiration: 10000

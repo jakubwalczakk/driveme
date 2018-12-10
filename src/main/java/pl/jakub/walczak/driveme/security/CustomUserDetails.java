@@ -9,6 +9,7 @@ import java.util.Collections;
 
 public class CustomUserDetails implements UserDetails {
 
+    private final Long id;
     private final String name;
     private final String surname;
     private final String email;
@@ -17,7 +18,8 @@ public class CustomUserDetails implements UserDetails {
     private final boolean active;
 
     @Builder
-    public CustomUserDetails(String name, String surname, String email, String password, String role, boolean active) {
+    public CustomUserDetails(Long id, String name, String surname, String email, String password, String role, boolean active) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;

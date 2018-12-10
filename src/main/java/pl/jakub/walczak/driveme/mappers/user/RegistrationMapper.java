@@ -1,6 +1,7 @@
 package pl.jakub.walczak.driveme.mappers.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.dto.user.InstructorRegistrationDTO;
 import pl.jakub.walczak.driveme.dto.user.StudentRegistrationDTO;
@@ -16,10 +17,12 @@ import pl.jakub.walczak.driveme.services.address.AddressService;
 public class RegistrationMapper {
 
     private AddressService addressService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public RegistrationMapper(AddressService addressService) {
+    public RegistrationMapper(AddressService addressService, PasswordEncoder passwordEncoder) {
         this.addressService = addressService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User mapRegistrationDTOToUser(UserRegistrationDTO dto) {
@@ -27,7 +30,7 @@ public class RegistrationMapper {
                 .name(dto.getName())
                 .surname(dto.getSurname())
                 .email(dto.getEmail())
-                .password(dto.getPassword())
+                .password(passwordEncoder.encode(dto.getPassword()))
                 .phoneNumber(dto.getPhoneNumber())
                 .userRole(UserRole.ADMINISTRATOR)
                 .build();
@@ -40,7 +43,7 @@ public class RegistrationMapper {
                 .name(dto.getName())
                 .surname(dto.getSurname())
                 .email(dto.getEmail())
-                .password(dto.getPassword())
+                .password(passwordEncoder.encode(dto.getPassword()))
                 .phoneNumber(dto.getPhoneNumber())
                 .availableHours(dto.getAvailableHours())
                 .userRole(UserRole.INSTRUCTOR)
@@ -54,7 +57,7 @@ public class RegistrationMapper {
                 .name(dto.getName())
                 .surname(dto.getSurname())
                 .email(dto.getEmail())
-                .password(dto.getPassword())
+                .password(passwordEncoder.encode(dto.getPassword()))
                 .phoneNumber(dto.getPhoneNumber())
                 .pesel(dto.getPesel())
                 .address(addressService.mapDTOToModel(dto.getAddress(), Address.builder().build()))

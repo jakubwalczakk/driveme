@@ -39,13 +39,13 @@ public class UserService {
     // -- methods for controller --
     public User createUser(UserRegistrationDTO userRegistrationDTO) {
         log.info("Creating new User...");
-        if(Validator.userRegistrationValidation(userRegistrationDTO)){
+        if (Validator.userRegistrationValidation(userRegistrationDTO)) {
             log.info("Validation of user registration DTO passed.");
             User user = registrationMapper.mapRegistrationDTOToUser(userRegistrationDTO);
             return userRepository.save(user);
-        }else{
+        } else {
             log.warn("User registration DTO were incorrect!");
-            return null;
+            throw new IllegalArgumentException("Cannot create a new user with given data");
         }
     }
 
@@ -77,6 +77,10 @@ public class UserService {
     }
 
     // -- dao methods --
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
