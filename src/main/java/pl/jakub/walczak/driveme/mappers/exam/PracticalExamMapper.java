@@ -2,6 +2,7 @@ package pl.jakub.walczak.driveme.mappers.exam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.jakub.walczak.driveme.dto.car.CarBasicDTO;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
 import pl.jakub.walczak.driveme.dto.exam.PracticalExamDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
@@ -36,7 +37,7 @@ public class PracticalExamMapper {
         dto.setActive(model.getActive());
         dto.setPassed(model.getPassed());
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
-        dto.setCar(carService.mapModelToDTO(model.getCar(), CarDTO.builder().build()));
+        dto.setCar(carService.mapModelToBasicDTO(model.getCar(), CarBasicDTO.builder().build()));
         dto.setInstructor(userService.mapUserBasicModelToDTO(model.getInstructor(), UserBasicDTO.builder().build()));
         dto.setDurationTime(model.getDurationTime());
         return dto;
@@ -49,7 +50,7 @@ public class PracticalExamMapper {
         model.setActive(dto.getActive());
         model.setPassed(dto.getPassed());
 
-        CarDTO carDTO = dto.getCar();
+        CarBasicDTO carDTO = dto.getCar();
         if (carDTO != null) {
             Optional<Car> carOptional = carService.findById(carDTO.getId());
             if (carOptional.isPresent()) {

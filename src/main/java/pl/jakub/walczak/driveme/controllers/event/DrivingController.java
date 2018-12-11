@@ -53,6 +53,26 @@ public class DrivingController {
         }
     }
 
+    @GetMapping(path = "/instructor/{id}")
+    public ResponseEntity<List<DrivingDTO>> getDrivingsByInstructor(@PathVariable("id") Long instructorId) {
+        try {
+            return ResponseEntity.ok(drivingService.getDrivingsByInstructor(instructorId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping(path = "/student/{id}")
+    public ResponseEntity<List<DrivingDTO>> getDrivingsByStudent(@PathVariable("id") Long studentId) {
+        try {
+            return ResponseEntity.ok(drivingService.getDrivingsByStudent(studentId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping
     public ResponseEntity<List<DrivingDTO>> getAll() {
         try {

@@ -51,6 +51,20 @@ public class DrivingService {
         }
     }
 
+    public List<DrivingDTO> getDrivingsByInstructor(Long instructorId) {
+        log.info("Getting the List of Drivings of Instructor with id = " + instructorId);
+        List<Driving> listOfInstructorDrivings = drivingRepository.findAllByInstructorIdOrderByFinishDateDesc(instructorId);
+        return listOfInstructorDrivings.stream()
+                .map(driving -> mapModelToDTO(driving, DrivingDTO.builder().build())).collect(Collectors.toList());
+    }
+
+    public List<DrivingDTO> getDrivingsByStudent(Long studentId) {
+        log.info("Getting the List of Drivings of Student with id = " + studentId);
+        List<Driving> listOfStudentDrivings = drivingRepository.findAllByStudentIdOrderByFinishDate(studentId);
+        return listOfStudentDrivings.stream()
+                .map(driving -> mapModelToDTO(driving, DrivingDTO.builder().build())).collect(Collectors.toList());
+    }
+
     public List<DrivingDTO> getAll() {
         log.info("Getting all Drivings");
         return findAll().stream().map(driving -> mapModelToDTO(driving, DrivingDTO.builder().build())).collect(Collectors.toList());

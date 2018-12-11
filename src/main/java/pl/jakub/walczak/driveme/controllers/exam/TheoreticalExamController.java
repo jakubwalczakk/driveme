@@ -54,6 +54,16 @@ public class TheoreticalExamController {
         }
     }
 
+    @GetMapping(path = "/student/{id}")
+    public ResponseEntity<List<TheoreticalExamDTO>> getTheoreticalExamsOfStudent(@PathVariable("id") Long studentId) {
+        try {
+            return ResponseEntity.ok(theoreticalExamService.getTheoreticalExamsOfStudent(studentId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     @GetMapping
     public ResponseEntity<List<TheoreticalExamDTO>> getAll() {

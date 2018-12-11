@@ -3,6 +3,7 @@ package pl.jakub.walczak.driveme.services.car;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.jakub.walczak.driveme.dto.car.CarBasicDTO;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
 import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.mappers.car.CarMapper;
@@ -103,6 +104,10 @@ public class CarService {
     // -- mapper methods --
     public CarDTO mapModelToDTO(Car model, CarDTO dto) {
         return carMapper.mapModelToDTO(model, dto);
+    }
+
+    public CarBasicDTO mapModelToBasicDTO(Car model, CarBasicDTO dto) {
+        return carMapper.mapModelToBasicDTO(model,dto);
     }
 
     public Car mapDTOToModel(CarDTO dto, Car model) {
