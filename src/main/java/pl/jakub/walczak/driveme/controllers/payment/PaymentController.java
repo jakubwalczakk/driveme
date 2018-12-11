@@ -53,6 +53,16 @@ public class PaymentController {
         }
     }
 
+    @GetMapping(path = "/student/{id}")
+    public ResponseEntity<List<PaymentDTO>> getPaymentsByStudent(@PathVariable("id") Long studentId) {
+        try {
+            return ResponseEntity.ok(paymentService.getPaymentsByStudent(studentId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping
     public ResponseEntity<List<PaymentDTO>> getAll() {
         try {

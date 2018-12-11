@@ -461,12 +461,13 @@ public class DBInitialization {
             initializeDrivings(student);
 
             courses.add(course);
+            courseRepository.save(course);
             studentRepository.save(student);
         }
     }
 
     private void initializePayments(Student student) {
-        Set<Payment> payments = new HashSet<>();
+        List<Payment> payments = new ArrayList<>();
         Course course = student.getCourse();
         final Double coursePrice = 1500.0;
         Double sumOfAmounts = 0.0;
@@ -476,7 +477,7 @@ public class DBInitialization {
             if ((sumOfAmounts + amount) > coursePrice) {
                 amount = coursePrice - sumOfAmounts;
             }
-            Payment payment = Payment.builder().date(paymentDate)/*.student(student)*/.amount(amount).build();
+            Payment payment = Payment.builder().date(paymentDate).student(student).amount(amount).build();
             payments.add(payment);
             sumOfAmounts += amount;
         } while (!sumOfAmounts.equals(coursePrice));
@@ -502,7 +503,7 @@ public class DBInitialization {
 
     private void initializeTheoreticalExams(Student student) {
         Course course = student.getCourse();
-        Set<TheoreticalExam> theoreticalExams = new HashSet<>();
+        List<TheoreticalExam> theoreticalExams = new ArrayList<>();
         boolean status = false;
         while (status == false) {
             final int scoredPoints = 60 + RANDOM.nextInt(15);
@@ -524,7 +525,7 @@ public class DBInitialization {
 
     private void initializeReservations(Student student) {
         Course course = student.getCourse();
-        HashSet<Reservation> reservations = new HashSet<>();
+        List<Reservation> reservations = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
 
@@ -548,7 +549,7 @@ public class DBInitialization {
 
     private void initializeDrivings(Student student) {
         Course course = student.getCourse();
-        HashSet<Driving> drivings = new HashSet<>();
+        List<Driving> drivings = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
             Rating rating;

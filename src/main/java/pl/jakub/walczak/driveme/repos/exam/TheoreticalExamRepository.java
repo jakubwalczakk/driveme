@@ -11,6 +11,6 @@ import java.util.Set;
 @Repository
 @Transactional
 public interface TheoreticalExamRepository extends JpaRepository<TheoreticalExam, Long> {
-    Set<TheoreticalExam> findAllById(Set<Long> ids);
+    List<TheoreticalExam> findAllById(Set<Long> ids);
     List<TheoreticalExam> findAllByStudentIdOrderByPassedDescDateOfExamDesc(Long studentId);
 }

@@ -13,6 +13,7 @@ import pl.jakub.walczak.driveme.model.payment.Payment;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -39,23 +40,23 @@ public class Course {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<Payment> payments;
+    private List<Payment> payments;
     private Double currentPayment;
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<Reservation> reservations;
+    private List<Reservation> reservations;
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<Driving> drivings;
+    private List<Driving> drivings;
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<TheoreticalExam> theoreticalExams;
+    private List<TheoreticalExam> theoreticalExams;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private PracticalExam practicalExam;
     @Enumerated

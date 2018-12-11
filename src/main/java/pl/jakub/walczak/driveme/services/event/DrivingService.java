@@ -60,7 +60,7 @@ public class DrivingService {
 
     public List<DrivingDTO> getDrivingsByStudent(Long studentId) {
         log.info("Getting the List of Drivings of Student with id = " + studentId);
-        List<Driving> listOfStudentDrivings = drivingRepository.findAllByStudentIdOrderByFinishDate(studentId);
+        List<Driving> listOfStudentDrivings = drivingRepository.findAllByStudentIdOrderByFinishDateDesc(studentId);
         return listOfStudentDrivings.stream()
                 .map(driving -> mapModelToDTO(driving, DrivingDTO.builder().build())).collect(Collectors.toList());
     }
@@ -71,8 +71,8 @@ public class DrivingService {
     }
 
     // -- dao methods --
-    public Set<Driving> findAllById(Set<Long> drivingsToAdd) {
-        return new HashSet<>(drivingRepository.findAllById(drivingsToAdd));
+    public List<Driving> findAllById(Set<Long> drivingsToAdd) {
+        return drivingRepository.findAllById(drivingsToAdd);
     }
 
     public List<Driving> findAll() {

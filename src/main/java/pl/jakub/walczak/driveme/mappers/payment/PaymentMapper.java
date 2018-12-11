@@ -27,7 +27,7 @@ public class PaymentMapper {
         dto.setId(model.getId());
         dto.setDate(model.getDate());
         dto.setAmount(model.getAmount());
-//        dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
+        dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
         return dto;
     }
 
@@ -36,14 +36,14 @@ public class PaymentMapper {
         model.setDate(dto.getDate());
         model.setAmount(dto.getAmount());
 
-//        UserBasicDTO studentDTO = dto.getStudent();
-//        if(studentDTO!=null){
-//            Optional<User> optionalUser = userService.findById(studentDTO.getId());
-//            if(optionalUser.isPresent()){
-//                Student student = (Student) optionalUser.get();
-//                model.setStudent(student);
-//            }
-//        }
+        UserBasicDTO studentDTO = dto.getStudent();
+        if(studentDTO!=null){
+            Optional<User> optionalUser = userService.findById(studentDTO.getId());
+            if(optionalUser.isPresent()){
+                Student student = (Student) optionalUser.get();
+                model.setStudent(student);
+            }
+        }
         return model;
     }
 }

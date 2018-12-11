@@ -75,7 +75,7 @@ public class TheoreticalExamService {
         return theoreticalExamRepository.findAll();
     }
 
-    public Set<TheoreticalExam> findAllById(Set<Long> theoreticalExamsToAdd) {
+    public List<TheoreticalExam> findAllById(Set<Long> theoreticalExamsToAdd) {
         return theoreticalExamRepository.findAllById(theoreticalExamsToAdd);
     }
 

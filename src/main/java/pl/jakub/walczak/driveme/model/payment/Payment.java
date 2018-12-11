@@ -1,12 +1,16 @@
 package pl.jakub.walczak.driveme.model.payment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.jakub.walczak.driveme.model.user.Student;
 
 import javax.persistence.*;
 import java.time.Instant;
+
+import static javax.persistence.FetchType.*;
 
 @Data
 @Builder
@@ -20,8 +24,9 @@ public class Payment {
     private Long id;
     //FIXME
     //it must be contained
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private Student student;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Student student;
     @Column(name = "payment_date")
     private Instant date;
     @Column(name = "amount", nullable = false)
