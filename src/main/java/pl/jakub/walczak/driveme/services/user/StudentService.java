@@ -7,7 +7,7 @@ import pl.jakub.walczak.driveme.dto.user.StudentDTO;
 import pl.jakub.walczak.driveme.dto.user.StudentRegistrationDTO;
 import pl.jakub.walczak.driveme.mappers.user.RegistrationMapper;
 import pl.jakub.walczak.driveme.mappers.user.StudentMapper;
-import pl.jakub.walczak.driveme.model.car.Car;
+import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.repos.user.StudentRepository;
 
@@ -45,6 +45,7 @@ public class StudentService {
         if (studentToActivate.isPresent()) {
             Student student = studentToActivate.get();
             student.setActive(true);
+            student.setCourse(new Course());
             return studentRepository.save(student);
         } else {
             throw new NoSuchElementException("Cannot ACTIVATE Student with given id = " + id);
@@ -73,9 +74,11 @@ public class StudentService {
         }
     }
 
-    public List<StudentDTO> getAll() {
-        log.info("Getting all Students");
-        return findAll().stream().map(student -> mapModelToDTO(student, StudentDTO.builder().build())).collect(Collectors.toList());
+    public List<StudentDTO> getAllOrderByRegistrationDate() {
+        log.info("Getting all Students ordered by registration date desc");
+        return studentRepository.findAll().stream().sorted((i1, i2) -> i2.getRegistrationDate().compareTo(i1.getRegistrationDate()))
+                .map(student ->
+                        mapModelToDTO(student, StudentDTO.builder().build())).collect(Collectors.toList());
     }
 
     // -- dao methods --

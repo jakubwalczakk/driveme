@@ -67,7 +67,7 @@ public class StudentController {
     @GetMapping
     public ResponseEntity<List<StudentDTO>> getAll() {
         try {
-            return ResponseEntity.ok(studentService.getAll());
+            return ResponseEntity.ok(studentService.getAllOrderByRegistrationDate());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

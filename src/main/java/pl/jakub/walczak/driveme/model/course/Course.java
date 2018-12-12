@@ -3,7 +3,6 @@ package pl.jakub.walczak.driveme.model.course;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import pl.jakub.walczak.driveme.enums.CourseStatus;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Reservation;
@@ -13,12 +12,11 @@ import pl.jakub.walczak.driveme.model.payment.Payment;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "courses")
 public class Course {
@@ -62,4 +60,15 @@ public class Course {
     @Enumerated
     @Column(name = "status", nullable = false)
     private CourseStatus status;
+
+    public Course() {
+        this.startDate = LocalDate.now();
+        this.takenDrivingHours = 0;
+        this.payments = new ArrayList<>();
+        this.currentPayment = 0.0;
+        this.reservations = new ArrayList<>();
+        this.theoreticalExams = new ArrayList<>();
+        this.status = CourseStatus.IN_PROGRESS;
+
+    }
 }

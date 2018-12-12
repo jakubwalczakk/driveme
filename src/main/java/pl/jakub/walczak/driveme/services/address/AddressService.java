@@ -72,7 +72,7 @@ public class AddressService {
 
     // -- mapper methods --
     public AddressDTO mapModelToDTO(Address model, AddressDTO dto) {
-        return addressMapper.mapModelToDTO(model, dto);
+        return model == null ? null : addressMapper.mapModelToDTO(model, dto);
     }
 
     public Address mapDTOToModel(AddressDTO dto, Address model) {

@@ -82,7 +82,7 @@ public class PracticalExamService {
 
     // -- mapper methods --
     public PracticalExamDTO mapModelToDTO(PracticalExam model, PracticalExamDTO dto) {
-        return practicalExamMapper.mapModelToDTO(model, dto);
+        return model == null ? null : practicalExamMapper.mapModelToDTO(model, dto);
     }
 
     public PracticalExam mapDTOToModel(PracticalExamDTO dto, PracticalExam model) {
