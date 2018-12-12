@@ -15,10 +15,10 @@ public class CustomUserDetails implements UserDetails {
     private final String email;
     private final String password;
     private final String role;
-    private final boolean active;
+    private final Boolean active;
 
     @Builder
-    public CustomUserDetails(Long id, String name, String surname, String email, String password, String role, boolean active) {
+    public CustomUserDetails(Long id, String name, String surname, String email, String password, String role, Boolean active) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -60,6 +60,30 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
+        return active;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public boolean isActive() {
         return active;
     }
 }

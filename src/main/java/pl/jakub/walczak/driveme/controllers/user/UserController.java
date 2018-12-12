@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.dto.user.UserDTO;
 import pl.jakub.walczak.driveme.dto.user.UserRegistrationDTO;
 import pl.jakub.walczak.driveme.model.user.User;
+import pl.jakub.walczak.driveme.security.CurrentUser;
+import pl.jakub.walczak.driveme.security.CustomUserDetails;
 import pl.jakub.walczak.driveme.services.user.UserService;
 
 import java.util.List;
@@ -24,28 +26,35 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody UserRegistrationDTO userRegistrationDTO){
-        try{
+    public ResponseEntity<User> createUser(@RequestBody UserRegistrationDTO userRegistrationDTO) {
+        try {
             return ResponseEntity.ok(userService.createUser(userRegistrationDTO));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
 
-    @DeleteMapping(path="/{id}")
-    public ResponseEntity deleteUser(@PathVariable("id") Long id){
-        try{
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity deleteUser(@PathVariable("id") Long id) {
+        try {
             userService.deleteUser(id);
             return ResponseEntity.ok().build();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
     }
 
+    @GetMapping("/me")
+    public CustomUserDetails getCurrentUser(@CurrentUser CustomUserDetails currentUser) {
+        CustomUserDetails userDetails = new CustomUserDetails(currentUser.getId(), currentUser.getName(), currentUser.getSurname(),
+                currentUser.getUsername(), currentUser.getPassword(), currentUser.getRole(), currentUser.isActive());
+        return userDetails;
+    }
+
     @GetMapping(path = "/{id}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable("id") Long id){
+    public ResponseEntity<UserDTO> getUser(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(userService.getUser(id));
         } catch (Exception e) {
