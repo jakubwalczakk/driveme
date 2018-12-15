@@ -12,5 +12,5 @@ import java.util.Set;
 @Transactional
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
     List<Payment> findAllById(Set<Long> ids);
-    List<Payment> findAllByStudentIdOrderByDate(Long studentId);
+    List<Payment> findAllByStudentIdOrderByDateDesc(Long studentId);
 }

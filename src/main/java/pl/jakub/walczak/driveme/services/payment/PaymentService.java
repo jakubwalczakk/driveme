@@ -73,7 +73,7 @@ public class PaymentService {
     public List<PaymentDTO> getPaymentsByStudent(Long studentId) {
         log.info("Getting all Payments of Student with given id  = " + studentId);
 
-        List<Payment> listOfStudentPayments = paymentRepository.findAllByStudentIdOrderByDate(studentId);
+        List<Payment> listOfStudentPayments = paymentRepository.findAllByStudentIdOrderByDateDesc(studentId);
         return listOfStudentPayments.stream()
                 .map(payment -> mapModelToDTO(payment, PaymentDTO.builder().build())).collect(Collectors.toList());
     }
