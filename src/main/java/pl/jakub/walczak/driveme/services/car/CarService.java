@@ -76,9 +76,9 @@ public class CarService {
             return carRepository.findAllCarByBrand(carBrand).stream()
                     .map(car -> mapModelToDTO(car, CarDTO.builder().build()))
                     .collect(Collectors.toList());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        } catch (IllegalArgumentException | NullPointerException e) {
+            log.warn("Cannot find a car brand from given string = " + brand);
+            throw new IllegalArgumentException();
         }
     }
 
@@ -93,8 +93,22 @@ public class CarService {
         return carRepository.findById(id);
     }
 
+    public Optional<Car> findByLicensePlate(String carLicensePlate) {
+        return carRepository.findByLicensePlate(carLicensePlate);
+    }
+
     private Set<Car> findActiveCars() {
         return carRepository.findAllByActive(true);
+    }
+
+    public Set<Car> findAllCarsByBrand(String brand) {
+        try {
+            CarBrand carBrand = CarBrand.valueOf(brand.toUpperCase());
+            return carRepository.findAllCarByBrand(carBrand);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            log.warn("Cannot find a car brand from given string = " + brand);
+            throw new NoSuchElementException("Cannot find cars with brand = " + brand);
+        }
     }
 
     public List<Car> findAll() {
@@ -107,7 +121,7 @@ public class CarService {
     }
 
     public CarBasicDTO mapModelToBasicDTO(Car model, CarBasicDTO dto) {
-        return carMapper.mapModelToBasicDTO(model,dto);
+        return carMapper.mapModelToBasicDTO(model, dto);
     }
 
     public Car mapDTOToModel(CarDTO dto, Car model) {

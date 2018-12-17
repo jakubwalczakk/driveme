@@ -15,6 +15,7 @@ import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.services.car.CarService;
 import pl.jakub.walczak.driveme.services.city.CityService;
 import pl.jakub.walczak.driveme.services.user.UserService;
+import pl.jakub.walczak.driveme.utils.DateFormatter;
 
 import java.util.Optional;
 
@@ -34,8 +35,8 @@ public class ReservationMapper {
 
     public ReservationDTO mapModelToDTO(Reservation model, ReservationDTO dto) {
         dto.setId(model.getId());
-        dto.setStartDate(model.getStartDate());
-        dto.setFinishDate(model.getFinishDate());
+        dto.setStartDate(DateFormatter.formatDateToString(model.getStartDate()));
+        dto.setFinishDate(DateFormatter.formatDateToString(model.getFinishDate()));
         dto.setCar(carService.mapModelToBasicDTO(model.getCar(), CarBasicDTO.builder().build()));
         dto.setDrivingCity(model.getDrivingCity().getName());
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
@@ -46,8 +47,8 @@ public class ReservationMapper {
 
     public Reservation mapDTOToModel(ReservationDTO dto, Reservation model) {
         model.setId(dto.getId());
-        model.setStartDate(dto.getStartDate());
-        model.setFinishDate(dto.getFinishDate());
+        model.setStartDate(DateFormatter.parseStringToInstant(dto.getStartDate()));
+        model.setFinishDate(DateFormatter.parseStringToInstant(dto.getFinishDate()));
 
         CarBasicDTO carDTO = dto.getCar();
         if(carDTO!=null){

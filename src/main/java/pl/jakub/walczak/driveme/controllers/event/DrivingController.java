@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
+import pl.jakub.walczak.driveme.dto.event.RateDrivingDTO;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.services.event.DrivingService;
 
@@ -26,6 +27,16 @@ public class DrivingController {
     public ResponseEntity<Driving> addDriving(@RequestBody DrivingDTO drivingDTO) {
         try {
             return ResponseEntity.ok(drivingService.addDriving(drivingDTO));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping(path = "/rate")
+    public ResponseEntity<DrivingDTO> rateDriving(@RequestBody RateDrivingDTO rateDrivingDTO) {
+        try {
+                return ResponseEntity.ok(drivingService.rateDriving(rateDrivingDTO));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();

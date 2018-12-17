@@ -8,6 +8,7 @@ import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.services.user.UserService;
+import pl.jakub.walczak.driveme.utils.DateFormatter;
 
 @Component
 public class TheoreticalExamMapper {
@@ -17,7 +18,7 @@ public class TheoreticalExamMapper {
 
     public TheoreticalExamDTO mapModelToDTO(TheoreticalExam model, TheoreticalExamDTO dto) {
         dto.setId(model.getId());
-        dto.setDateOfExam(model.getDateOfExam());
+        dto.setDateOfExam(DateFormatter.formatDateToString(model.getDateOfExam()));
         dto.setActive(model.getActive());
         dto.setPassed(model.getPassed());
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
@@ -29,7 +30,7 @@ public class TheoreticalExamMapper {
 
     public TheoreticalExam mapDTOToModel(TheoreticalExamDTO dto, TheoreticalExam model) {
         model.setId(dto.getId());
-        model.setDateOfExam(dto.getDateOfExam());
+        model.setDateOfExam(DateFormatter.parseStringToInstant(dto.getDateOfExam()));
         model.setActive(dto.getActive());
         model.setPassed(dto.getPassed());
         model.setScoredPoints(dto.getScoredPoints());

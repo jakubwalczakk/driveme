@@ -15,7 +15,7 @@ import java.time.Instant;
 public class ExamDTO {
 
     private Long id;
-    private Instant dateOfExam;
+    private String dateOfExam;
     private Boolean active;
     private Boolean passed;
     private UserBasicDTO student;

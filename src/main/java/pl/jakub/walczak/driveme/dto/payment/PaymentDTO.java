@@ -15,7 +15,7 @@ import java.time.Instant;
 public class PaymentDTO {
 
     private Long id;
-    private Instant date;
+    private String date;
     private Double amount;
     private UserBasicDTO student;
 }

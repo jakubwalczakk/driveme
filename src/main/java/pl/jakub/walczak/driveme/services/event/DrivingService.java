@@ -4,11 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
+import pl.jakub.walczak.driveme.dto.event.RateDrivingDTO;
+import pl.jakub.walczak.driveme.enums.Rating;
 import pl.jakub.walczak.driveme.mappers.event.DrivingMapper;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
 
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -29,6 +34,25 @@ public class DrivingService {
         log.info("Adding new Driving...");
         Driving driving = mapDTOToModel(drivingDTO, Driving.builder().build());
         return drivingRepository.save(driving);
+    }
+
+    public DrivingDTO rateDriving(RateDrivingDTO rateDrivingDTO) {
+        log.info("Rating a Driving with id = " + rateDrivingDTO.getDrivingId());
+        Optional<Driving> optionalDriving = drivingRepository.findById(rateDrivingDTO.getDrivingId());
+        try {
+            Rating rating = Rating.valueOf(rateDrivingDTO.getRating().toUpperCase());
+            if (optionalDriving.isPresent()) {
+                Driving driving = optionalDriving.get();
+                driving.setRating(rating);
+                driving.setComment(rateDrivingDTO.getComment());
+                drivingRepository.save(driving);
+                return mapModelToDTO(driving, DrivingDTO.builder().build());
+            }
+            return null;
+        } catch (IllegalArgumentException | NullPointerException e) {
+            log.warn("Cannot find a value of Rating Enum = " + rateDrivingDTO.getRating());
+            throw new IllegalArgumentException();
+        }
     }
 
     public void deleteDriving(Long id) {

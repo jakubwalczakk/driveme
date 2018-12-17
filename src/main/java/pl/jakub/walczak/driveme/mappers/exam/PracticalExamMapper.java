@@ -13,6 +13,7 @@ import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.services.car.CarService;
 import pl.jakub.walczak.driveme.services.user.UserService;
+import pl.jakub.walczak.driveme.utils.DateFormatter;
 
 import java.util.Optional;
 
@@ -33,7 +34,7 @@ public class PracticalExamMapper {
     public PracticalExamDTO mapModelToDTO(PracticalExam model, PracticalExamDTO dto) {
 
         dto.setId(model.getId());
-        dto.setDateOfExam(model.getDateOfExam());
+        dto.setDateOfExam(DateFormatter.formatDateToString(model.getDateOfExam()));
         dto.setActive(model.getActive());
         dto.setPassed(model.getPassed());
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
@@ -46,7 +47,7 @@ public class PracticalExamMapper {
     public PracticalExam mapDTOToModel(PracticalExamDTO dto, PracticalExam model) {
 
         model.setId(dto.getId());
-        model.setDateOfExam(dto.getDateOfExam());
+        model.setDateOfExam(DateFormatter.parseStringToInstant(dto.getDateOfExam()));
         model.setActive(dto.getActive());
         model.setPassed(dto.getPassed());
 
