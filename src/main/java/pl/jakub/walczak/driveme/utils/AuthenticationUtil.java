@@ -29,7 +29,7 @@ public class AuthenticationUtil {
             return currentLoggedUser.get();
         }
 
-        throw new SecurityException(("Current profile was not found in database!"));
+        throw new SecurityException("Current profile was not found in database!");
     }
 
     public boolean isCurrentProfileId(Long id) {

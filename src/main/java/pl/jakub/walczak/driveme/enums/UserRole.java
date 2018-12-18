@@ -2,7 +2,7 @@ package pl.jakub.walczak.driveme.enums;
 
 public enum UserRole {
 
-    ADMINISTRATOR("Administrator"),
+    ADMIN("Admin"),
     INSTRUCTOR("Instructor"),
     STUDENT("Student"),
     DEFAULT("Brak informacji");

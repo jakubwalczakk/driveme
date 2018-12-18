@@ -1,4 +1,4 @@
-package pl.jakub.walczak.driveme.security;
+package pl.jakub.walczak.driveme.security.annotations;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 

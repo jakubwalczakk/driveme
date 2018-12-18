@@ -295,12 +295,12 @@ public class DBInitialization {
 
         User admin1 = User.builder().name("Jadwiga").surname("Bąk").email("jadwiga.bak@driveme.pl")
                 .password(passwordEncoder.encode(DEFAULT_PASSWORD)).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.ADMINISTRATOR).active(true).build();
+                .userRole(UserRole.ADMIN).active(true).build();
         userRepository.save(admin1);
 
         User admin2 = User.builder().name("Monika").surname("Krajewska").email("monika.krajewska@driveme.pl")
                 .password(passwordEncoder.encode(DEFAULT_PASSWORD)).phoneNumber(generator.generatePhoneNumber())
-                .userRole(UserRole.ADMINISTRATOR).active(true).build();
+                .userRole(UserRole.ADMIN).active(true).build();
         userRepository.save(admin2);
     }
 

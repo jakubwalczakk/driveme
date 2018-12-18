@@ -4,11 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 import pl.jakub.walczak.driveme.dto.user.UserDTO;
 import pl.jakub.walczak.driveme.dto.user.UserRegistrationDTO;
 import pl.jakub.walczak.driveme.model.user.User;
-import pl.jakub.walczak.driveme.security.CurrentUser;
+import pl.jakub.walczak.driveme.security.annotations.CurrentUser;
 import pl.jakub.walczak.driveme.security.CustomUserDetails;
 import pl.jakub.walczak.driveme.services.user.UserService;
 

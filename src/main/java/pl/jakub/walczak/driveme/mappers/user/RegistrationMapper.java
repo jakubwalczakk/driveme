@@ -8,7 +8,6 @@ import pl.jakub.walczak.driveme.dto.user.StudentRegistrationDTO;
 import pl.jakub.walczak.driveme.dto.user.UserRegistrationDTO;
 import pl.jakub.walczak.driveme.enums.UserRole;
 import pl.jakub.walczak.driveme.model.address.Address;
-import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
@@ -35,7 +34,7 @@ public class RegistrationMapper {
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .phoneNumber(dto.getPhoneNumber())
-                .userRole(UserRole.ADMINISTRATOR)
+                .userRole(UserRole.ADMIN)
                 .build();
 
         return model;

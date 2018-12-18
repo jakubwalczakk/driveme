@@ -59,7 +59,7 @@ public class LoginController {
             }
             User user = userService.createUser(registrationRequest);
 
-            return ResponseEntity.ok(ApiResponse.builder().success(true).message("User registered successfully\n" + user).build());
+            return ResponseEntity.ok(ApiResponse.builder().success(true).message("User registered successfully: " + user).build());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(ApiResponse.builder().success(false).message(e.getMessage()).build());
         }
