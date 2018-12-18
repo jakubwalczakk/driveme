@@ -51,34 +51,6 @@ public class ReservationService {
         }
     }
 
-    public Set<Reservation> isTermAvailable(ReservationDTO reservationDTO) {
-        log.info("Hello it's me");
-        Optional<Car> optionalCar = carService.findById(reservationDTO.getCar().getId());
-        Car car;
-        if (optionalCar.isPresent()) {
-            car = optionalCar.get();
-        } else {
-            return null;
-        }
-        Instructor instructor;
-        Optional<Instructor> optionalInstructor = instructorService.findById(reservationDTO.getInstructor().getId());
-        if (optionalInstructor.isPresent()) {
-            instructor = optionalInstructor.get();
-        } else {            return null;
-
-        }
-
-        Set<Reservation> allByCarAndInstructor =
-                reservationRepository.findAllByCarAndInstructor(car, instructor);
-
-        //FIXME
-        for (Reservation reservation : allByCarAndInstructor) {
-            log.info(reservation.toString());
-        }
-
-        return allByCarAndInstructor;
-    }
-
     public ReservationDTO getReservation(Long id) {
         log.info("Getting the Reservation with id = " + id);
         Optional<Reservation> optionalReservation = reservationRepository.findById(id);
@@ -89,14 +61,28 @@ public class ReservationService {
         }
     }
 
+    public List<ReservationDTO> getReservationsByInstructor(Long instructorId) {
+        log.info("Getting the List of Reservations of Instructor with id = " + instructorId);
+        List<Reservation> listOfInstructorReservations = reservationRepository.findAllByInstructorIdOrderByFinishDateDesc(instructorId);
+        return listOfInstructorReservations.stream()
+                .map(reservation -> mapModelToDTO(reservation, ReservationDTO.builder().build())).collect(Collectors.toList());
+    }
+
+    public List<ReservationDTO> getReservationsByStudent(Long studentId) {
+        log.info("Getting the List of Reservatiions of Student with id = " + studentId);
+        List<Reservation> listOfStudentReservations = reservationRepository.findAllByStudentIdOrderByFinishDateDesc(studentId);
+        return listOfStudentReservations.stream()
+                .map(reservation -> mapModelToDTO(reservation, ReservationDTO.builder().build())).collect(Collectors.toList());
+    }
+
     public List<ReservationDTO> getAll() {
         log.info("Getting all Reservations");
         return findAll().stream().map(reservation -> mapModelToDTO(reservation, ReservationDTO.builder().build())).collect(Collectors.toList());
     }
 
     // -- dao methods --
-    public Set<Reservation> findAllById(Set<Long> reservationsToAdd) {
-        return new HashSet<>(reservationRepository.findAllById(reservationsToAdd));
+    public List<Reservation> findAllById(Set<Long> reservationsToAdd) {
+        return reservationRepository.findAllById(reservationsToAdd);
     }
 
     public List<Reservation> findAll() {

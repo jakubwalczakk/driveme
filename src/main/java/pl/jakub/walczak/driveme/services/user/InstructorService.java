@@ -82,6 +82,8 @@ public class InstructorService {
         return instructorRepository.findById(id);
     }
 
+    public Optional<Instructor>findByEmail(String email){return instructorRepository.findByEmail(email);}
+
     public List<Instructor> findAll() {
         return instructorRepository.findAll();
     }

@@ -12,6 +12,7 @@ import pl.jakub.walczak.driveme.dto.payment.PaymentDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -24,11 +25,11 @@ public class CourseDTO {
 //    private UserBasicDTO student;
     private LocalDate startDate;
     private Integer takenDrivingHours;
-    private Set<PaymentDTO> payments;
+    private List<PaymentDTO> payments;
     private Double currentPayment;
     private PracticalExamDTO practicalExam;
-    private Set<TheoreticalExamDTO> theoreticalExams;
-    private Set<ReservationDTO> reservations;
-    private Set<DrivingDTO> drivings;
+    private List<TheoreticalExamDTO> theoreticalExams;
+    private List<ReservationDTO> reservations;
+    private List<DrivingDTO> drivings;
     private String status;
 }

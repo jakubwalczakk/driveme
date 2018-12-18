@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import pl.jakub.walczak.driveme.dto.car.CarDTO;
+import pl.jakub.walczak.driveme.dto.car.CarBasicDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 
 import java.time.Instant;
@@ -16,9 +16,9 @@ import java.time.Instant;
 public class CalendarEventDTO {
 
     private Long id;
-    private Instant startDate;
-    private Instant finishDate;
-    private CarDTO car;
+    private String startDate;
+    private String finishDate;
+    private CarBasicDTO car;
     private String drivingCity;
     private UserBasicDTO student;
     private UserBasicDTO instructor;

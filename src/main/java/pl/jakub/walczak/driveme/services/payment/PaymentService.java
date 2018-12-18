@@ -40,7 +40,7 @@ public class PaymentService {
         Student student = (Student) userService.mapUserBasicDTOToModel(paymentDTO.getStudent());
         Course course = student.getCourse();
 
-        if(course.getCurrentPayment()==COURSE_PRICE){
+        if (course.getCurrentPayment() == COURSE_PRICE) {
             throw new IllegalStateException("Cannot ADD Payment, because you can't pay more than the course price = " + COURSE_PRICE);
         }
         Payment payment = mapDTOToModel(paymentDTO, Payment.builder().build());
@@ -70,6 +70,14 @@ public class PaymentService {
         }
     }
 
+    public List<PaymentDTO> getPaymentsByStudent(Long studentId) {
+        log.info("Getting all Payments of Student with given id  = " + studentId);
+
+        List<Payment> listOfStudentPayments = paymentRepository.findAllByStudentIdOrderByDateDesc(studentId);
+        return listOfStudentPayments.stream()
+                .map(payment -> mapModelToDTO(payment, PaymentDTO.builder().build())).collect(Collectors.toList());
+    }
+
     public List<PaymentDTO> getAll() {
         log.info("Getting all Payments");
         return findAll().stream().map(payment -> mapModelToDTO(payment, PaymentDTO.builder().build())).collect(Collectors.toList());
@@ -80,7 +88,7 @@ public class PaymentService {
         return paymentRepository.findAll();
     }
 
-    public Set<Payment> findAllById(Set<Long> paymentsToAdd) {
+    public List<Payment> findAllById(Set<Long> paymentsToAdd) {
         return paymentRepository.findAllById(paymentsToAdd);
     }
 

@@ -33,7 +33,7 @@ public class UserMapper {
         model.setPassword(passwordEncoder.encode(dto.getPassword()));
         model.setPhoneNumber(dto.getPhoneNumber());
         try {
-            model.setUserRole(UserRole.valueOf(dto.getUserRole()));
+            model.setUserRole(UserRole.valueOf(dto.getUserRole().toUpperCase()));
         } catch (IllegalArgumentException | NullPointerException e) {
             e.printStackTrace();
             model.setUserRole(UserRole.DEFAULT);

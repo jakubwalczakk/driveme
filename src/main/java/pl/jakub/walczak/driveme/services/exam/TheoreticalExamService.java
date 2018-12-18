@@ -57,6 +57,14 @@ public class TheoreticalExamService {
         }
     }
 
+    public List<TheoreticalExamDTO> getTheoreticalExamsOfStudent(Long studentId) {
+        log.info("Getting all TheoreticalExams of Student with given id = " + studentId);
+        List<TheoreticalExam> listOfTheoreticalExams =
+                theoreticalExamRepository.findAllByStudentIdOrderByPassedDescDateOfExamDesc(studentId);
+        return listOfTheoreticalExams.stream()
+                .map(exam -> mapModelToDTO(exam, TheoreticalExamDTO.builder().build())).collect(Collectors.toList());
+    }
+
     public List<TheoreticalExamDTO> getAll() {
         log.info("Getting all TheoreticalExams");
         return findAll().stream().map(exam -> mapModelToDTO(exam, TheoreticalExamDTO.builder().build())).collect(Collectors.toList());
@@ -67,7 +75,7 @@ public class TheoreticalExamService {
         return theoreticalExamRepository.findAll();
     }
 
-    public Set<TheoreticalExam> findAllById(Set<Long> theoreticalExamsToAdd) {
+    public List<TheoreticalExam> findAllById(Set<Long> theoreticalExamsToAdd) {
         return theoreticalExamRepository.findAllById(theoreticalExamsToAdd);
     }
 

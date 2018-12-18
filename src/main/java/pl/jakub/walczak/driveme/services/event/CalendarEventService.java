@@ -4,13 +4,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.event.CalendarEventDTO;
+import pl.jakub.walczak.driveme.dto.event.CalendarEventsInfoDTO;
 import pl.jakub.walczak.driveme.mappers.event.CalendarEventMapper;
+import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.event.CalendarEvent;
+import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.repos.event.CalendarEventRepository;
+import pl.jakub.walczak.driveme.services.car.CarService;
+import pl.jakub.walczak.driveme.services.user.InstructorService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -19,11 +25,16 @@ public class CalendarEventService {
 
     private CalendarEventRepository calendarEventRepository;
     private CalendarEventMapper calendarEventMapper;
+    private InstructorService instructorService;
+    private CarService carService;
 
     @Autowired
-    public CalendarEventService(CalendarEventRepository calendarEventRepository, CalendarEventMapper calendarEventMapper) {
+    public CalendarEventService(CalendarEventRepository calendarEventRepository, CalendarEventMapper calendarEventMapper,
+                                InstructorService instructorService, CarService carService) {
         this.calendarEventRepository = calendarEventRepository;
         this.calendarEventMapper = calendarEventMapper;
+        this.instructorService = instructorService;
+        this.carService = carService;
     }
 
     // -- methods for controller --
@@ -50,6 +61,32 @@ public class CalendarEventService {
             return mapModelToDTO(optionalCalendarEvent.get(), CalendarEventDTO.builder().build());
         } else {
             throw new NoSuchElementException("Cannot GET CalendarEvent with given id = " + id);
+        }
+    }
+
+    public List<CalendarEventDTO> getSpecifiedCalendarEvents(CalendarEventsInfoDTO request) {
+        log.info("Getting all CalendarEvents by Instructor where Instructor email = " + request.getInstructorInfo() +
+                " and Cars where Car brand = " + request.getCarBrand());
+        String instructorEmail = request.getInstructorInfo().split(" - ")[1];
+        log.info("Split instructor info, email is = " + instructorEmail);
+        Optional<Instructor> optionalInstructor = instructorService.findByEmail(instructorEmail);
+//        Optional<Car> optionalCar = carService.findByLicensePlate(request.getCarLicensePlate());
+
+        Set<Car> cars = carService.findAllCarsByBrand(request.getCarBrand());
+        if (optionalInstructor.isPresent() && cars.size() != 0) {
+            Long instructorId = optionalInstructor.get().getId();
+
+            Set<Long> carsIds = cars.stream().map(car -> car.getId()).collect(Collectors.toSet());
+
+            List<CalendarEvent> calendarEvents =
+                    calendarEventRepository.findAllByInstructorIdAndCarIdIn(instructorId, carsIds);
+
+            return calendarEvents.stream().map(event -> mapModelToDTO(event, CalendarEventDTO.builder().build())).collect(Collectors.toList());
+
+        } else {
+            log.warn("Cannot find Instructor with email = " + request.getInstructorInfo() +
+                    " or cannnot find Cars with brand = " + request.getCarBrand());
+            throw new NoSuchElementException();
         }
     }
 

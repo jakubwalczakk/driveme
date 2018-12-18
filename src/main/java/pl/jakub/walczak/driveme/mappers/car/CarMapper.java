@@ -1,6 +1,7 @@
 package pl.jakub.walczak.driveme.mappers.car;
 
 import org.springframework.stereotype.Component;
+import pl.jakub.walczak.driveme.dto.car.CarBasicDTO;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
 import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.enums.GasType;
@@ -24,6 +25,15 @@ public class CarMapper {
             e.printStackTrace();
             dto.setCarPhoto(null);
         }
+        return dto;
+    }
+
+    public CarBasicDTO mapModelToBasicDTO(Car model, CarBasicDTO dto) {
+        dto.setId(model.getId());
+        dto.setBrand(model.getBrand().toString());
+        dto.setModel(model.getModel());
+        dto.setLicensePlate(model.getLicensePlate());
+        dto.setGasType(model.getGasType().toString());
         return dto;
     }
 

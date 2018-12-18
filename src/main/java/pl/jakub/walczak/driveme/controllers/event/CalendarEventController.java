@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.jakub.walczak.driveme.dto.car.CarBasicDTO;
 import pl.jakub.walczak.driveme.dto.event.CalendarEventDTO;
+import pl.jakub.walczak.driveme.dto.event.CalendarEventsInfoDTO;
+import pl.jakub.walczak.driveme.dto.user.InstructorDTO;
 import pl.jakub.walczak.driveme.model.event.CalendarEvent;
 import pl.jakub.walczak.driveme.services.event.CalendarEventService;
 
@@ -50,6 +53,16 @@ public class CalendarEventController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping(path="/events")
+    public ResponseEntity<List<CalendarEventDTO>> getCalendarEventsByInstructorAndCar(@RequestBody CalendarEventsInfoDTO request){
+        try{
+            return ResponseEntity.ok(calendarEventService.getSpecifiedCalendarEvents(request));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

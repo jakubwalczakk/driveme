@@ -44,20 +44,31 @@ public class ReservationController {
         }
     }
 
-    @GetMapping(path = "/availability")
-    public ResponseEntity<Set<Reservation>> isTermAvailable(@RequestBody ReservationDTO reservationDTO) {
-        try {
-            return ResponseEntity.ok(reservationService.isTermAvailable(reservationDTO));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
     @GetMapping(path = "/{id}")
     public ResponseEntity<ReservationDTO> getReservation(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(reservationService.getReservation(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    @GetMapping(path = "/instructor/{id}")
+    public ResponseEntity<List<ReservationDTO>> getReservationsByInstructor(@PathVariable("id") Long instructorId) {
+        try {
+            return ResponseEntity.ok(reservationService.getReservationsByInstructor(instructorId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping(path = "/student/{id}")
+    public ResponseEntity<List<ReservationDTO>> getReservationsByStudent(@PathVariable("id") Long studentId) {
+        try {
+            return ResponseEntity.ok(reservationService.getReservationsByStudent(studentId));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();

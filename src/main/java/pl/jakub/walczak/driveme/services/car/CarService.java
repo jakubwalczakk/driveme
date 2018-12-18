@@ -3,6 +3,7 @@ package pl.jakub.walczak.driveme.services.car;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.jakub.walczak.driveme.dto.car.CarBasicDTO;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
 import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.mappers.car.CarMapper;
@@ -75,9 +76,9 @@ public class CarService {
             return carRepository.findAllCarByBrand(carBrand).stream()
                     .map(car -> mapModelToDTO(car, CarDTO.builder().build()))
                     .collect(Collectors.toList());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        } catch (IllegalArgumentException | NullPointerException e) {
+            log.warn("Cannot find a car brand from given string = " + brand);
+            throw new IllegalArgumentException();
         }
     }
 
@@ -92,8 +93,22 @@ public class CarService {
         return carRepository.findById(id);
     }
 
+    public Optional<Car> findByLicensePlate(String carLicensePlate) {
+        return carRepository.findByLicensePlate(carLicensePlate);
+    }
+
     private Set<Car> findActiveCars() {
         return carRepository.findAllByActive(true);
+    }
+
+    public Set<Car> findAllCarsByBrand(String brand) {
+        try {
+            CarBrand carBrand = CarBrand.valueOf(brand.toUpperCase());
+            return carRepository.findAllCarByBrand(carBrand);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            log.warn("Cannot find a car brand from given string = " + brand);
+            throw new NoSuchElementException("Cannot find cars with brand = " + brand);
+        }
     }
 
     public List<Car> findAll() {
@@ -103,6 +118,10 @@ public class CarService {
     // -- mapper methods --
     public CarDTO mapModelToDTO(Car model, CarDTO dto) {
         return carMapper.mapModelToDTO(model, dto);
+    }
+
+    public CarBasicDTO mapModelToBasicDTO(Car model, CarBasicDTO dto) {
+        return carMapper.mapModelToBasicDTO(model, dto);
     }
 
     public Car mapDTOToModel(CarDTO dto, Car model) {

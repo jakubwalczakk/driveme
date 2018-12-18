@@ -7,10 +7,12 @@ import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Set;
 
 @Repository
 @Transactional
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    Set<Reservation> findAllByCarAndInstructor(Car car, Instructor instructor);
+    List<Reservation> findAllByInstructorIdOrderByFinishDateDesc(Long instructorId);
+    List<Reservation> findAllByStudentIdOrderByFinishDateDesc(Long studentId);
 }

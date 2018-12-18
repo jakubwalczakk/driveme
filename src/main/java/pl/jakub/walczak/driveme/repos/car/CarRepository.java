@@ -8,6 +8,7 @@ import pl.jakub.walczak.driveme.model.car.Car;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Repository
@@ -17,4 +18,6 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     Set<Car> findAllCarByBrand(CarBrand brand);
     @Query("SELECT DISTINCT brand FROM cars")
     Set<CarBrand> findAllCarBrands();
+
+    Optional<Car> findByLicensePlate(String licensePlate);
 }

@@ -48,17 +48,17 @@ public class CourseMapper {
         dto.setPracticalExam(practicalExamService.mapModelToDTO(model.getPracticalExam(), PracticalExamDTO.builder().build()));
         dto.setTheoreticalExams(model.getTheoreticalExams().stream()
                 .map(exam -> theoreticalExamService.mapModelToDTO(exam, TheoreticalExamDTO.builder().build()))
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toList()));
         dto.setPayments(model.getPayments().stream()
                 .map(payment -> paymentService.mapModelToDTO(payment, PaymentDTO.builder().build()))
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toList()));
         dto.setCurrentPayment(model.getCurrentPayment());
         dto.setDrivings(model.getDrivings().stream()
                 .map(driving -> drivingService.mapModelToDTO(driving, DrivingDTO.builder().build()))
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toList()));
         dto.setReservations(model.getReservations().stream()
                 .map(reservation -> reservationService.mapModelToDTO(reservation, ReservationDTO.builder().build()))
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toList()));
         dto.setStatus(model.getStatus().toString());
         return dto;
     }

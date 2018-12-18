@@ -33,7 +33,17 @@ public class StudentController {
         }
     }
 
-    @PutMapping(path ="/activate/{id}")
+    @PutMapping
+    public ResponseEntity<Student> updateStudent(@RequestBody StudentDTO studentDTO) {
+        try {
+            return ResponseEntity.ok(studentService.updateStudent(studentDTO));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping(path = "/activate/{id}")
     public ResponseEntity<Student> activateStudent(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(studentService.activateStudent(id));
@@ -67,7 +77,7 @@ public class StudentController {
     @GetMapping
     public ResponseEntity<List<StudentDTO>> getAll() {
         try {
-            return ResponseEntity.ok(studentService.getAll());
+            return ResponseEntity.ok(studentService.getAllOrderByRegistrationDate());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

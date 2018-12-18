@@ -2,6 +2,7 @@ package pl.jakub.walczak.driveme.mappers.exam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.jakub.walczak.driveme.dto.car.CarBasicDTO;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
 import pl.jakub.walczak.driveme.dto.exam.PracticalExamDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
@@ -12,6 +13,7 @@ import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.services.car.CarService;
 import pl.jakub.walczak.driveme.services.user.UserService;
+import pl.jakub.walczak.driveme.utils.DateFormatter;
 
 import java.util.Optional;
 
@@ -32,11 +34,11 @@ public class PracticalExamMapper {
     public PracticalExamDTO mapModelToDTO(PracticalExam model, PracticalExamDTO dto) {
 
         dto.setId(model.getId());
-        dto.setDateOfExam(model.getDateOfExam());
+        dto.setDateOfExam(DateFormatter.formatDateToString(model.getDateOfExam()));
         dto.setActive(model.getActive());
         dto.setPassed(model.getPassed());
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
-        dto.setCar(carService.mapModelToDTO(model.getCar(), CarDTO.builder().build()));
+        dto.setCar(carService.mapModelToBasicDTO(model.getCar(), CarBasicDTO.builder().build()));
         dto.setInstructor(userService.mapUserBasicModelToDTO(model.getInstructor(), UserBasicDTO.builder().build()));
         dto.setDurationTime(model.getDurationTime());
         return dto;
@@ -45,11 +47,11 @@ public class PracticalExamMapper {
     public PracticalExam mapDTOToModel(PracticalExamDTO dto, PracticalExam model) {
 
         model.setId(dto.getId());
-        model.setDateOfExam(dto.getDateOfExam());
+        model.setDateOfExam(DateFormatter.parseStringToInstant(dto.getDateOfExam()));
         model.setActive(dto.getActive());
         model.setPassed(dto.getPassed());
 
-        CarDTO carDTO = dto.getCar();
+        CarBasicDTO carDTO = dto.getCar();
         if (carDTO != null) {
             Optional<Car> carOptional = carService.findById(carDTO.getId());
             if (carOptional.isPresent()) {

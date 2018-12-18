@@ -1,7 +1,6 @@
 package pl.jakub.walczak.driveme.services.exam;
 
 import lombok.extern.slf4j.Slf4j;
-import org.omg.CORBA.PERSIST_STORE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.exam.PracticalExamDTO;
@@ -57,13 +56,23 @@ public class PracticalExamService {
         }
     }
 
+    public PracticalExamDTO getPracticalExamOfStudent(Long studentId) {
+        log.info("Getting the PracticalExam of Student with id = " + studentId);
+        Optional<PracticalExam> optionalPracticalExam = practicalExamRepository.findByStudentId(studentId);
+        if (optionalPracticalExam.isPresent()) {
+            return mapModelToDTO(optionalPracticalExam.get(), PracticalExamDTO.builder().build());
+        } else {
+            throw new NoSuchElementException("Cannot GET PracticalExam of Student with given id = " + studentId);
+        }
+    }
+
     public List<PracticalExamDTO> getAll() {
         log.info("Getting all PracticalExams");
         return findAll().stream().map(exam -> mapModelToDTO(exam, PracticalExamDTO.builder().build())).collect(Collectors.toList());
     }
 
     // -- dao methods --
-    public Optional<PracticalExam> findById(Long id){
+    public Optional<PracticalExam> findById(Long id) {
         return practicalExamRepository.findById(id);
     }
 
@@ -73,7 +82,7 @@ public class PracticalExamService {
 
     // -- mapper methods --
     public PracticalExamDTO mapModelToDTO(PracticalExam model, PracticalExamDTO dto) {
-        return practicalExamMapper.mapModelToDTO(model, dto);
+        return model == null ? null : practicalExamMapper.mapModelToDTO(model, dto);
     }
 
     public PracticalExam mapDTOToModel(PracticalExamDTO dto, PracticalExam model) {

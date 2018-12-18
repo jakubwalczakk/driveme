@@ -8,10 +8,13 @@ import pl.jakub.walczak.driveme.dto.user.StudentRegistrationDTO;
 import pl.jakub.walczak.driveme.dto.user.UserRegistrationDTO;
 import pl.jakub.walczak.driveme.enums.UserRole;
 import pl.jakub.walczak.driveme.model.address.Address;
+import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.services.address.AddressService;
+
+import java.time.Instant;
 
 @Component
 public class RegistrationMapper {
@@ -62,6 +65,8 @@ public class RegistrationMapper {
                 .pesel(dto.getPesel())
                 .address(addressService.mapDTOToModel(dto.getAddress(), Address.builder().build()))
                 .userRole(UserRole.STUDENT)
+                .registrationDate(Instant.now())
+                .active(false)
                 .build();
 
         return model;

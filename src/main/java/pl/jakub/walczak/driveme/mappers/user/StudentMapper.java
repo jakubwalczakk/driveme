@@ -32,11 +32,14 @@ public class StudentMapper {
         this.courseService = courseService;
     }
 
+    // -- mappers methods --
     public StudentDTO mapModelToDTO(Student model, StudentDTO dto) {
+        log.info("Mapping Student model to StudentDTO");
         dto.setId(model.getId());
         dto.setName(model.getName());
         dto.setSurname(model.getSurname());
         dto.setEmail(model.getEmail());
+        dto.setPassword(model.getPassword());
         dto.setPhoneNumber(model.getPhoneNumber());
         dto.setUserRole(model.getUserRole().toString());
         dto.setActive(model.getActive());
@@ -48,26 +51,33 @@ public class StudentMapper {
     }
 
     public Student mapDTOToModel(StudentDTO dto, Student model) {
-        model.setId(dto.getId());
-        model.setName(dto.getName());
-        model.setSurname(dto.getSurname());
-        model.setEmail(dto.getEmail());
-        model.setPhoneNumber(dto.getPhoneNumber());
+        log.info("Mapping StudentDTO to Student model");
+        model.setId(dto.getId() == null ? model.getId() : dto.getId());
+        model.setName(dto.getName() == null ? model.getName() : dto.getName());
+        model.setSurname(dto.getSurname() == null ? model.getSurname() : dto.getSurname());
+        model.setEmail(dto.getEmail() == null ? model.getEmail() : dto.getEmail());
+        model.setPassword(dto.getPassword() == null ? model.getPassword() : dto.getPassword());
+        model.setPhoneNumber(dto.getPhoneNumber() == null ? model.getPhoneNumber() : dto.getPhoneNumber());
         try {
-            model.setUserRole(UserRole.valueOf(dto.getUserRole()));
-        } catch (IllegalArgumentException | NullPointerException e) {
+            model.setUserRole(dto.getUserRole() == null ? model.getUserRole() :
+                    UserRole.valueOf(dto.getUserRole().toUpperCase()));
+        } catch (NullPointerException | IllegalArgumentException e) {
             e.printStackTrace();
             model.setUserRole(UserRole.DEFAULT);
         }
-        model.setActive(dto.getActive());
-        model.setPesel(dto.getPesel());
-        model.setRegistrationDate(dto.getRegistrationDate());
+        model.setActive(dto.getActive() == null ? model.getActive() : dto.getActive());
+        model.setPesel(dto.getPesel() == null ? model.getPesel() : dto.getPesel());
+        model.setRegistrationDate(dto.getRegistrationDate() == null ? model.getRegistrationDate() : dto.getRegistrationDate());
 
         AddressDTO addressDTO = dto.getAddress();
         if (addressDTO != null) {
-            Optional<Address> optionalAddress = addressService.findById(addressDTO.getId());
+            Optional<Address> optionalAddress = addressService.findByCityAndZipCodeAndStreetAndHouseNo(addressDTO.getCity(),
+                    addressDTO.getZipCode(), addressDTO.getStreet(), addressDTO.getHouseNo());
             if (optionalAddress.isPresent()) {
                 model.setAddress(optionalAddress.get());
+            } else {
+                Address address = addressService.addAddress(addressDTO);
+                model.setAddress(address);
             }
         }
 
@@ -78,7 +88,6 @@ public class StudentMapper {
                 model.setCourse(optionalCourse.get());
             }
         }
-
         return model;
     }
 }

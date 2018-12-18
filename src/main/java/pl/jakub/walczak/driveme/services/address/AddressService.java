@@ -66,13 +66,18 @@ public class AddressService {
         return addressRepository.findById(id);
     }
 
+    public Optional<Address> findByCityAndZipCodeAndStreetAndHouseNo(String city, String zipCode,
+                                                                     String street, String houseNo) {
+        return addressRepository.findByCityAndZipCodeAndStreetAndHouseNo(city, zipCode, street, houseNo);
+    }
+
     public List<Address> findAll() {
         return addressRepository.findAll();
     }
 
     // -- mapper methods --
     public AddressDTO mapModelToDTO(Address model, AddressDTO dto) {
-        return addressMapper.mapModelToDTO(model, dto);
+        return model == null ? null : addressMapper.mapModelToDTO(model, dto);
     }
 
     public Address mapDTOToModel(AddressDTO dto, Address model) {
