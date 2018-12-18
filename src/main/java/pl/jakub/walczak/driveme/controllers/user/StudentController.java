@@ -33,7 +33,17 @@ public class StudentController {
         }
     }
 
-    @PutMapping(path ="/activate/{id}")
+    @PutMapping
+    public ResponseEntity<Student> updateStudent(@RequestBody StudentDTO studentDTO) {
+        try {
+            return ResponseEntity.ok(studentService.updateStudent(studentDTO));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping(path = "/activate/{id}")
     public ResponseEntity<Student> activateStudent(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(studentService.activateStudent(id));

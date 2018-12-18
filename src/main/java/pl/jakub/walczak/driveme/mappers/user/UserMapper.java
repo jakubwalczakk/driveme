@@ -13,6 +13,7 @@ public class UserMapper {
         dto.setName(model.getName());
         dto.setSurname(model.getSurname());
         dto.setEmail(model.getEmail());
+        dto.setPassword(model.getPassword());
         dto.setPhoneNumber(model.getPhoneNumber());
         dto.setUserRole(model.getUserRole().toString());
         dto.setActive(model.getActive());

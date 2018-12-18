@@ -52,6 +52,17 @@ public class StudentService {
         }
     }
 
+    public Student updateStudent(StudentDTO studentDTO) {
+        Optional<Student> optionalStudent = studentRepository.findById(studentDTO.getId());
+        if (optionalStudent.isPresent()) {
+            Student student = optionalStudent.get();
+            return mapDTOToModel(studentDTO, student);
+        } else {
+            log.warn("Cannot find student with given id = " + studentDTO.getId());
+            throw new NoSuchElementException("Cannot find student with given id = " + studentDTO.getId());
+        }
+    }
+
     public void deleteStudent(Long id) {
         log.info("Deleting the Student with id = " + id);
         Optional<Student> studentToDelete = studentRepository.findById(id);

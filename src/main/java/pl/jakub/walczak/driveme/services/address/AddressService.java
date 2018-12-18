@@ -66,6 +66,11 @@ public class AddressService {
         return addressRepository.findById(id);
     }
 
+    public Optional<Address> findByCityAndZipCodeAndStreetAndHouseNo(String city, String zipCode,
+                                                                     String street, String houseNo) {
+        return addressRepository.findByCityAndZipCodeAndStreetAndHouseNo(city, zipCode, street, houseNo);
+    }
+
     public List<Address> findAll() {
         return addressRepository.findAll();
     }
