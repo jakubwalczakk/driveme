@@ -2,6 +2,7 @@ package pl.jakub.walczak.driveme.services.login;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.user.RegistrationDTO;
 import pl.jakub.walczak.driveme.mappers.user.RegistrationMapper;
@@ -9,6 +10,7 @@ import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.user.UserRepository;
 import pl.jakub.walczak.driveme.services.mail.MailerService;
 import pl.jakub.walczak.driveme.services.user.UserService;
+import pl.jakub.walczak.driveme.utils.PasswordGenerator;
 import pl.jakub.walczak.driveme.utils.Validator;
 
 @Service
@@ -19,14 +21,18 @@ public class RegisterService {
     private UserRepository userRepository;
     private RegistrationMapper registrationMapper;
     private MailerService mailerService;
+    private PasswordGenerator passwordGenerator;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public RegisterService(UserService userService, UserRepository userRepository, RegistrationMapper registrationMapper,
-                           MailerService mailerService) {
+                           MailerService mailerService, PasswordGenerator passwordGenerator, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.registrationMapper = registrationMapper;
         this.mailerService = mailerService;
+        this.passwordGenerator = passwordGenerator;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public boolean createUser(RegistrationDTO userRegistrationDTO) {
@@ -38,9 +44,11 @@ public class RegisterService {
         if (Validator.userRegistrationValidation(userRegistrationDTO)) {
             log.info("Validation of user registration DTO passed.");
             User user = registrationMapper.mapRegistrationDTOToUser(userRegistrationDTO);
+            String generatedPassword = passwordGenerator.generatePassword();
+            user.setPassword(passwordEncoder.encode(generatedPassword));
             userRepository.save(user);
             try {
-                mailerService.sendEmail(user.getEmail(), user);
+                mailerService.sendEmail(generatedPassword, user);
             } catch (Exception e) {
                 e.printStackTrace();
             }

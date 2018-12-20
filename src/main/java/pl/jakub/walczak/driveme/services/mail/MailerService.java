@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.model.user.User;
 
@@ -20,17 +19,25 @@ public class MailerService {
 
     @Autowired
     private JavaMailSender mailSender;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
-    public void sendEmail(String emailAddress, User user) throws MessagingException {
+    public void sendEmail(String password, User user) throws MessagingException {
         Date date = Calendar.getInstance().getTime();
         MimeMessage message = this.mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
-        helper.setTo(emailAddress);
-        helper.setSubject("Twoje konto w serwisie DriveMe zostało utworzone.");
-        helper.setText("Możesz teraz się zalogować w serwisie z wykorzystaniem takiego hasła: " +
-                user.getPassword());
+        helper.setTo(user.getEmail());
+        helper.setSubject("Konto w system DriveMe");
+        StringBuilder text = new StringBuilder("Witaj ");
+        text.append(user.getName());
+        text.append("!\n");
+        text.append("Twoje konto w serwisie DriveMe zostało utworzone.\n");
+        text.append("Możesz teraz zalogować się w serwisie DriveMe za pomocą poniższych danych do logowania.\n");
+        text.append("Login: ");
+        text.append(user.getEmail());
+        text.append('\n');
+        text.append("Hasło: ");
+        text.append(password);
+        text.append("\n");
+        helper.setText(text.toString());
         helper.setFrom("driveme.sys@gmail.com");
         helper.setSentDate(date);
         mailSender.send(message);
@@ -51,7 +58,6 @@ public class MailerService {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.debug", "true");
         props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-
 
 
         return mailSender;

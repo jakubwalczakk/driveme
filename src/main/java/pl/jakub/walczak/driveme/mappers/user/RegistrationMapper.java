@@ -34,7 +34,6 @@ public class RegistrationMapper {
     public User mapRegistrationDTOToUser(RegistrationDTO dto) {
         try {
             User user;
-            String uuidPassword = UUID.randomUUID().toString();
             UserRole userRole = UserRole.of(dto.getUserRole());
             if (userRole.getValue().equals(UserRole.ADMIN.getValue())) {
                 log.info("REJESTRACJA NOWEGO ADMINA");
@@ -42,13 +41,10 @@ public class RegistrationMapper {
                         .name(dto.getName())
                         .surname(dto.getSurname())
                         .email(dto.getEmail())
-                        .password(passwordEncoder.encode(uuidPassword))
                         .phoneNumber(dto.getPhoneNumber())
                         .userRole(userRole)
                         .active(true)
                         .build();
-                log.info("WYSYŁAM MEJLA NA ADRES = " + dto.getEmail() + " hasło = " + uuidPassword);
-
 
             } else if (userRole.getValue().equals(UserRole.INSTRUCTOR.getValue())) {
                 log.info("REJESTRACJA NOWEGO INSTRUKTORA");
@@ -56,13 +52,11 @@ public class RegistrationMapper {
                         .name(dto.getName())
                         .surname(dto.getSurname())
                         .email(dto.getEmail())
-                        .password(passwordEncoder.encode(uuidPassword))
                         .phoneNumber(dto.getPhoneNumber())
                         .userRole(userRole)
                         .workingHours(dto.getWorkingHours())
                         .active(true)
                         .build();
-                log.info("WYSYŁAM MEJLA NA ADRES = " + dto.getEmail() + " hasło = " + uuidPassword);
 
             } else {
                 log.info("REJESTRACJA NOWEGO STUDENTA");
@@ -70,14 +64,12 @@ public class RegistrationMapper {
                         .name(dto.getName())
                         .surname(dto.getSurname())
                         .email(dto.getEmail())
-                        .password(passwordEncoder.encode(uuidPassword))
                         .phoneNumber(dto.getPhoneNumber())
                         .userRole(userRole)
                         .address(addressService.addAddress(dto.getAddress()))
                         .course(new Course())
                         .active(true)
                         .build();
-                log.info("WYSYŁAM MEJLA NA ADRES = " + dto.getEmail() + " hasło = " + uuidPassword);
             }
             return user;
         } catch (IllegalArgumentException e) {

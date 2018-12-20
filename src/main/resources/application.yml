@@ -24,3 +24,5 @@ mail:
           enable: true
           required: true
         auth: true
+password:
+  length: 12
