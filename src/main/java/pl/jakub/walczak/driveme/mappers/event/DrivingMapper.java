@@ -76,8 +76,8 @@ public class DrivingMapper {
         model.setTitle(dto.getTitle());
         model.setComment(dto.getComment());
         try {
-            model.setRating(Rating.valueOf(dto.getRating().toUpperCase()));
-        } catch (IllegalArgumentException | NullPointerException e) {
+            model.setRating(Rating.of(dto.getRating()));
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
             model.setRating(Rating.DEFAULT);
         }

@@ -40,8 +40,8 @@ public class InstructorMapper {
         model.setPhoneNumber(dto.getPhoneNumber());
 
         try {
-            model.setUserRole(UserRole.valueOf(dto.getUserRole().toUpperCase()));
-        } catch (IllegalArgumentException | NullPointerException e) {
+            model.setUserRole(UserRole.of(dto.getUserRole()));
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
             model.setUserRole(UserRole.DEFAULT);
         }

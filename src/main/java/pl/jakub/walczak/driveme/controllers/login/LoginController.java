@@ -8,11 +8,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.dto.login.UserCredentialsDTO;
-import pl.jakub.walczak.driveme.dto.user.UserRegistrationDTO;
-import pl.jakub.walczak.driveme.model.user.User;
+import pl.jakub.walczak.driveme.dto.user.RegistrationDTO;
 import pl.jakub.walczak.driveme.security.ApiResponse;
 import pl.jakub.walczak.driveme.security.JwtAuthenticationDTO;
 import pl.jakub.walczak.driveme.security.JwtTokenProvider;
+import pl.jakub.walczak.driveme.services.login.RegisterService;
 import pl.jakub.walczak.driveme.services.user.UserService;
 
 import static pl.jakub.walczak.driveme.security.JwtConstants.BEARER;
@@ -22,14 +22,22 @@ import static pl.jakub.walczak.driveme.security.JwtConstants.BEARER;
 @RequestMapping("/auth")
 public class LoginController {
 
-    @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
     private UserService userService;
+
+    private RegisterService registerService;
+
+    @Autowired
+    public LoginController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider,
+                           UserService userService, RegisterService registerService) {
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.userService = userService;
+        this.registerService = registerService;
+    }
 
     @PostMapping("/signin")
     public ResponseEntity login(@RequestBody UserCredentialsDTO loginRequest) {
@@ -51,17 +59,17 @@ public class LoginController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse> register(@RequestBody UserRegistrationDTO registrationRequest) {
+    public ResponseEntity<ApiResponse> register(@RequestBody RegistrationDTO registrationDTO) {
         try {
-            if (userService.existsByEmail(registrationRequest.getEmail())) {
-
-                return ResponseEntity.badRequest().body(ApiResponse.builder().success(false).message("Username is already taken!").build());
+            if (registerService.createUser(registrationDTO)) {
+                return ResponseEntity.ok(ApiResponse.builder()
+                        .success(true).message("Użytkownik zarejestrowany poprawnie.").build());
             }
-            User user = userService.createUser(registrationRequest);
-
-            return ResponseEntity.ok(ApiResponse.builder().success(true).message("User registered successfully: " + user).build());
+            return ResponseEntity.badRequest().body(ApiResponse.builder()
+                    .success(false).message("Ten adres e-mail jest już używany!").build());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(ApiResponse.builder().success(false).message(e.getMessage()).build());
+            return ResponseEntity.badRequest().body(ApiResponse.builder()
+                    .success(false).message(e.getMessage()).build());
         }
     }
 }

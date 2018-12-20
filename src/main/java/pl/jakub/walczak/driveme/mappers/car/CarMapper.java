@@ -40,16 +40,16 @@ public class CarMapper {
     public Car mapDTOToModel(CarDTO dto, Car model) {
         model.setId(dto.getId());
         try {
-            model.setBrand(CarBrand.valueOf(dto.getBrand().toUpperCase()));
-        } catch (IllegalArgumentException | NullPointerException e) {
+            model.setBrand(CarBrand.of(dto.getBrand()));
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
             model.setBrand(CarBrand.DEFAULT);
         }
         model.setModel(dto.getModel());
         model.setLicensePlate(dto.getLicensePlate());
         try {
-            model.setGasType(GasType.valueOf(dto.getGasType().toUpperCase()));
-        } catch (IllegalArgumentException | NullPointerException e) {
+            model.setGasType(GasType.of(dto.getGasType()));
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
             model.setGasType(GasType.DEFAULT);
         }

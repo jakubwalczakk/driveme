@@ -60,8 +60,8 @@ public class StudentMapper {
         model.setPhoneNumber(dto.getPhoneNumber() == null ? model.getPhoneNumber() : dto.getPhoneNumber());
         try {
             model.setUserRole(dto.getUserRole() == null ? model.getUserRole() :
-                    UserRole.valueOf(dto.getUserRole().toUpperCase()));
-        } catch (NullPointerException | IllegalArgumentException e) {
+                    UserRole.of(dto.getUserRole()));
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
             model.setUserRole(UserRole.DEFAULT);
         }

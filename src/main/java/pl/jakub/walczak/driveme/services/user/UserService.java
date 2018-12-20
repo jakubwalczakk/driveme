@@ -37,16 +37,18 @@ public class UserService {
     }
 
     // -- methods for controller --
+    //FIXME
     public User createUser(UserRegistrationDTO userRegistrationDTO) {
         log.info("Creating new User...");
-        if (Validator.userRegistrationValidation(userRegistrationDTO)) {
-            log.info("Validation of user registration DTO passed.");
-            User user = registrationMapper.mapRegistrationDTOToUser(userRegistrationDTO);
-            return userRepository.save(user);
-        } else {
-            log.warn("User registration DTO were incorrect!");
-            throw new IllegalArgumentException("Cannot create a new user with given data");
-        }
+//        if (Validator.userRegistrationValidation(userRegistrationDTO)) {
+//            log.info("Validation of user registration DTO passed.");
+//            User user = registrationMapper.mapRegistrationDTOToUser(userRegistrationDTO);
+//            return userRepository.save(user);
+//        } else {
+//            log.warn("User registration DTO were incorrect!");
+//            throw new IllegalArgumentException("Cannot create a new user with given data");
+//        }
+        return null;
     }
 
     public void deleteUser(Long id) {

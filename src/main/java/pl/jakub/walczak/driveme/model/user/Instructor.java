@@ -15,10 +15,10 @@ import javax.persistence.*;
 public class Instructor extends User {
 
     private Integer workingHours;
-    private Integer availableHours;
-    private Integer takenHours;
+    private Integer availableHours = 0;
+    private Integer takenHours = 0;
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    @Column(columnDefinition="mediumblob")
+    @Column(columnDefinition = "mediumblob")
     private byte[] instructorPhoto;
 }

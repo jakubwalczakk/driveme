@@ -1,11 +1,14 @@
 package pl.jakub.walczak.driveme.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import pl.jakub.walczak.driveme.dto.address.AddressDTO;
-import pl.jakub.walczak.driveme.dto.user.UserRegistrationDTO;
+import pl.jakub.walczak.driveme.dto.user.RegistrationDTO;
+import pl.jakub.walczak.driveme.enums.UserRole;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class Validator {
 
     private static final Pattern VALID_NAME_REGEX =
@@ -25,13 +28,21 @@ public class Validator {
     private static final Pattern PHONE_NUMBER_REGEX =
             Pattern.compile("^\\d{3}-\\d{3}-\\d{3}$||^\\d{3} \\d{3} \\d{3}$||^\\d{9}$");
 
-    public static boolean userRegistrationValidation(UserRegistrationDTO userRegistrationDTO) {
-        if (nameValidation(userRegistrationDTO.getName()) &&
-                nameValidation(userRegistrationDTO.getSurname()) &&
-                emailValidation(userRegistrationDTO.getEmail()) &&
-                passwordValidation(userRegistrationDTO.getPassword()) &&
-                phoneNumberValidation(userRegistrationDTO.getPhoneNumber())) {
-            return true;
+    public static boolean userRegistrationValidation(RegistrationDTO registrationDTO) {
+        if (nameValidation(registrationDTO.getName()) &&
+                nameValidation(registrationDTO.getSurname()) &&
+                emailValidation(registrationDTO.getEmail()) &&
+                phoneNumberValidation(registrationDTO.getPhoneNumber())) {
+            try {
+                UserRole userRole = UserRole.of(registrationDTO.getUserRole());
+                if(userRole.getValue().equals(UserRole.STUDENT.getValue())){
+                    log.info("TUTAJ STUDENT, TRZEBA DODAĆ SPRAWDZENIE ADRESU...");
+                }
+                return true;
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
         return false;
     }

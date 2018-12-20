@@ -23,12 +23,12 @@ public class User {
     private String name;
     @Column(name = "surname", nullable = false)
     private String surname;
-    @Column(name = "phone_number", unique = true, nullable = false)
-    private String phoneNumber;
     @Column(name = "email", unique = true, nullable = false)
     private String email;
     @Column(name = "password", nullable = false)
     private String password;
+    @Column(name = "phone_number", unique = true, nullable = false)
+    private String phoneNumber;
     @Enumerated
     @Column(name = "user_role", nullable = false)
     private UserRole userRole;

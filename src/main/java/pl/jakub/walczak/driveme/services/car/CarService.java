@@ -72,11 +72,11 @@ public class CarService {
 
     public List<CarDTO> getCarsByBrand(String brand) {
         try {
-            CarBrand carBrand = CarBrand.valueOf(brand.toUpperCase());
+            CarBrand carBrand = CarBrand.of(brand);
             return carRepository.findAllCarByBrand(carBrand).stream()
                     .map(car -> mapModelToDTO(car, CarDTO.builder().build()))
                     .collect(Collectors.toList());
-        } catch (IllegalArgumentException | NullPointerException e) {
+        } catch (IllegalArgumentException e) {
             log.warn("Cannot find a car brand from given string = " + brand);
             throw new IllegalArgumentException();
         }
@@ -103,9 +103,9 @@ public class CarService {
 
     public Set<Car> findAllCarsByBrand(String brand) {
         try {
-            CarBrand carBrand = CarBrand.valueOf(brand.toUpperCase());
+            CarBrand carBrand = CarBrand.of(brand);
             return carRepository.findAllCarByBrand(carBrand);
-        } catch (IllegalArgumentException | NullPointerException e) {
+        } catch (IllegalArgumentException e) {
             log.warn("Cannot find a car brand from given string = " + brand);
             throw new NoSuchElementException("Cannot find cars with brand = " + brand);
         }

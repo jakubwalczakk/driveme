@@ -95,8 +95,8 @@ public class CourseMapper {
         model.setReservations(reservationService.findAllById(reservationsToAdd));
 
         try {
-            model.setStatus(CourseStatus.valueOf(dto.getStatus().toUpperCase()));
-        } catch (IllegalArgumentException | NullPointerException e) {
+            model.setStatus(CourseStatus.of(dto.getStatus()));
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
             model.setStatus(CourseStatus.DEFAULT);
         }

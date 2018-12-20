@@ -40,7 +40,7 @@ public class DrivingService {
         log.info("Rating a Driving with id = " + rateDrivingDTO.getDrivingId());
         Optional<Driving> optionalDriving = drivingRepository.findById(rateDrivingDTO.getDrivingId());
         try {
-            Rating rating = Rating.valueOf(rateDrivingDTO.getRating().toUpperCase());
+            Rating rating = Rating.of(rateDrivingDTO.getRating());
             if (optionalDriving.isPresent()) {
                 Driving driving = optionalDriving.get();
                 driving.setRating(rating);
