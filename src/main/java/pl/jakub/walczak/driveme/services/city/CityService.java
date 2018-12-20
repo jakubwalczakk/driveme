@@ -48,7 +48,6 @@ public class CityService {
         if (drivingCityToDelete.isPresent()) {
             DrivingCity drivingCity = drivingCityToDelete.get();
             drivingCity.setActive(false);
-            drivingCity.setImage();
             drivingCityRepository.save(drivingCity);
         } else {
             throw new NoSuchElementException("Cannot DELETE DrivingCity with given id = " + id);

@@ -66,6 +66,13 @@ public class PracticalExamService {
         }
     }
 
+    public List<PracticalExamDTO> getPracticalExamsOfInstructor(Long instructorId) {
+        log.info("Getting all PracticalExams of Instructor with id = " + instructorId);
+        List<PracticalExam> practicalExamsOfInstructor = practicalExamRepository.findAllByInstructorId(instructorId);
+        return practicalExamsOfInstructor.stream().map(exam -> mapModelToDTO(exam, PracticalExamDTO.builder().build()))
+                .collect(Collectors.toList());
+    }
+
     public List<PracticalExamDTO> getAll() {
         log.info("Getting all PracticalExams");
         return findAll().stream().map(exam -> mapModelToDTO(exam, PracticalExamDTO.builder().build())).collect(Collectors.toList());

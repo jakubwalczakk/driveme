@@ -62,6 +62,16 @@ public class PracticalExamController {
         }
     }
 
+    @GetMapping(path="/instructor/{id}")
+    public ResponseEntity<List<PracticalExamDTO>> getPracticalExamsOfInstructor(@PathVariable("id") Long instructorId) {
+        try {
+            return ResponseEntity.ok(practicalExamService.getPracticalExamsOfInstructor(instructorId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping
     public ResponseEntity<List<PracticalExamDTO>> getAll() {
         try {

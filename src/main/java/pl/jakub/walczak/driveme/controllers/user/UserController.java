@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.dto.user.UserDTO;
 import pl.jakub.walczak.driveme.dto.user.UserRegistrationDTO;
 import pl.jakub.walczak.driveme.model.user.User;
-import pl.jakub.walczak.driveme.security.annotations.CurrentUser;
 import pl.jakub.walczak.driveme.security.CustomUserDetails;
+import pl.jakub.walczak.driveme.security.annotations.CurrentUser;
 import pl.jakub.walczak.driveme.services.user.UserService;
 
 import java.util.List;
@@ -48,8 +48,15 @@ public class UserController {
 
     @GetMapping("/me")
     public CustomUserDetails getCurrentUser(@CurrentUser CustomUserDetails currentUser) {
-        CustomUserDetails userDetails = new CustomUserDetails(currentUser.getId(), currentUser.getName(), currentUser.getSurname(),
-                currentUser.getUsername(), currentUser.getPassword(), currentUser.getRole(), currentUser.isActive());
+        CustomUserDetails userDetails = CustomUserDetails.builder()
+                .id(currentUser.getId())
+                .name(currentUser.getName())
+                .surname(currentUser.getSurname())
+                .email(currentUser.getUsername())
+                .password(currentUser.getPassword())
+                .role(currentUser.getRole())
+                .active(currentUser.isActive())
+                .build();
         return userDetails;
     }
 

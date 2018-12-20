@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
+@Builder
 public class CustomUserDetails implements UserDetails {
 
     private final Long id;
@@ -16,17 +17,6 @@ public class CustomUserDetails implements UserDetails {
     private final String password;
     private final String role;
     private final Boolean active;
-
-    @Builder
-    public CustomUserDetails(Long id, String name, String surname, String email, String password, String role, Boolean active) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.active = active;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

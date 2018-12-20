@@ -11,7 +11,7 @@ import pl.jakub.walczak.driveme.services.mainpage.MainPageService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/")
+@RequestMapping("/mainpage")
 public class MainPageController {
 
     @Autowired

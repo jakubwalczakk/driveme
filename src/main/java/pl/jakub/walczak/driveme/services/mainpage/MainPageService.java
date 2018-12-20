@@ -22,7 +22,7 @@ public class MainPageService {
 
     public MainPageDTO getMainPage() {
         try {
-            return mainPageMapper.mapModelToDTO(authenticationUtil.getCurrentLoggedUser(), MainPageDTO.builder().build());
+            return mainPageMapper.mapModelToDTO(authenticationUtil.getCurrentLoggedUser());
         } catch (Exception e) {
             throw new NoSuchElementException();
         }
