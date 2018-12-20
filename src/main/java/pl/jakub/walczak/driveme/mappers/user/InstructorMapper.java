@@ -17,7 +17,7 @@ public class InstructorMapper {
         dto.setEmail(model.getEmail());
         dto.setPhoneNumber(model.getPassword());
         dto.setPhoneNumber(model.getPhoneNumber());
-        dto.setUserRole(model.getUserRole().toString());
+        dto.setUserRole(model.getUserRole().getValue());
         dto.setActive(model.getActive());
         dto.setAvailableHours(model.getAvailableHours());
         dto.setTakenHours(model.getTakenHours());

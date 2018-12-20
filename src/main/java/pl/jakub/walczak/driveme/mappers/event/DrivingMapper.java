@@ -44,7 +44,7 @@ public class DrivingMapper {
         dto.setInstructor(userService.mapUserBasicModelToDTO(model.getInstructor(), UserBasicDTO.builder().build()));
         dto.setTitle(model.getTitle());
         dto.setComment(model.getComment());
-        dto.setRating(model.getRating() == null ? null : model.getRating().toString());
+        dto.setRating(model.getRating() == null ? null : model.getRating().getValue());
         return dto;
     }
 

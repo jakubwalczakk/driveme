@@ -41,7 +41,7 @@ public class StudentMapper {
         dto.setEmail(model.getEmail());
         dto.setPassword(model.getPassword());
         dto.setPhoneNumber(model.getPhoneNumber());
-        dto.setUserRole(model.getUserRole().toString());
+        dto.setUserRole(model.getUserRole().getValue());
         dto.setActive(model.getActive());
         dto.setPesel(model.getPesel());
         dto.setRegistrationDate(model.getRegistrationDate());

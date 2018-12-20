@@ -13,7 +13,7 @@ public class UserBasicMapper {
         dto.setSurname(model.getSurname());
         dto.setEmail(model.getEmail());
         dto.setPassword(model.getPassword());
-        dto.setUserRole(model.getUserRole() != null ? model.getUserRole().toString() : null);
+        dto.setUserRole(model.getUserRole() == null ? null : model.getUserRole().getValue());
         return dto;
     }
 }

@@ -14,10 +14,10 @@ public class CarMapper {
 
     public CarDTO mapModelToDTO(Car model, CarDTO dto) {
         dto.setId(model.getId());
-        dto.setBrand(model.getBrand().toString());
+        dto.setBrand(model.getBrand().getValue());
         dto.setModel(model.getModel());
         dto.setLicensePlate(model.getLicensePlate());
-        dto.setGasType(model.getGasType().toString());
+        dto.setGasType(model.getGasType().getValue());
         dto.setActive(model.getActive());
         try {
             dto.setCarPhoto(Base64.getEncoder().encodeToString(model.getCarPhoto()));
@@ -30,10 +30,10 @@ public class CarMapper {
 
     public CarBasicDTO mapModelToBasicDTO(Car model, CarBasicDTO dto) {
         dto.setId(model.getId());
-        dto.setBrand(model.getBrand().toString());
+        dto.setBrand(model.getBrand().getValue());
         dto.setModel(model.getModel());
         dto.setLicensePlate(model.getLicensePlate());
-        dto.setGasType(model.getGasType().toString());
+        dto.setGasType(model.getGasType().getValue());
         return dto;
     }
 

@@ -59,7 +59,7 @@ public class CourseMapper {
         dto.setReservations(model.getReservations().stream()
                 .map(reservation -> reservationService.mapModelToDTO(reservation, ReservationDTO.builder().build()))
                 .collect(Collectors.toList()));
-        dto.setStatus(model.getStatus().toString());
+        dto.setStatus(model.getStatus().getValue());
         return dto;
     }
 

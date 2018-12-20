@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .surname(user.getSurname())
                 .email(user.getEmail())
                 .password(user.getPassword())
-                .role(user.getUserRole() != null ? user.getUserRole().toString() : null)
+                .role(user.getUserRole() == null ? null : user.getUserRole().getValue())
                 .active(user.getActive())
                 .build();
     }
