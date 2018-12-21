@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,6 +11,7 @@ import pl.jakub.walczak.driveme.repos.user.UserRepository;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class AuthenticationUtil {
 
     private UserRepository userRepository;
@@ -21,11 +23,13 @@ public class AuthenticationUtil {
 
     public User getCurrentLoggedUser() {
 
+        log.info("Getting current logged user");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Optional<User> currentLoggedUser = userRepository.findUserByEmail(authentication.getName());
 
         if (currentLoggedUser.isPresent()) {
+            log.info("Current logged user found in database");
             return currentLoggedUser.get();
         }
 

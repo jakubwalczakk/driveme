@@ -51,6 +51,7 @@ public class RegisterService {
                 mailerService.sendEmail(generatedPassword, user);
             } catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
             return true;
         } else {

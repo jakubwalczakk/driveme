@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.controllers.login;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +21,7 @@ import static pl.jakub.walczak.driveme.security.JwtConstants.BEARER;
 @CrossOrigin
 @RestController
 @RequestMapping("/auth")
+@Slf4j
 public class LoginController {
 
     private AuthenticationManager authenticationManager;
@@ -42,6 +44,7 @@ public class LoginController {
     @PostMapping("/signin")
     public ResponseEntity login(@RequestBody UserCredentialsDTO loginRequest) {
         try {
+            log.info("Signing in into application context");
             final Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
@@ -51,6 +54,7 @@ public class LoginController {
                     .accessToken(jwtTokenProvider.generateToken(authentication))
                     .tokenType(BEARER)
                     .build();
+            log.info("JWT token is responding now");
             return ResponseEntity.ok(jwtToken);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(ApiResponse.builder().success(false).message(e.getMessage()).build());

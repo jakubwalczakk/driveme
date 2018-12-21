@@ -9,6 +9,7 @@ import pl.jakub.walczak.driveme.mappers.user.InstructorMapper;
 import pl.jakub.walczak.driveme.mappers.user.RegistrationMapper;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.repos.user.InstructorRepository;
+import pl.jakub.walczak.driveme.security.ApiResponse;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -50,6 +51,21 @@ public class InstructorService {
         }
     }
 
+
+    public ApiResponse updateInstructor(InstructorDTO instructorDTO) {
+        Optional<Instructor> optionalInstructor = instructorRepository.findById(instructorDTO.getId());
+        if (optionalInstructor.isPresent()) {
+            Instructor instructor = optionalInstructor.get();
+            instructor = mapDTOToModel(instructorDTO, instructor);
+            instructorRepository.save(instructor);
+            return ApiResponse.builder().success(true).message("Instructor successfully updated").build();
+
+        } else {
+            log.warn("Cannot find instructor with given id = " + instructorDTO.getId());
+            throw new NoSuchElementException("Cannot find instructor with given id = " + instructorDTO.getId());
+        }
+    }
+
     public void deleteInstructor(Long id) {
         log.info("Deleting the Instructor with id = " + id);
         Optional<Instructor> instructorToDelete = instructorRepository.findById(id);
@@ -82,7 +98,9 @@ public class InstructorService {
         return instructorRepository.findById(id);
     }
 
-    public Optional<Instructor>findByEmail(String email){return instructorRepository.findByEmail(email);}
+    public Optional<Instructor> findByEmail(String email) {
+        return instructorRepository.findByEmail(email);
+    }
 
     public List<Instructor> findAll() {
         return instructorRepository.findAll();

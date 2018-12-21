@@ -14,5 +14,5 @@ public class InstructorDTO extends UserDTO {
     private Integer availableHours;
     private Integer takenHours;
     private Integer workingHours;
-    private String instructorPhoto;
+    private String photo;
 }

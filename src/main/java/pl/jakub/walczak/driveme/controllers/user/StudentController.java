@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.dto.user.StudentDTO;
 import pl.jakub.walczak.driveme.dto.user.StudentRegistrationDTO;
 import pl.jakub.walczak.driveme.model.user.Student;
+import pl.jakub.walczak.driveme.security.ApiResponse;
 import pl.jakub.walczak.driveme.services.user.StudentService;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class StudentController {
     }
 
     @PutMapping
-    public ResponseEntity<Student> updateStudent(@RequestBody StudentDTO studentDTO) {
+    public ResponseEntity<ApiResponse> updateStudent(@RequestBody StudentDTO studentDTO) {
         try {
             return ResponseEntity.ok(studentService.updateStudent(studentDTO));
         } catch (Exception e) {

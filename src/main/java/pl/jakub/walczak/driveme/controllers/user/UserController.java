@@ -1,5 +1,6 @@
 package pl.jakub.walczak.driveme.controllers.user;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,21 +9,24 @@ import pl.jakub.walczak.driveme.dto.user.UserDTO;
 import pl.jakub.walczak.driveme.dto.user.UserRegistrationDTO;
 import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.security.CustomUserDetails;
-import pl.jakub.walczak.driveme.security.annotations.CurrentUser;
 import pl.jakub.walczak.driveme.services.user.UserService;
+import pl.jakub.walczak.driveme.utils.AuthenticationUtil;
 
 import java.util.List;
 
 @CrossOrigin
 @RestController
 @RequestMapping(path = "/user")
+@Slf4j
 public class UserController {
 
     private UserService userService;
+    private AuthenticationUtil authenticationUtil;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AuthenticationUtil authenticationUtil) {
         this.userService = userService;
+        this.authenticationUtil = authenticationUtil;
     }
 
     @PostMapping
@@ -46,16 +50,18 @@ public class UserController {
         }
     }
 
-    @GetMapping("/me")
-    public CustomUserDetails getCurrentUser(@CurrentUser CustomUserDetails currentUser) {
+    @GetMapping(path = "/me")
+    public CustomUserDetails getCurrentUser() {
+        log.info("Getting current logged user");
+        User currentUser = authenticationUtil.getCurrentLoggedUser();
         CustomUserDetails userDetails = CustomUserDetails.builder()
                 .id(currentUser.getId())
                 .name(currentUser.getName())
                 .surname(currentUser.getSurname())
-                .email(currentUser.getUsername())
+                .email(currentUser.getEmail())
                 .password(currentUser.getPassword())
-                .role(currentUser.getRole())
-                .active(currentUser.isActive())
+                .role(currentUser.getUserRole().getValue())
+                .active(currentUser.getActive())
                 .build();
         return userDetails;
     }

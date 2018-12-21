@@ -23,38 +23,41 @@ public class InstructorMapper {
         dto.setTakenHours(model.getTakenHours());
         dto.setWorkingHours(model.getWorkingHours());
         try {
-            dto.setInstructorPhoto(Base64.getEncoder().encodeToString(model.getInstructorPhoto()));
+            dto.setPhoto(Base64.getEncoder().encodeToString(model.getPhoto()));
         } catch (Exception e) {
             e.printStackTrace();
-            dto.setInstructorPhoto(null);
+            dto.setPhoto(null);
         }
         return dto;
     }
 
     public Instructor mapDTOToModel(InstructorDTO dto, Instructor model) {
 
-        model.setId(dto.getId());
-        model.setName(dto.getName());
-        model.setSurname(dto.getSurname());
-        model.setEmail(dto.getEmail());
-        model.setPhoneNumber(dto.getPhoneNumber());
+        model.setId(dto.getId() == null ? model.getId() : dto.getId());
+        model.setName(dto.getName() == null ? model.getName() : dto.getName());
+        model.setSurname(dto.getSurname() == null ? model.getSurname() : dto.getSurname());
+        model.setEmail(dto.getEmail() == null ? model.getEmail() : dto.getEmail());
+        model.setPassword(dto.getPassword() == null ? model.getPassword() : dto.getPassword());
+        model.setPhoneNumber(dto.getPhoneNumber() == null ? model.getPhoneNumber() : dto.getPhoneNumber());
 
         try {
-            model.setUserRole(UserRole.of(dto.getUserRole()));
+            model.setUserRole(dto.getUserRole() == null ? model.getUserRole() :
+                    UserRole.of(dto.getUserRole()));
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             model.setUserRole(UserRole.DEFAULT);
         }
 
-        model.setActive(dto.getActive());
-        model.setAvailableHours(dto.getAvailableHours());
-        model.setTakenHours(dto.getTakenHours());
-        model.setWorkingHours(dto.getWorkingHours());
+        model.setActive(dto.getActive() == null ? model.getActive() : dto.getActive());
+        model.setAvailableHours(dto.getAvailableHours() == null ? model.getAvailableHours() : dto.getAvailableHours());
+        model.setTakenHours(dto.getTakenHours() == null ? model.getTakenHours() : dto.getTakenHours());
+        model.setWorkingHours(dto.getWorkingHours() == null ? model.getWorkingHours() : dto.getWorkingHours());
         try {
-            model.setInstructorPhoto(Base64.getDecoder().decode(dto.getInstructorPhoto()));
+            model.setPhoto(dto.getPhoto() == null ?
+                    model.getPhoto() : Base64.getDecoder().decode(dto.getPhoto()));
         } catch (Exception e) {
             e.printStackTrace();
-            model.setInstructorPhoto(null);
+            model.setPhoto(null);
         }
         return model;
     }

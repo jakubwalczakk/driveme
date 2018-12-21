@@ -20,5 +20,5 @@ public class Instructor extends User {
     @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(columnDefinition = "mediumblob")
-    private byte[] instructorPhoto;
+    private byte[] photo;
 }

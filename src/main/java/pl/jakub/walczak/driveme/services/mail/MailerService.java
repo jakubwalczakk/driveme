@@ -30,7 +30,7 @@ public class MailerService {
         text.append(user.getName());
         text.append("!\n");
         text.append("Twoje konto w serwisie DriveMe zostało utworzone.\n");
-        text.append("Możesz teraz zalogować się w serwisie DriveMe za pomocą poniższych danych do logowania.\n");
+        text.append("Możesz teraz skorzystać ze swojego konta w serwisie za pomocą poniższych danych do logowania.\n");
         text.append("Login: ");
         text.append(user.getEmail());
         text.append('\n');

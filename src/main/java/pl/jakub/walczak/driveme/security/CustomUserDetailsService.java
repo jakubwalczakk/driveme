@@ -25,6 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findUserByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
         log.info("User with given email = " + email + " found");
         return CustomUserDetails.builder()
+                .id(user.getId())
                 .name(user.getName())
                 .surname(user.getSurname())
                 .email(user.getEmail())

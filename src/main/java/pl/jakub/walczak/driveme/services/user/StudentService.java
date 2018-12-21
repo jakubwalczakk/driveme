@@ -10,6 +10,7 @@ import pl.jakub.walczak.driveme.mappers.user.StudentMapper;
 import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.repos.user.StudentRepository;
+import pl.jakub.walczak.driveme.security.ApiResponse;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -52,11 +53,13 @@ public class StudentService {
         }
     }
 
-    public Student updateStudent(StudentDTO studentDTO) {
+    public ApiResponse updateStudent(StudentDTO studentDTO) {
         Optional<Student> optionalStudent = studentRepository.findById(studentDTO.getId());
         if (optionalStudent.isPresent()) {
             Student student = optionalStudent.get();
-            return mapDTOToModel(studentDTO, student);
+            student = mapDTOToModel(studentDTO, student);
+            studentRepository.save(student);
+            return ApiResponse.builder().success(true).message("Student successfully updated").build();
         } else {
             log.warn("Cannot find student with given id = " + studentDTO.getId());
             throw new NoSuchElementException("Cannot find student with given id = " + studentDTO.getId());

@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.dto.user.InstructorDTO;
 import pl.jakub.walczak.driveme.dto.user.InstructorRegistrationDTO;
 import pl.jakub.walczak.driveme.model.user.Instructor;
+import pl.jakub.walczak.driveme.security.ApiResponse;
 import pl.jakub.walczak.driveme.services.user.InstructorService;
 
-import javax.xml.ws.Response;
 import java.util.List;
 
 @CrossOrigin
@@ -25,22 +25,32 @@ public class InstructorController {
     }
 
     @PostMapping
-    public ResponseEntity<Instructor> createInstructor(@RequestBody InstructorRegistrationDTO instructorRegistrationDTO){
-        try{
+    public ResponseEntity<Instructor> createInstructor(@RequestBody InstructorRegistrationDTO instructorRegistrationDTO) {
+        try {
             return ResponseEntity.ok(instructorService.createInstructor(instructorRegistrationDTO));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
 
-    @PutMapping(path="/activate/{id}")
-    public ResponseEntity<Instructor> activateInstructor(@PathVariable("id") Long id){
-        try{
+    @PutMapping(path = "/activate/{id}")
+    public ResponseEntity<Instructor> activateInstructor(@PathVariable("id") Long id) {
+        try {
             return ResponseEntity.ok(instructorService.activateInstructor(id));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<ApiResponse> updateInstructor(@RequestBody InstructorDTO instructorDTO) {
+        try {
+            return ResponseEntity.ok(instructorService.updateInstructor(instructorDTO));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
         }
     }
 
