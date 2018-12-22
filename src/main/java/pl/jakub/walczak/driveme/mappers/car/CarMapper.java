@@ -20,10 +20,10 @@ public class CarMapper {
         dto.setGasType(model.getGasType().getValue());
         dto.setActive(model.getActive());
         try {
-            dto.setCarPhoto(Base64.getEncoder().encodeToString(model.getCarPhoto()));
+            dto.setPhoto(Base64.getEncoder().encodeToString(model.getPhoto()));
         } catch (Exception e) {
             e.printStackTrace();
-            dto.setCarPhoto(null);
+            dto.setPhoto(null);
         }
         return dto;
     }
@@ -40,25 +40,25 @@ public class CarMapper {
     public Car mapDTOToModel(CarDTO dto, Car model) {
         model.setId(dto.getId());
         try {
-            model.setBrand(CarBrand.of(dto.getBrand()));
+            model.setBrand(dto.getBrand() == null ? model.getBrand() : CarBrand.of(dto.getBrand()));
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             model.setBrand(CarBrand.DEFAULT);
         }
-        model.setModel(dto.getModel());
-        model.setLicensePlate(dto.getLicensePlate());
+        model.setModel(dto.getModel() == null ? model.getModel() : dto.getModel());
+        model.setLicensePlate(dto.getLicensePlate() == null ? model.getLicensePlate() : dto.getLicensePlate());
         try {
-            model.setGasType(GasType.of(dto.getGasType()));
+            model.setGasType(dto.getGasType() == null ? model.getGasType() : GasType.of(dto.getGasType()));
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             model.setGasType(GasType.DEFAULT);
         }
-        model.setActive(dto.getActive());
+        model.setActive(dto.getActive() == null ? model.getActive() : dto.getActive());
         try {
-            model.setCarPhoto(Base64.getDecoder().decode(dto.getCarPhoto()));
+            model.setPhoto(dto.getPhoto() == null ? model.getPhoto() : Base64.getDecoder().decode(dto.getPhoto()));
         } catch (Exception e) {
             e.printStackTrace();
-            model.setCarPhoto(null);
+            model.setPhoto(null);
         }
         return model;
     }

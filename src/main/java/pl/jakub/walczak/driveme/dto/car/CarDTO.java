@@ -18,6 +18,6 @@ public class CarDTO {
     private String licensePlate;
     private String gasType;
 //    @JsonIgnore
-    private String carPhoto;
+    private String photo;
     private Boolean active;
 }

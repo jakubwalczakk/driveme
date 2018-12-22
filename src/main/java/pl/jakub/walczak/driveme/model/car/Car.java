@@ -32,7 +32,7 @@ public class Car {
     @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(columnDefinition="mediumblob")
-    private byte[] carPhoto;
+    private byte[] photo;
     @Column(name = "activity")
     private Boolean active;
 }
