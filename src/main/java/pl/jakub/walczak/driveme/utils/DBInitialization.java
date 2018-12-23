@@ -171,11 +171,11 @@ public class DBInitialization {
                 .licensePlate(generator.generateLicensePlate()).active(true)
                 .photo(imageUploader.uploadFile(nissanMicra)).build();
         cars.add(micra2);
-        Car colt = Car.builder().brand(CarBrand.MITSHUBISHI).model("Colt").gasType(GasType.GAS)
+        Car colt = Car.builder().brand(CarBrand.MITSUBISHI).model("Colt").gasType(GasType.GAS)
                 .licensePlate(generator.generateLicensePlate()).active(true)
                 .photo(imageUploader.uploadFile(mitsubishiColt)).build();
         cars.add(colt);
-        Car colt2 = Car.builder().brand(CarBrand.MITSHUBISHI).model("Colt").gasType(GasType.PETROL)
+        Car colt2 = Car.builder().brand(CarBrand.MITSUBISHI).model("Colt").gasType(GasType.PETROL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
                 .photo(imageUploader.uploadFile(mitsubishiColt)).build();
         cars.add(colt2);

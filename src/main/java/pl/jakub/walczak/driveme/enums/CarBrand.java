@@ -12,7 +12,7 @@ public enum CarBrand {
     RENAULT("RENAULT"),
     KIA("KIA"),
     HYUNDAI("HYUNDAI"),
-    MITSHUBISHI("MITSUBISHI"),
+    MITSUBISHI("MITSUBISHI"),
     DEFAULT("Brak informacji");
 
     private static final Map<String, CarBrand> map = new HashMap<>(values().length, 1);

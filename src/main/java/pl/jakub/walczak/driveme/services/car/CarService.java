@@ -6,14 +6,12 @@ import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.car.CarBasicDTO;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
 import pl.jakub.walczak.driveme.enums.CarBrand;
+import pl.jakub.walczak.driveme.enums.GasType;
 import pl.jakub.walczak.driveme.mappers.car.CarMapper;
 import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.repos.car.CarRepository;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -65,9 +63,16 @@ public class CarService {
                 .collect(Collectors.toList());
     }
 
-    public Set<CarBrand> getAllCarBrands() {
+    public Set<String> getAllCarBrands() {
         log.info("Getting all Car brands");
-        return carRepository.findAllCarBrands();
+        return Arrays.stream(CarBrand.values()).filter(brand->!brand.equals(CarBrand.DEFAULT))
+                .map(brand -> brand.getValue()).collect(Collectors.toSet());
+    }
+
+    public Set<String> getAllGasTypes() {
+        log.info("Getting all Gas Types");
+        return Arrays.stream(GasType.values()).filter(gType->!gType.equals(GasType.DEFAULT))
+                .map(gType -> gType.getValue()).collect(Collectors.toSet());
     }
 
     public List<CarDTO> getCarsByBrand(String brand) {

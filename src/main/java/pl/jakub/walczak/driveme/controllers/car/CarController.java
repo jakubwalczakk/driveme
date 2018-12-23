@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
 import pl.jakub.walczak.driveme.enums.CarBrand;
+import pl.jakub.walczak.driveme.enums.GasType;
 import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.services.car.CarService;
 
@@ -66,10 +67,20 @@ public class CarController {
     }
 
     @GetMapping(path = "/brands")
-    public ResponseEntity<Set<CarBrand>> getAllCarBrands() {
+    public ResponseEntity<Set<String>> getAllCarBrands() {
         try {
             return ResponseEntity.ok(carService.getAllCarBrands());
         } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping(path="/gas_types")
+    public ResponseEntity<Set<String>>getAllGasTypes(){
+        try{
+            return ResponseEntity.ok(carService.getAllGasTypes());
+        }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
