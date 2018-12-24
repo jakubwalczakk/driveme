@@ -15,7 +15,7 @@ import java.time.Instant;
 @Data
 @SuperBuilder
 @NoArgsConstructor
-@ToString(exclude = "password")
+@ToString(exclude = {"password", "course"})
 @EqualsAndHashCode(exclude = "course")
 @Entity(name = "students")
 public class Student extends User {
