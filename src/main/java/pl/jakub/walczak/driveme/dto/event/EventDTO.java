@@ -13,13 +13,10 @@ import java.time.Instant;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CalendarEventDTO {
+public class EventDTO {
 
     private Long id;
-    private String startDate;
-    private String finishDate;
-    private CarBasicDTO car;
-    private String drivingCity;
     private UserBasicDTO student;
-    private UserBasicDTO instructor;
+    private String startDate;
+    private Integer duration;
 }

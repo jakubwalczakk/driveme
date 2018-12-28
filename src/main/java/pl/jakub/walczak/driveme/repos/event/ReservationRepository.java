@@ -13,6 +13,6 @@ import java.util.Set;
 @Repository
 @Transactional
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    List<Reservation> findAllByInstructorIdOrderByFinishDateDesc(Long instructorId);
-    List<Reservation> findAllByStudentIdOrderByFinishDateDesc(Long studentId);
+    List<Reservation> findAllByInstructorIdOrderByStartDateDesc(Long instructorId);
+    List<Reservation> findAllByStudentIdOrderByStartDateDesc(Long studentId);
 }

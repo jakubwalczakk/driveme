@@ -3,7 +3,6 @@ package pl.jakub.walczak.driveme.mappers.event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.dto.car.CarBasicDTO;
-import pl.jakub.walczak.driveme.dto.car.CarDTO;
 import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 import pl.jakub.walczak.driveme.enums.Rating;
@@ -36,12 +35,13 @@ public class DrivingMapper {
 
     public DrivingDTO mapModelToDTO(Driving model, DrivingDTO dto) {
         dto.setId(model.getId());
-        dto.setStartDate(DateFormatter.formatDateToString(model.getStartDate()));
-        dto.setFinishDate(DateFormatter.formatDateToString(model.getFinishDate()));
-        dto.setCar(carService.mapModelToBasicDTO(model.getCar(), CarBasicDTO.builder().build()));
-        dto.setDrivingCity(model.getDrivingCity().getName());
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
+        dto.setStartDate(DateFormatter.formatDateToString(model.getStartDate()));
+        dto.setDuration(model.getDuration());
+
         dto.setInstructor(userService.mapUserBasicModelToDTO(model.getInstructor(), UserBasicDTO.builder().build()));
+        dto.setCar(carService.mapModelToBasicDTO(model.getCar(), CarBasicDTO.builder().build()));
+        dto.setDrivingCity(model.getDrivingCity() == null ? null : model.getDrivingCity().getName());
         dto.setTitle(model.getTitle());
         dto.setComment(model.getComment());
         dto.setRating(model.getRating() == null ? null : model.getRating().getValue());
@@ -51,7 +51,17 @@ public class DrivingMapper {
     public Driving mapDTOToModel(DrivingDTO dto, Driving model) {
         model.setId(dto.getId());
         model.setStartDate(DateFormatter.parseStringToInstant(dto.getStartDate()));
-        model.setFinishDate(DateFormatter.parseStringToInstant(dto.getFinishDate()));
+        model.setDuration(dto.getDuration());
+
+        User student = userService.mapUserBasicDTOToModel(dto.getStudent());
+        if (student instanceof Student) {
+            model.setStudent((Student) student);
+        }
+
+        User instructor = userService.mapUserBasicDTOToModel(dto.getInstructor());
+        if (instructor instanceof Instructor) {
+            model.setInstructor((Instructor) instructor);
+        }
 
         CarBasicDTO carDTO = dto.getCar();
         if (carDTO != null) {
@@ -64,14 +74,6 @@ public class DrivingMapper {
         Optional<DrivingCity> optionalDrivingCity = cityService.findByName(dto.getDrivingCity());
         if (optionalDrivingCity.isPresent()) {
             model.setDrivingCity(optionalDrivingCity.get());
-        }
-        User student = userService.mapUserBasicDTOToModel(dto.getStudent());
-        if (student instanceof Student) {
-            model.setStudent((Student) student);
-        }
-        User instructor = userService.mapUserBasicDTOToModel(dto.getInstructor());
-        if (instructor instanceof Instructor) {
-            model.setInstructor((Instructor) instructor);
         }
         model.setTitle(dto.getTitle());
         model.setComment(dto.getComment());

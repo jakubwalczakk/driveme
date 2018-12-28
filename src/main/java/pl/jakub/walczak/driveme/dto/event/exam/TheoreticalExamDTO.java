@@ -1,4 +1,4 @@
-package pl.jakub.walczak.driveme.dto.event;
+package pl.jakub.walczak.driveme.dto.event.exam;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +9,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CalendarEventsInfoDTO {
+public class TheoreticalExamDTO extends ExamDTO {
 
-    private String instructorInfo;
-    private String carBrand;
+    private Integer scoredPoints;
+    private Double result;
 }

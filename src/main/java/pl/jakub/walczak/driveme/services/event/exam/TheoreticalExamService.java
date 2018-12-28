@@ -1,12 +1,12 @@
-package pl.jakub.walczak.driveme.services.exam;
+package pl.jakub.walczak.driveme.services.event.exam;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.jakub.walczak.driveme.dto.exam.TheoreticalExamDTO;
-import pl.jakub.walczak.driveme.mappers.exam.TheoreticalExamMapper;
-import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
-import pl.jakub.walczak.driveme.repos.exam.TheoreticalExamRepository;
+import pl.jakub.walczak.driveme.dto.event.exam.TheoreticalExamDTO;
+import pl.jakub.walczak.driveme.mappers.event.exam.TheoreticalExamMapper;
+import pl.jakub.walczak.driveme.model.event.exam.TheoreticalExam;
+import pl.jakub.walczak.driveme.repos.event.exam.TheoreticalExamRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -31,7 +31,6 @@ public class TheoreticalExamService {
     public TheoreticalExam addTheoreticalExam(TheoreticalExamDTO theoreticalExamDTO) {
         log.info("Adding new TheoreticalExam...");
         TheoreticalExam theoreticalExam = mapDTOToModel(theoreticalExamDTO, TheoreticalExam.builder().build());
-        theoreticalExam.setActive(true);
         return theoreticalExamRepository.save(theoreticalExam);
     }
 
@@ -40,8 +39,7 @@ public class TheoreticalExamService {
         Optional<TheoreticalExam> theoreticalExamToDelete = theoreticalExamRepository.findById(id);
         if (theoreticalExamToDelete.isPresent()) {
             TheoreticalExam theoreticalExam = theoreticalExamToDelete.get();
-            theoreticalExam.setActive(false);
-            theoreticalExamRepository.save(theoreticalExam);
+            theoreticalExamRepository.delete(theoreticalExam);
         } else {
             throw new NoSuchElementException("Cannot DELETE TheoreticalExam with given id = " + id);
         }
@@ -60,7 +58,7 @@ public class TheoreticalExamService {
     public List<TheoreticalExamDTO> getTheoreticalExamsOfStudent(Long studentId) {
         log.info("Getting all TheoreticalExams of Student with given id = " + studentId);
         List<TheoreticalExam> listOfTheoreticalExams =
-                theoreticalExamRepository.findAllByStudentIdOrderByPassedDescDateOfExamDesc(studentId);
+                theoreticalExamRepository.findAllByStudentIdOrderByPassedDescStartDateDesc(studentId);
         return listOfTheoreticalExams.stream()
                 .map(exam -> mapModelToDTO(exam, TheoreticalExamDTO.builder().build())).collect(Collectors.toList());
     }

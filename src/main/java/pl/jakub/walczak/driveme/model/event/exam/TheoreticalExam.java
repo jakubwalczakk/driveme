@@ -1,4 +1,4 @@
-package pl.jakub.walczak.driveme.model.exam;
+package pl.jakub.walczak.driveme.model.event.exam;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,12 +1,12 @@
-package pl.jakub.walczak.driveme.services.exam;
+package pl.jakub.walczak.driveme.services.event.exam;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.jakub.walczak.driveme.dto.exam.PracticalExamDTO;
-import pl.jakub.walczak.driveme.mappers.exam.PracticalExamMapper;
-import pl.jakub.walczak.driveme.model.exam.PracticalExam;
-import pl.jakub.walczak.driveme.repos.exam.PracticalExamRepository;
+import pl.jakub.walczak.driveme.dto.event.exam.PracticalExamDTO;
+import pl.jakub.walczak.driveme.mappers.event.exam.PracticalExamMapper;
+import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
+import pl.jakub.walczak.driveme.repos.event.exam.PracticalExamRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -30,7 +30,6 @@ public class PracticalExamService {
     public PracticalExam addPracticalExam(PracticalExamDTO practicalExamDTO) {
         log.info("Adding new PracticalExam...");
         PracticalExam practicalExam = mapDTOToModel(practicalExamDTO, PracticalExam.builder().build());
-        practicalExam.setActive(true);
         return practicalExamRepository.save(practicalExam);
     }
 
@@ -39,8 +38,7 @@ public class PracticalExamService {
         Optional<PracticalExam> practicalExamToDelete = practicalExamRepository.findById(id);
         if (practicalExamToDelete.isPresent()) {
             PracticalExam practicalExam = practicalExamToDelete.get();
-            practicalExam.setActive(false);
-            practicalExamRepository.save(practicalExam);
+            practicalExamRepository.delete(practicalExam);
         } else {
             throw new NoSuchElementException("Cannot DELETE PracticalExam with given id = " + id);
         }

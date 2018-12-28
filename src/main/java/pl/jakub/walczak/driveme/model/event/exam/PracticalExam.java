@@ -1,4 +1,4 @@
-package pl.jakub.walczak.driveme.model.exam;
+package pl.jakub.walczak.driveme.model.event.exam;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -24,6 +24,6 @@ public class PracticalExam extends Exam {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Instructor instructor;
-    private final Integer durationTime = 60;
+    private final Integer duration = 60;
 
 }

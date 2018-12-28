@@ -1,12 +1,12 @@
-package pl.jakub.walczak.driveme.services.exam;
+package pl.jakub.walczak.driveme.services.event.exam;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.jakub.walczak.driveme.dto.exam.ExamDTO;
-import pl.jakub.walczak.driveme.mappers.exam.ExamMapper;
-import pl.jakub.walczak.driveme.model.exam.Exam;
-import pl.jakub.walczak.driveme.repos.exam.ExamRepository;
+import pl.jakub.walczak.driveme.dto.event.exam.ExamDTO;
+import pl.jakub.walczak.driveme.mappers.event.exam.ExamMapper;
+import pl.jakub.walczak.driveme.model.event.exam.Exam;
+import pl.jakub.walczak.driveme.repos.event.exam.ExamRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -30,7 +30,6 @@ public class ExamService {
     public Exam addExam(ExamDTO examDTO) {
         log.info("Adding new Exam...");
         Exam exam = mapDTOToModel(examDTO, Exam.builder().build());
-        exam.setActive(true);
         return examRepository.save(exam);
     }
 
@@ -39,8 +38,7 @@ public class ExamService {
         Optional<Exam> examToDelete = examRepository.findById(id);
         if (examToDelete.isPresent()) {
             Exam exam = examToDelete.get();
-            exam.setActive(false);
-            examRepository.save(exam);
+            examRepository.delete(exam);
         } else {
             throw new NoSuchElementException("Cannot DELETE Exam with given id = " + id);
         }

@@ -63,14 +63,14 @@ public class ReservationService {
 
     public List<ReservationDTO> getReservationsByInstructor(Long instructorId) {
         log.info("Getting the List of Reservations of Instructor with id = " + instructorId);
-        List<Reservation> listOfInstructorReservations = reservationRepository.findAllByInstructorIdOrderByFinishDateDesc(instructorId);
+        List<Reservation> listOfInstructorReservations = reservationRepository.findAllByInstructorIdOrderByStartDateDesc(instructorId);
         return listOfInstructorReservations.stream()
                 .map(reservation -> mapModelToDTO(reservation, ReservationDTO.builder().build())).collect(Collectors.toList());
     }
 
     public List<ReservationDTO> getReservationsByStudent(Long studentId) {
         log.info("Getting the List of Reservatiions of Student with id = " + studentId);
-        List<Reservation> listOfStudentReservations = reservationRepository.findAllByStudentIdOrderByFinishDateDesc(studentId);
+        List<Reservation> listOfStudentReservations = reservationRepository.findAllByInstructorIdOrderByStartDateDesc(studentId);
         return listOfStudentReservations.stream()
                 .map(reservation -> mapModelToDTO(reservation, ReservationDTO.builder().build())).collect(Collectors.toList());
     }

@@ -6,8 +6,8 @@ import lombok.Data;
 import pl.jakub.walczak.driveme.enums.CourseStatus;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Reservation;
-import pl.jakub.walczak.driveme.model.exam.PracticalExam;
-import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
+import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
+import pl.jakub.walczak.driveme.model.event.exam.TheoreticalExam;
 import pl.jakub.walczak.driveme.model.payment.Payment;
 
 import javax.persistence.*;

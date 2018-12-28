@@ -1,11 +1,11 @@
-package pl.jakub.walczak.driveme.controllers.exam;
+package pl.jakub.walczak.driveme.controllers.event.exam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.jakub.walczak.driveme.dto.exam.PracticalExamDTO;
-import pl.jakub.walczak.driveme.model.exam.PracticalExam;
-import pl.jakub.walczak.driveme.services.exam.PracticalExamService;
+import pl.jakub.walczak.driveme.dto.event.exam.PracticalExamDTO;
+import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
+import pl.jakub.walczak.driveme.services.event.exam.PracticalExamService;
 
 import java.util.List;
 

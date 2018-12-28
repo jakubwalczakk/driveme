@@ -11,6 +11,6 @@ import java.util.Set;
 @Repository
 @Transactional
 public interface DrivingRepository extends JpaRepository<Driving, Long> {
-    List<Driving> findAllByInstructorIdOrderByFinishDateDesc(Long instructorId);
-    List<Driving> findAllByStudentIdOrderByFinishDateDesc(Long studentId);
+    List<Driving> findAllByInstructorIdOrderByStartDateDesc(Long instructorId);
+    List<Driving> findAllByStudentIdOrderByStartDateDesc(Long studentId);
 }

@@ -1,38 +1,42 @@
-package pl.jakub.walczak.driveme.mappers.exam;
+package pl.jakub.walczak.driveme.mappers.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.jakub.walczak.driveme.dto.exam.ExamDTO;
+import pl.jakub.walczak.driveme.dto.event.EventDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
-import pl.jakub.walczak.driveme.model.exam.Exam;
+import pl.jakub.walczak.driveme.model.event.Event;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.services.user.UserService;
 import pl.jakub.walczak.driveme.utils.DateFormatter;
 
 @Component
-public class ExamMapper {
+public class EventMapper {
 
-    @Autowired
     private UserService userService;
 
-    public ExamDTO mapModelToDTO(Exam model, ExamDTO dto) {
+    @Autowired
+    public EventMapper(UserService userService) {
+        this.userService = userService;
+    }
+
+    public EventDTO mapModelToDTO(Event model, EventDTO dto) {
         dto.setId(model.getId());
-        dto.setDateOfExam(DateFormatter.formatDateToString(model.getDateOfExam()));
-        dto.setActive(model.getActive());
-        dto.setPassed(model.getPassed());
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
+        dto.setStartDate(DateFormatter.formatDateToString(model.getStartDate()));
+        dto.setDuration(model.getDuration());
         return dto;
     }
 
-    public Exam mapDTOToModel(ExamDTO dto, Exam model) {
+    public Event mapDTOToModel(EventDTO dto, Event model) {
         model.setId(dto.getId());
-        model.setDateOfExam(DateFormatter.parseStringToInstant(dto.getDateOfExam()));
-        model.setActive(dto.getActive());
-        model.setPassed(dto.getPassed());
+        model.setStartDate(DateFormatter.parseStringToInstant(dto.getStartDate()));
+        model.setDuration(dto.getDuration());
+
         User student = userService.mapUserBasicDTOToModel(dto.getStudent());
-        if (student instanceof Student)
+        if (student instanceof Student) {
             model.setStudent((Student) student);
+        }
         return model;
     }
 }

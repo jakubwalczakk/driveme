@@ -10,8 +10,8 @@ import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Reservation;
-import pl.jakub.walczak.driveme.model.exam.PracticalExam;
-import pl.jakub.walczak.driveme.model.exam.TheoreticalExam;
+import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
+import pl.jakub.walczak.driveme.model.event.exam.TheoreticalExam;
 import pl.jakub.walczak.driveme.model.payment.Payment;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
@@ -494,11 +494,10 @@ public class DBInitialization {
 
         boolean status = RANDOM.nextInt(100) % 2 == 0 ? true : false;
         PracticalExam practicalExam = PracticalExam.builder()
-                .active(true)
                 .student(student)
                 .car(cars.get(RANDOM.nextInt(cars.size())))
                 .instructor(instructor)
-                .dateOfExam(Instant.now().minusSeconds(RANDOM.nextInt(4) * ONE_DAY_IN_SECONDS))
+                .startDate(Instant.now().minusSeconds(RANDOM.nextInt(4) * ONE_DAY_IN_SECONDS))
                 .passed(status)
                 .build();
         course.setPracticalExam(practicalExam);
@@ -514,12 +513,11 @@ public class DBInitialization {
                 status = true;
             }
             TheoreticalExam theoreticalExam = TheoreticalExam.builder()
-                    .active(true)
                     .student(student)
                     .scoredPoints(scoredPoints)
                     .result(scoredPoints * 1.0 / TheoreticalExam.MAXIMUM_POINTS_AMOUNT)
                     .passed(status)
-                    .dateOfExam(Instant.now().minusSeconds(RANDOM.nextInt(6) * ONE_DAY_IN_SECONDS))
+                    .startDate(Instant.now().minusSeconds(RANDOM.nextInt(6) * ONE_DAY_IN_SECONDS))
                     .build();
             theoreticalExams.add(theoreticalExam);
         }
@@ -534,14 +532,15 @@ public class DBInitialization {
 
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
             Instant startDate = Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60);
-            Instant finishDate = startDate.plusSeconds((RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_SECONDS);
+//            Instant finishDate = startDate.plusSeconds((RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_SECONDS);
+            Integer duration = (RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_SECONDS;
             Reservation reservation =
                     Reservation.builder()
                             .student(student)
                             .instructor(instructor)
-                            .car(cars.get(RANDOM.nextInt(cars.size())))
+                            .carBrand(cars.get(RANDOM.nextInt(cars.size())).getBrand())
                             .startDate(startDate)
-                            .finishDate(finishDate)
+                            .duration(duration)
                             .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
                             .status(true)
                             .build();
@@ -569,14 +568,15 @@ public class DBInitialization {
 
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
             Instant startDate = Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60);
-            Instant finishDate = startDate.plusSeconds((RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_SECONDS);
+//            Instant finishDate = startDate.plusSeconds((RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_SECONDS);
+            Integer duration = (RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_SECONDS;
             Driving driving =
                     Driving.builder()
                             .student(student)
                             .instructor(instructor)
                             .car(cars.get(RANDOM.nextInt(cars.size())))
                             .startDate(startDate)
-                            .finishDate(finishDate)
+                            .duration(duration)
                             .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
                             .title(drivingTitle)
                             .comment(drivingComment)

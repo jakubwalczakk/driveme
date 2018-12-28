@@ -6,14 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
 import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
-import pl.jakub.walczak.driveme.dto.exam.PracticalExamDTO;
-import pl.jakub.walczak.driveme.dto.exam.TheoreticalExamDTO;
+import pl.jakub.walczak.driveme.dto.event.exam.PracticalExamDTO;
+import pl.jakub.walczak.driveme.dto.event.exam.TheoreticalExamDTO;
 import pl.jakub.walczak.driveme.dto.payment.PaymentDTO;
-import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Builder

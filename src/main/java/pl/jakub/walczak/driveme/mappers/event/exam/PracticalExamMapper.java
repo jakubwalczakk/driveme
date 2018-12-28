@@ -1,13 +1,12 @@
-package pl.jakub.walczak.driveme.mappers.exam;
+package pl.jakub.walczak.driveme.mappers.event.exam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.dto.car.CarBasicDTO;
-import pl.jakub.walczak.driveme.dto.car.CarDTO;
-import pl.jakub.walczak.driveme.dto.exam.PracticalExamDTO;
+import pl.jakub.walczak.driveme.dto.event.exam.PracticalExamDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 import pl.jakub.walczak.driveme.model.car.Car;
-import pl.jakub.walczak.driveme.model.exam.PracticalExam;
+import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
@@ -32,24 +31,31 @@ public class PracticalExamMapper {
     }
 
     public PracticalExamDTO mapModelToDTO(PracticalExam model, PracticalExamDTO dto) {
-
         dto.setId(model.getId());
-        dto.setDateOfExam(DateFormatter.formatDateToString(model.getDateOfExam()));
-        dto.setActive(model.getActive());
-        dto.setPassed(model.getPassed());
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
-        dto.setCar(carService.mapModelToBasicDTO(model.getCar(), CarBasicDTO.builder().build()));
+        dto.setStartDate(DateFormatter.formatDateToString(model.getStartDate()));
+        dto.setDuration(model.getDuration());
         dto.setInstructor(userService.mapUserBasicModelToDTO(model.getInstructor(), UserBasicDTO.builder().build()));
-        dto.setDurationTime(model.getDurationTime());
+        dto.setCar(carService.mapModelToBasicDTO(model.getCar(), CarBasicDTO.builder().build()));
+        dto.setPassed(model.getPassed());
         return dto;
     }
 
     public PracticalExam mapDTOToModel(PracticalExamDTO dto, PracticalExam model) {
 
         model.setId(dto.getId());
-        model.setDateOfExam(DateFormatter.parseStringToInstant(dto.getDateOfExam()));
-        model.setActive(dto.getActive());
-        model.setPassed(dto.getPassed());
+        model.setStartDate(DateFormatter.parseStringToInstant(dto.getStartDate()));
+        model.setDuration(dto.getDuration());
+
+        User student = userService.mapUserBasicDTOToModel(dto.getStudent());
+        if (student instanceof Student) {
+            model.setStudent((Student) student);
+        }
+
+        User instructor = userService.mapUserBasicDTOToModel(dto.getInstructor());
+        if(instructor instanceof Instructor){
+            model.setInstructor((Instructor) instructor);
+        }
 
         CarBasicDTO carDTO = dto.getCar();
         if (carDTO != null) {
@@ -59,24 +65,7 @@ public class PracticalExamMapper {
             }
         }
 
-        UserBasicDTO studentDTO = dto.getStudent();
-        if (studentDTO != null) {
-            Optional<User> optionalStudent = userService.findById(studentDTO.getId());
-            if (optionalStudent.isPresent()) {
-                Student student = (Student) optionalStudent.get();
-                model.setStudent(student);
-            }
-        }
-
-        UserBasicDTO instructorDTO = dto.getInstructor();
-        if (instructorDTO != null) {
-            Optional<User> optionalInstructor = userService.findById(instructorDTO.getId());
-            if (optionalInstructor.isPresent()) {
-                Instructor instructor = (Instructor) optionalInstructor.get();
-                model.setInstructor(instructor);
-            }
-        }
-
+        model.setPassed(dto.getPassed());
         return model;
     }
 }
