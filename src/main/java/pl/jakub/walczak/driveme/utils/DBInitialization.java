@@ -30,7 +30,9 @@ import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Component
 public class DBInitialization {
@@ -39,6 +41,7 @@ public class DBInitialization {
     private final static Random RANDOM = new Random();
     private final static Long ONE_DAY_IN_SECONDS = 24 * 60 * 60L;
     private final static Integer HALF_HOUR_IN_SECONDS = 30 * 60;
+    private final static Integer HALF_HOUR_IN_MINUTES = 30;
     private final static ZoneId DEFAULT_ZONE_ID = ZoneId.systemDefault();
     private final static String LOREM_IPSUM = "Lorem ipsum dolor sit amet, ad nam debet copiosae, eu omnesque scriptorem mel. " +
             "Elit persius apeirian duo ea, iisque minimum eam ea. Est ad iudico persecuti, ea usu aliquip phaedrum. " +
@@ -532,8 +535,8 @@ public class DBInitialization {
 
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
             Instant startDate = Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60);
-//            Instant finishDate = startDate.plusSeconds((RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_SECONDS);
-            Integer duration = (RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_SECONDS;
+            Integer duration = (RANDOM.nextInt(6) + 2) *HALF_HOUR_IN_MINUTES;
+            System.out.println(duration);
             Reservation reservation =
                     Reservation.builder()
                             .student(student)
@@ -568,8 +571,8 @@ public class DBInitialization {
 
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
             Instant startDate = Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60);
-//            Instant finishDate = startDate.plusSeconds((RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_SECONDS);
-            Integer duration = (RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_SECONDS;
+            Integer duration = (RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_MINUTES;
+            System.out.println(duration);
             Driving driving =
                     Driving.builder()
                             .student(student)

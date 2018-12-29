@@ -8,8 +8,10 @@ import pl.jakub.walczak.driveme.mappers.payment.PaymentMapper;
 import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.payment.Payment;
 import pl.jakub.walczak.driveme.model.user.Student;
+import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.payment.PaymentRepository;
 import pl.jakub.walczak.driveme.services.user.UserService;
+import pl.jakub.walczak.driveme.utils.AuthenticationUtil;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -26,12 +28,14 @@ public class PaymentService {
     private PaymentRepository paymentRepository;
     private PaymentMapper paymentMapper;
     private UserService userService;
+    private AuthenticationUtil authenticationUtil;
 
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper, UserService userService) {
+    public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper, UserService userService, AuthenticationUtil authenticationUtil) {
         this.paymentRepository = paymentRepository;
         this.paymentMapper = paymentMapper;
         this.userService = userService;
+        this.authenticationUtil = authenticationUtil;
     }
 
     // -- methods for controller --
@@ -70,10 +74,13 @@ public class PaymentService {
         }
     }
 
-    public List<PaymentDTO> getPaymentsByStudent(Long studentId) {
-        log.info("Getting all Payments of Student with given id  = " + studentId);
+    public List<PaymentDTO> getPaymentsByStudent() {
 
-        List<Payment> listOfStudentPayments = paymentRepository.findAllByStudentIdOrderByDateDesc(studentId);
+        User currentUser = authenticationUtil.getCurrentLoggedUser();
+        Long currentLoggedUserId = currentUser.getId();
+        log.info("Getting all Payments of current logged Student with given id  = " + currentLoggedUserId);
+
+        List<Payment> listOfStudentPayments = paymentRepository.findAllByStudentIdOrderByDateDesc(currentLoggedUserId);
         return listOfStudentPayments.stream()
                 .map(payment -> mapModelToDTO(payment, PaymentDTO.builder().build())).collect(Collectors.toList());
     }

@@ -16,6 +16,7 @@ import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.services.address.AddressService;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.UUID;
 
 @Component
@@ -63,11 +64,13 @@ public class RegistrationMapper {
                 user = Student.builder()
                         .name(dto.getName())
                         .surname(dto.getSurname())
+                        .pesel(dto.getPesel())
                         .email(dto.getEmail())
                         .phoneNumber(dto.getPhoneNumber())
                         .userRole(userRole)
                         .address(addressService.addAddress(dto.getAddress()))
                         .course(new Course())
+                        .registrationDate(Instant.now())
                         .active(true)
                         .build();
             }

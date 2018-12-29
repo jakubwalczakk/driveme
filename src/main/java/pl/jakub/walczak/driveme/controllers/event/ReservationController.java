@@ -65,10 +65,10 @@ public class ReservationController {
         }
     }
 
-    @GetMapping(path = "/student/{id}")
-    public ResponseEntity<List<ReservationDTO>> getReservationsByStudent(@PathVariable("id") Long studentId) {
+    @GetMapping(path = "/student")
+    public ResponseEntity<List<ReservationDTO>> getReservationsByStudent() {
         try {
-            return ResponseEntity.ok(reservationService.getReservationsByStudent(studentId));
+            return ResponseEntity.ok(reservationService.getReservationsByStudent());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();

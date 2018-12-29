@@ -53,10 +53,10 @@ public class PaymentController {
         }
     }
 
-    @GetMapping(path = "/student/{id}")
-    public ResponseEntity<List<PaymentDTO>> getPaymentsByStudent(@PathVariable("id") Long studentId) {
+    @GetMapping(path = "/student")
+    public ResponseEntity<List<PaymentDTO>> getPaymentsByStudent() {
         try {
-            return ResponseEntity.ok(paymentService.getPaymentsByStudent(studentId));
+            return ResponseEntity.ok(paymentService.getPaymentsByStudent());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();

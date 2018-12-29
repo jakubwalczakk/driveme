@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
 import pl.jakub.walczak.driveme.mappers.event.ReservationMapper;
-import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.event.Reservation;
-import pl.jakub.walczak.driveme.model.user.Instructor;
+import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
 import pl.jakub.walczak.driveme.services.car.CarService;
 import pl.jakub.walczak.driveme.services.user.InstructorService;
+import pl.jakub.walczak.driveme.utils.AuthenticationUtil;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,15 +21,17 @@ public class ReservationService {
 
     private ReservationRepository reservationRepository;
     private ReservationMapper reservationMapper;
+    private AuthenticationUtil authenticationUtil;
 
     private CarService carService;
     private InstructorService instructorService;
 
     @Autowired
     public ReservationService(ReservationRepository reservationRepository, ReservationMapper reservationMapper,
-                              CarService carService, InstructorService instructorService) {
+                              AuthenticationUtil authenticationUtil, CarService carService, InstructorService instructorService) {
         this.reservationRepository = reservationRepository;
         this.reservationMapper = reservationMapper;
+        this.authenticationUtil = authenticationUtil;
         this.carService = carService;
         this.instructorService = instructorService;
     }
@@ -68,9 +70,12 @@ public class ReservationService {
                 .map(reservation -> mapModelToDTO(reservation, ReservationDTO.builder().build())).collect(Collectors.toList());
     }
 
-    public List<ReservationDTO> getReservationsByStudent(Long studentId) {
-        log.info("Getting the List of Reservatiions of Student with id = " + studentId);
-        List<Reservation> listOfStudentReservations = reservationRepository.findAllByInstructorIdOrderByStartDateDesc(studentId);
+    public List<ReservationDTO> getReservationsByStudent() {
+
+        User currentUser = authenticationUtil.getCurrentLoggedUser();
+        Long currentLoggedUserId = currentUser.getId();
+        log.info("Getting the List of Reservations of current logged Student with id = " + currentLoggedUserId);
+        List<Reservation> listOfStudentReservations = reservationRepository.findAllByStudentIdOrderByStartDateDesc(currentLoggedUserId);
         return listOfStudentReservations.stream()
                 .map(reservation -> mapModelToDTO(reservation, ReservationDTO.builder().build())).collect(Collectors.toList());
     }

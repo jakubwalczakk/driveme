@@ -8,7 +8,9 @@ import pl.jakub.walczak.driveme.dto.event.RateDrivingDTO;
 import pl.jakub.walczak.driveme.enums.Rating;
 import pl.jakub.walczak.driveme.mappers.event.DrivingMapper;
 import pl.jakub.walczak.driveme.model.event.Driving;
+import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
+import pl.jakub.walczak.driveme.utils.AuthenticationUtil;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -22,11 +24,13 @@ public class DrivingService {
 
     private DrivingRepository drivingRepository;
     private DrivingMapper drivingMapper;
+    private AuthenticationUtil authenticationUtil;
 
     @Autowired
-    public DrivingService(DrivingRepository drivingRepository, DrivingMapper drivingMapper) {
+    public DrivingService(DrivingRepository drivingRepository, DrivingMapper drivingMapper, AuthenticationUtil authenticationUtil) {
         this.drivingRepository = drivingRepository;
         this.drivingMapper = drivingMapper;
+        this.authenticationUtil = authenticationUtil;
     }
 
     // -- methods for controller --
@@ -82,9 +86,12 @@ public class DrivingService {
                 .map(driving -> mapModelToDTO(driving, DrivingDTO.builder().build())).collect(Collectors.toList());
     }
 
-    public List<DrivingDTO> getDrivingsByStudent(Long studentId) {
-        log.info("Getting the List of Drivings of Student with id = " + studentId);
-        List<Driving> listOfStudentDrivings = drivingRepository.findAllByInstructorIdOrderByStartDateDesc(studentId);
+    public List<DrivingDTO> getDrivingsByStudent() {
+
+        User currentUser = authenticationUtil.getCurrentLoggedUser();
+        Long currentLoggedUserId = currentUser.getId();
+        log.info("Getting the List of Drivings of current logged Student with id = " + currentLoggedUserId);
+        List<Driving> listOfStudentDrivings = drivingRepository.findAllByStudentIdOrderByStartDateDesc(currentLoggedUserId);
         return listOfStudentDrivings.stream()
                 .map(driving -> mapModelToDTO(driving, DrivingDTO.builder().build())).collect(Collectors.toList());
     }
