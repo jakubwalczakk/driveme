@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.jakub.walczak.driveme.dto.calendar.CalendarEventsDTO;
+import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
 import pl.jakub.walczak.driveme.dto.event.EventDTO;
-import pl.jakub.walczak.driveme.dto.event.EventsInfoDTO;
 import pl.jakub.walczak.driveme.model.event.Event;
 import pl.jakub.walczak.driveme.services.event.EventService;
 
@@ -51,6 +52,17 @@ public class EventController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping(path = "/booking")
+    public ResponseEntity<CalendarEventsDTO> getAllSpecifiedEvents(@RequestParam("instructor") String instructor,
+                                                                   @RequestParam("brand") String carBrand) {
+        try {
+            return ResponseEntity.ok(eventService.getAllSpecifiedEvents(instructor, carBrand));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

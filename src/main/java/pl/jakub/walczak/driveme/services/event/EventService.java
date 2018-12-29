@@ -3,20 +3,28 @@ package pl.jakub.walczak.driveme.services.event;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.jakub.walczak.driveme.dto.calendar.CalendarEventsDTO;
+import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
 import pl.jakub.walczak.driveme.dto.event.EventDTO;
-import pl.jakub.walczak.driveme.dto.event.EventsInfoDTO;
+import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
+import pl.jakub.walczak.driveme.dto.event.exam.PracticalExamDTO;
+import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.mappers.event.EventMapper;
-import pl.jakub.walczak.driveme.model.car.Car;
+import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Event;
-import pl.jakub.walczak.driveme.model.user.Instructor;
+import pl.jakub.walczak.driveme.model.event.Reservation;
+import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
+import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
 import pl.jakub.walczak.driveme.repos.event.EventRepository;
+import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
+import pl.jakub.walczak.driveme.repos.event.exam.PracticalExamRepository;
 import pl.jakub.walczak.driveme.services.car.CarService;
+import pl.jakub.walczak.driveme.services.event.exam.PracticalExamService;
 import pl.jakub.walczak.driveme.services.user.InstructorService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -25,14 +33,33 @@ public class EventService {
 
     private EventRepository eventRepository;
     private EventMapper eventMapper;
+
+    private DrivingRepository drivingRepository;
+    private DrivingService drivingService;
+
+    private ReservationRepository reservationRepository;
+    private ReservationService reservationService;
+
+    private PracticalExamRepository practicalExamRepository;
+    private PracticalExamService practicalExamService;
+
     private InstructorService instructorService;
     private CarService carService;
 
     @Autowired
     public EventService(EventRepository eventRepository, EventMapper eventMapper,
+                        DrivingRepository drivingRepository, DrivingService drivingService,
+                        ReservationRepository reservationRepository, ReservationService reservationService,
+                        PracticalExamRepository practicalExamRepository, PracticalExamService practicalExamService,
                         InstructorService instructorService, CarService carService) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
+        this.drivingRepository = drivingRepository;
+        this.drivingService = drivingService;
+        this.reservationRepository = reservationRepository;
+        this.reservationService = reservationService;
+        this.practicalExamRepository = practicalExamRepository;
+        this.practicalExamService = practicalExamService;
         this.instructorService = instructorService;
         this.carService = carService;
     }
@@ -61,6 +88,36 @@ public class EventService {
             return mapModelToDTO(optionalEvent.get(), EventDTO.builder().build());
         } else {
             throw new NoSuchElementException("Cannot GET Event with given id = " + id);
+        }
+    }
+
+    //FIXME
+    public CalendarEventsDTO getAllSpecifiedEvents(String instructorEmail, String carBrand) {
+        log.info("Getting all Events specified by Instructor = " + instructorEmail + " and brand = " + carBrand);
+        try {
+            CarBrand brand = CarBrand.of(carBrand);
+            List<Driving> drivings = drivingRepository.findAllByInstructorEmailAndCar_Brand(instructorEmail, brand);
+
+            List<Reservation> reservations = reservationRepository.findAllByInstructorEmailAndCarBrand(instructorEmail, brand);
+
+            List<PracticalExam> practicalExams = practicalExamRepository.findAllByInstructorEmailAndCar_Brand(instructorEmail, brand);
+
+            List<DrivingDTO> drivingDTOS = drivings.stream()
+                    .map(driving -> drivingService.mapModelToDTO(driving, DrivingDTO.builder().build()))
+                    .collect(Collectors.toList());
+
+            List<ReservationDTO> reservationDTOS = reservations.stream()
+                    .map(reservation -> reservationService.mapModelToDTO(reservation, ReservationDTO.builder().build()))
+                    .collect(Collectors.toList());
+
+            List<PracticalExamDTO> practicalExamDTOS = practicalExams.stream()
+                    .map(practicalExam -> practicalExamService.mapModelToDTO(practicalExam, PracticalExamDTO.builder().build()))
+                    .collect(Collectors.toList());
+
+            return CalendarEventsDTO.builder().drivings(drivingDTOS).reservations(reservationDTOS).exams(practicalExamDTOS).build();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
