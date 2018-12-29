@@ -64,10 +64,10 @@ public class DrivingController {
         }
     }
 
-    @GetMapping(path = "/instructor/{id}")
-    public ResponseEntity<List<DrivingDTO>> getDrivingsByInstructor(@PathVariable("id") Long instructorId) {
+    @GetMapping(path = "/instructor")
+    public ResponseEntity<List<DrivingDTO>> getDrivingsByInstructor() {
         try {
-            return ResponseEntity.ok(drivingService.getDrivingsByInstructor(instructorId));
+            return ResponseEntity.ok(drivingService.getDrivingsByInstructor());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();

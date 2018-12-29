@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.event.exam.PracticalExamDTO;
 import pl.jakub.walczak.driveme.mappers.event.exam.PracticalExamMapper;
 import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
+import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.event.exam.PracticalExamRepository;
+import pl.jakub.walczak.driveme.utils.AuthenticationUtil;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -19,11 +21,13 @@ public class PracticalExamService {
 
     private PracticalExamRepository practicalExamRepository;
     private PracticalExamMapper practicalExamMapper;
+    private AuthenticationUtil authenticationUtil;
 
     @Autowired
-    public PracticalExamService(PracticalExamRepository practicalExamRepository, PracticalExamMapper practicalExamMapper) {
+    public PracticalExamService(PracticalExamRepository practicalExamRepository, PracticalExamMapper practicalExamMapper, AuthenticationUtil authenticationUtil) {
         this.practicalExamRepository = practicalExamRepository;
         this.practicalExamMapper = practicalExamMapper;
+        this.authenticationUtil = authenticationUtil;
     }
 
     // -- methods for controller
@@ -54,19 +58,23 @@ public class PracticalExamService {
         }
     }
 
-    public PracticalExamDTO getPracticalExamOfStudent(Long studentId) {
-        log.info("Getting the PracticalExam of Student with id = " + studentId);
-        Optional<PracticalExam> optionalPracticalExam = practicalExamRepository.findByStudentId(studentId);
+    public PracticalExamDTO getPracticalExamOfStudent() {
+        User currentLoggedUser = authenticationUtil.getCurrentLoggedUser();
+        Long currentLoggedUserId = currentLoggedUser.getId();
+        log.info("Getting the PracticalExam of current logged Student with id = " + currentLoggedUserId);
+        Optional<PracticalExam> optionalPracticalExam = practicalExamRepository.findByStudentId(currentLoggedUserId);
         if (optionalPracticalExam.isPresent()) {
             return mapModelToDTO(optionalPracticalExam.get(), PracticalExamDTO.builder().build());
         } else {
-            throw new NoSuchElementException("Cannot GET PracticalExam of Student with given id = " + studentId);
+            throw new NoSuchElementException("Cannot GET PracticalExam of Student with id = " + currentLoggedUserId);
         }
     }
 
-    public List<PracticalExamDTO> getPracticalExamsOfInstructor(Long instructorId) {
-        log.info("Getting all PracticalExams of Instructor with id = " + instructorId);
-        List<PracticalExam> practicalExamsOfInstructor = practicalExamRepository.findAllByInstructorId(instructorId);
+    public List<PracticalExamDTO> getPracticalExamsOfInstructor() {
+        User currentLoggedUser = authenticationUtil.getCurrentLoggedUser();
+        Long currentLoggedUserId = currentLoggedUser.getId();
+        log.info("Getting all PracticalExams of current logged Instructor with id = " + currentLoggedUserId);
+        List<PracticalExam> practicalExamsOfInstructor = practicalExamRepository.findAllByInstructorId(currentLoggedUserId);
         return practicalExamsOfInstructor.stream().map(exam -> mapModelToDTO(exam, PracticalExamDTO.builder().build()))
                 .collect(Collectors.toList());
     }

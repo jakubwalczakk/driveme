@@ -55,10 +55,10 @@ public class ReservationController {
     }
 
 
-    @GetMapping(path = "/instructor/{id}")
-    public ResponseEntity<List<ReservationDTO>> getReservationsByInstructor(@PathVariable("id") Long instructorId) {
+    @GetMapping(path = "/instructor")
+    public ResponseEntity<List<ReservationDTO>> getReservationsByInstructor() {
         try {
-            return ResponseEntity.ok(reservationService.getReservationsByInstructor(instructorId));
+            return ResponseEntity.ok(reservationService.getReservationsByInstructor());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();

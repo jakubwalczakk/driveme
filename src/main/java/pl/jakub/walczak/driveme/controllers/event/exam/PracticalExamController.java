@@ -52,20 +52,20 @@ public class PracticalExamController {
         }
     }
 
-    @GetMapping(path="/student/{id}")
-    public ResponseEntity<PracticalExamDTO> getPracticalExamOfStudent(@PathVariable("id") Long studentId) {
+    @GetMapping(path="/student")
+    public ResponseEntity<PracticalExamDTO> getPracticalExamOfStudent() {
         try {
-            return ResponseEntity.ok(practicalExamService.getPracticalExamOfStudent(studentId));
+            return ResponseEntity.ok(practicalExamService.getPracticalExamOfStudent());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
     }
 
-    @GetMapping(path="/instructor/{id}")
-    public ResponseEntity<List<PracticalExamDTO>> getPracticalExamsOfInstructor(@PathVariable("id") Long instructorId) {
+    @GetMapping(path="/instructor")
+    public ResponseEntity<List<PracticalExamDTO>> getPracticalExamsOfInstructor() {
         try {
-            return ResponseEntity.ok(practicalExamService.getPracticalExamsOfInstructor(instructorId));
+            return ResponseEntity.ok(practicalExamService.getPracticalExamsOfInstructor());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();

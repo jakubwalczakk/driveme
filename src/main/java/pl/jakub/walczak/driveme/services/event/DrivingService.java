@@ -53,7 +53,7 @@ public class DrivingService {
                 return mapModelToDTO(driving, DrivingDTO.builder().build());
             }
             return null;
-        } catch (IllegalArgumentException | NullPointerException e) {
+        } catch (IllegalArgumentException e) {
             log.warn("Cannot find a value of Rating Enum = " + rateDrivingDTO.getRating());
             throw new IllegalArgumentException();
         }
@@ -79,9 +79,12 @@ public class DrivingService {
         }
     }
 
-    public List<DrivingDTO> getDrivingsByInstructor(Long instructorId) {
-        log.info("Getting the List of Drivings of Instructor with id = " + instructorId);
-        List<Driving> listOfInstructorDrivings = drivingRepository.findAllByInstructorIdOrderByStartDateDesc(instructorId);
+    public List<DrivingDTO> getDrivingsByInstructor() {
+
+        User currentUser = authenticationUtil.getCurrentLoggedUser();
+        Long currentLoggedUserId = currentUser.getId();
+        log.info("Getting the List of Drivings of current logged Instructor with id = " + currentLoggedUserId);
+        List<Driving> listOfInstructorDrivings = drivingRepository.findAllByInstructorIdOrderByStartDateDesc(currentLoggedUserId);
         return listOfInstructorDrivings.stream()
                 .map(driving -> mapModelToDTO(driving, DrivingDTO.builder().build())).collect(Collectors.toList());
     }

@@ -63,9 +63,11 @@ public class ReservationService {
         }
     }
 
-    public List<ReservationDTO> getReservationsByInstructor(Long instructorId) {
-        log.info("Getting the List of Reservations of Instructor with id = " + instructorId);
-        List<Reservation> listOfInstructorReservations = reservationRepository.findAllByInstructorIdOrderByStartDateDesc(instructorId);
+    public List<ReservationDTO> getReservationsByInstructor() {
+        User currentUser = authenticationUtil.getCurrentLoggedUser();
+        Long currentLoggedUserId = currentUser.getId();
+        log.info("Getting the List of Reservations of current logged Instructor with id = " + currentLoggedUserId);
+        List<Reservation> listOfInstructorReservations = reservationRepository.findAllByInstructorIdOrderByStartDateDesc(currentLoggedUserId);
         return listOfInstructorReservations.stream()
                 .map(reservation -> mapModelToDTO(reservation, ReservationDTO.builder().build())).collect(Collectors.toList());
     }

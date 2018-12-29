@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.event.exam.TheoreticalExamDTO;
 import pl.jakub.walczak.driveme.mappers.event.exam.TheoreticalExamMapper;
 import pl.jakub.walczak.driveme.model.event.exam.TheoreticalExam;
+import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.event.exam.TheoreticalExamRepository;
+import pl.jakub.walczak.driveme.utils.AuthenticationUtil;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,11 +22,13 @@ public class TheoreticalExamService {
 
     private TheoreticalExamRepository theoreticalExamRepository;
     private TheoreticalExamMapper theoreticalExamMapper;
+    private AuthenticationUtil authenticationUtil;
 
     @Autowired
-    public TheoreticalExamService(TheoreticalExamRepository theoreticalExamRepository, TheoreticalExamMapper theoreticalExamMapper) {
+    public TheoreticalExamService(TheoreticalExamRepository theoreticalExamRepository, TheoreticalExamMapper theoreticalExamMapper, AuthenticationUtil authenticationUtil) {
         this.theoreticalExamRepository = theoreticalExamRepository;
         this.theoreticalExamMapper = theoreticalExamMapper;
+        this.authenticationUtil = authenticationUtil;
     }
 
     // -- methods for controller --
@@ -55,10 +59,12 @@ public class TheoreticalExamService {
         }
     }
 
-    public List<TheoreticalExamDTO> getTheoreticalExamsOfStudent(Long studentId) {
-        log.info("Getting all TheoreticalExams of Student with given id = " + studentId);
+    public List<TheoreticalExamDTO> getTheoreticalExamsOfStudent() {
+        User currentLoggedUser = authenticationUtil.getCurrentLoggedUser();
+        Long currentLoggedUserId = currentLoggedUser.getId();
+        log.info("Getting all TheoreticalExams of current logged Student with id = " + currentLoggedUserId);
         List<TheoreticalExam> listOfTheoreticalExams =
-                theoreticalExamRepository.findAllByStudentIdOrderByPassedDescStartDateDesc(studentId);
+                theoreticalExamRepository.findAllByStudentIdOrderByPassedDescStartDateDesc(currentLoggedUserId);
         return listOfTheoreticalExams.stream()
                 .map(exam -> mapModelToDTO(exam, TheoreticalExamDTO.builder().build())).collect(Collectors.toList());
     }
