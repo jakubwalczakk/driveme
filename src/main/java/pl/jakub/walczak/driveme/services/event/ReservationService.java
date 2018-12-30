@@ -4,15 +4,22 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
+import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.mappers.event.ReservationMapper;
+import pl.jakub.walczak.driveme.model.car.Car;
+import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.model.user.User;
+import pl.jakub.walczak.driveme.repos.car.CarRepository;
+import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
 import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
-import pl.jakub.walczak.driveme.services.car.CarService;
 import pl.jakub.walczak.driveme.services.user.InstructorService;
 import pl.jakub.walczak.driveme.utils.AuthenticationUtil;
 
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -23,16 +30,20 @@ public class ReservationService {
     private ReservationMapper reservationMapper;
     private AuthenticationUtil authenticationUtil;
 
-    private CarService carService;
+    private DrivingRepository drivingRepository;
+
+    private CarRepository carRepository;
     private InstructorService instructorService;
 
     @Autowired
     public ReservationService(ReservationRepository reservationRepository, ReservationMapper reservationMapper,
-                              AuthenticationUtil authenticationUtil, CarService carService, InstructorService instructorService) {
+                              AuthenticationUtil authenticationUtil,
+                              DrivingRepository drivingRepository, CarRepository carRepository, InstructorService instructorService) {
         this.reservationRepository = reservationRepository;
         this.reservationMapper = reservationMapper;
         this.authenticationUtil = authenticationUtil;
-        this.carService = carService;
+        this.drivingRepository = drivingRepository;
+        this.carRepository = carRepository;
         this.instructorService = instructorService;
     }
 
@@ -41,6 +52,25 @@ public class ReservationService {
         log.info("Adding new Reservation...");
         Reservation reservation = mapDTOToModel(reservationDTO, Reservation.builder().build());
         return reservationRepository.save(reservation);
+    }
+
+    public Boolean acceptReservation(Long reservationId) {
+        log.info("Accepting Reservation with id = " + reservationId);
+        Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
+        if (optionalReservation.isPresent()) {
+            Reservation reservation = optionalReservation.get();
+            CarBrand carBrand = reservation.getCarBrand();
+            //FIXME
+            //find available car with specified brand in given terms
+            List<Car> cars = carRepository.findAllCarByBrand(carBrand);
+            Driving driving = mapReservationIntoDriving(reservation, cars.get(0));
+            drivingRepository.save(driving);
+            return true;
+        } else {
+            String msg = "Cannot find Reservation with id = " + reservationId;
+            log.info(msg);
+            throw new NoSuchElementException(msg);
+        }
     }
 
     public void deleteReservation(Long id) {
@@ -110,5 +140,10 @@ public class ReservationService {
         }
         model = reservationMapper.mapDTOToModel(dto, model);
         return reservationRepository.save(model);
+    }
+
+    public Driving mapReservationIntoDriving(Reservation reservation, Car car) {
+        log.info("Mapping reservation into Driving");
+        return reservationMapper.mapReservationIntoDriving(reservation, car);
     }
 }

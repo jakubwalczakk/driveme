@@ -102,11 +102,11 @@ public class CarService {
         return carRepository.findByLicensePlate(carLicensePlate);
     }
 
-    private Set<Car> findActiveCars() {
+    private List<Car> findActiveCars() {
         return carRepository.findAllByActive(true);
     }
 
-    public Set<Car> findAllCarsByBrand(String brand) {
+    public List<Car> findAllCarsByBrand(String brand) {
         try {
             CarBrand carBrand = CarBrand.of(brand);
             return carRepository.findAllCarByBrand(carBrand);

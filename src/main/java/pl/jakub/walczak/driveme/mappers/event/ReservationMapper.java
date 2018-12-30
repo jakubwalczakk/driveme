@@ -5,7 +5,9 @@ import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 import pl.jakub.walczak.driveme.enums.CarBrand;
+import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.city.DrivingCity;
+import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
@@ -70,5 +72,17 @@ public class ReservationMapper {
         }
         model.setStatus(dto.getStatus());
         return model;
+    }
+
+    public Driving mapReservationIntoDriving(Reservation reservation, Car car) {
+        Driving driving = Driving.builder()
+                .student(reservation.getStudent())
+                .startDate(reservation.getStartDate())
+                .duration(reservation.getDuration())
+                .instructor(reservation.getInstructor())
+                .car(car)
+                .drivingCity(reservation.getDrivingCity())
+                .build();
+        return driving;
     }
 }

@@ -14,10 +14,14 @@ import java.util.Set;
 @Repository
 @Transactional
 public interface CarRepository extends JpaRepository<Car, Long> {
-    Set<Car> findAllByActive(boolean active);
-    Set<Car> findAllCarByBrand(CarBrand brand);
+    List<Car> findAllByActive(boolean active);
+
+    List<Car> findAllCarByBrand(CarBrand brand);
+
     @Query("SELECT DISTINCT brand FROM cars")
     Set<CarBrand> findAllCarBrands();
 
     Optional<Car> findByLicensePlate(String licensePlate);
+
+    Optional<Car> findCarByBrand(CarBrand brand);
 }

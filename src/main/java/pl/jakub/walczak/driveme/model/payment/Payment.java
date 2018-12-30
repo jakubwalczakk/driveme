@@ -10,8 +10,6 @@ import pl.jakub.walczak.driveme.model.user.Student;
 import javax.persistence.*;
 import java.time.Instant;
 
-import static javax.persistence.FetchType.*;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -22,8 +20,6 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //FIXME
-    //it must be contained
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Student student;

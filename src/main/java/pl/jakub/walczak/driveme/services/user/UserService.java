@@ -37,7 +37,6 @@ public class UserService {
     }
 
     // -- methods for controller --
-    //FIXME
     public User createUser(UserRegistrationDTO userRegistrationDTO) {
         log.info("Creating new User...");
 //        if (Validator.userRegistrationValidation(userRegistrationDTO)) {

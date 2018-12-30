@@ -9,7 +9,6 @@ import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.services.event.ReservationService;
 
 import java.util.List;
-import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -30,6 +29,16 @@ public class ReservationController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping(path = "/accept/{id}")
+    public ResponseEntity<?> acceptReservation(@PathVariable("id") Long reservationId) {
+        try {
+            return ResponseEntity.ok(reservationService.acceptReservation(reservationId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
         }
     }
 

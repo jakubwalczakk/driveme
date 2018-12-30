@@ -10,10 +10,7 @@ import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
 import pl.jakub.walczak.driveme.dto.event.exam.PracticalExamDTO;
 import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.mappers.event.EventMapper;
-import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Event;
-import pl.jakub.walczak.driveme.model.event.Reservation;
-import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
 import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
 import pl.jakub.walczak.driveme.repos.event.EventRepository;
 import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
@@ -91,28 +88,29 @@ public class EventService {
         }
     }
 
-    //FIXME
+    //FIXME??
     public CalendarEventsDTO getAllSpecifiedEvents(String instructorEmail, String carBrand) {
         log.info("Getting all Events specified by Instructor = " + instructorEmail + " and brand = " + carBrand);
         try {
             CarBrand brand = CarBrand.of(carBrand);
-            List<Driving> drivings = drivingRepository.findAllByInstructorEmailAndCar_Brand(instructorEmail, brand);
 
-            List<Reservation> reservations = reservationRepository.findAllByInstructorEmailAndCarBrand(instructorEmail, brand);
+            List<DrivingDTO> drivingDTOS =
+                    drivingRepository.findAllByInstructorEmailAndCar_Brand(instructorEmail, brand)
+                            .stream()
+                            .map(driving -> drivingService.mapModelToDTO(driving, DrivingDTO.builder().build()))
+                            .collect(Collectors.toList());
 
-            List<PracticalExam> practicalExams = practicalExamRepository.findAllByInstructorEmailAndCar_Brand(instructorEmail, brand);
+            List<ReservationDTO> reservationDTOS =
+                    reservationRepository.findAllByInstructorEmailAndCarBrand(instructorEmail, brand)
+                            .stream()
+                            .map(reservation -> reservationService.mapModelToDTO(reservation, ReservationDTO.builder().build()))
+                            .collect(Collectors.toList());
 
-            List<DrivingDTO> drivingDTOS = drivings.stream()
-                    .map(driving -> drivingService.mapModelToDTO(driving, DrivingDTO.builder().build()))
-                    .collect(Collectors.toList());
-
-            List<ReservationDTO> reservationDTOS = reservations.stream()
-                    .map(reservation -> reservationService.mapModelToDTO(reservation, ReservationDTO.builder().build()))
-                    .collect(Collectors.toList());
-
-            List<PracticalExamDTO> practicalExamDTOS = practicalExams.stream()
-                    .map(practicalExam -> practicalExamService.mapModelToDTO(practicalExam, PracticalExamDTO.builder().build()))
-                    .collect(Collectors.toList());
+            List<PracticalExamDTO> practicalExamDTOS =
+                    practicalExamRepository.findAllByInstructorEmailAndCar_Brand(instructorEmail, brand)
+                            .stream()
+                            .map(practicalExam -> practicalExamService.mapModelToDTO(practicalExam, PracticalExamDTO.builder().build()))
+                            .collect(Collectors.toList());
 
             return CalendarEventsDTO.builder().drivings(drivingDTOS).reservations(reservationDTOS).exams(practicalExamDTOS).build();
         } catch (IllegalArgumentException e) {
