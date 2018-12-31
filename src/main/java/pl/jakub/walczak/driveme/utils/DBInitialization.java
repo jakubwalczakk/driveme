@@ -13,18 +13,15 @@ import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
 import pl.jakub.walczak.driveme.model.event.exam.TheoreticalExam;
 import pl.jakub.walczak.driveme.model.payment.Payment;
+import pl.jakub.walczak.driveme.model.user.Admin;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
-import pl.jakub.walczak.driveme.model.user.User;
-import pl.jakub.walczak.driveme.repos.address.AddressRepository;
 import pl.jakub.walczak.driveme.repos.car.CarRepository;
 import pl.jakub.walczak.driveme.repos.city.DrivingCityRepository;
 import pl.jakub.walczak.driveme.repos.course.CourseRepository;
-import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
-import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
+import pl.jakub.walczak.driveme.repos.user.AdminRepository;
 import pl.jakub.walczak.driveme.repos.user.InstructorRepository;
 import pl.jakub.walczak.driveme.repos.user.StudentRepository;
-import pl.jakub.walczak.driveme.repos.user.UserRepository;
 
 import javax.annotation.PostConstruct;
 import java.time.Instant;
@@ -52,13 +49,10 @@ public class DBInitialization {
 
     private DrivingCityRepository drivingCityRepository;
     private CarRepository carRepository;
-    private AddressRepository addressRepository;
-    private UserRepository userRepository;
+    private AdminRepository adminRepository;
     private InstructorRepository instructorRepository;
     private CourseRepository courseRepository;
     private StudentRepository studentRepository;
-    private DrivingRepository drivingRepository;
-    private ReservationRepository reservationRepository;
     private PasswordEncoder passwordEncoder;
 
     private List<DrivingCity> drivingCities;
@@ -69,22 +63,19 @@ public class DBInitialization {
     private List<Course> courses;
 
     @Autowired
-    public DBInitialization(Generator generator, ImageUploader imageUploader, DrivingCityRepository drivingCityRepository, CarRepository carRepository,
-                            AddressRepository addressRepository, InstructorRepository instructorRepository,
-                            UserRepository userRepository, CourseRepository courseRepository, StudentRepository studentRepository,
-                            DrivingRepository drivingRepository, ReservationRepository reservationRepository, PasswordEncoder passwordEncoder) {
+    public DBInitialization(Generator generator, ImageUploader imageUploader, DrivingCityRepository drivingCityRepository,
+                            CarRepository carRepository, InstructorRepository instructorRepository,
+                            AdminRepository adminRepository, CourseRepository courseRepository,
+                            StudentRepository studentRepository, PasswordEncoder passwordEncoder) {
         this.generator = generator;
         this.imageUploader = imageUploader;
 
         this.drivingCityRepository = drivingCityRepository;
         this.carRepository = carRepository;
-        this.addressRepository = addressRepository;
         this.instructorRepository = instructorRepository;
-        this.userRepository = userRepository;
+        this.adminRepository = adminRepository;
         this.courseRepository = courseRepository;
         this.studentRepository = studentRepository;
-        this.drivingRepository = drivingRepository;
-        this.reservationRepository = reservationRepository;
         this.passwordEncoder = passwordEncoder;
 
         this.drivingCities = new ArrayList<>();
@@ -296,15 +287,15 @@ public class DBInitialization {
     //2
     private void initializeAdministrators() {
 
-        User admin1 = User.builder().name("Jadwiga").surname("Bąk").email("jadwiga.bak@driveme.pl")
+        Admin admin1 = Admin.builder().name("Jadwiga").surname("Bąk").email("jadwiga.bak@driveme.pl")
                 .password(passwordEncoder.encode(DEFAULT_PASSWORD)).phoneNumber(generator.generatePhoneNumber())
                 .userRole(UserRole.ADMIN).active(true).build();
-        userRepository.save(admin1);
+        adminRepository.save(admin1);
 
-        User admin2 = User.builder().name("Monika").surname("Krajewska").email("monika.krajewska@driveme.pl")
+        Admin admin2 = Admin.builder().name("Monika").surname("Krajewska").email("monika.krajewska@driveme.pl")
                 .password(passwordEncoder.encode(DEFAULT_PASSWORD)).phoneNumber(generator.generatePhoneNumber())
                 .userRole(UserRole.ADMIN).active(true).build();
-        userRepository.save(admin2);
+        adminRepository.save(admin2);
     }
 
     //5
@@ -535,7 +526,7 @@ public class DBInitialization {
 
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
             Instant startDate = Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60);
-            Integer duration = (RANDOM.nextInt(6) + 2) *HALF_HOUR_IN_MINUTES;
+            Integer duration = (RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_MINUTES;
             System.out.println(duration);
             Reservation reservation =
                     Reservation.builder()

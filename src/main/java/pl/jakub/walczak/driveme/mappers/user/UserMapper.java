@@ -26,19 +26,20 @@ public class UserMapper {
     }
 
     public User mapDTOToModel(UserDTO dto, User model) {
-        model.setId(dto.getId());
-        model.setName(dto.getName());
-        model.setSurname(dto.getSurname());
-        model.setEmail(dto.getEmail());
-        model.setPassword(passwordEncoder.encode(dto.getPassword()));
-        model.setPhoneNumber(dto.getPhoneNumber());
+        model.setId(dto.getId() == null ? model.getId() : dto.getId());
+        model.setName(dto.getName() == null ? model.getName() : dto.getName());
+        model.setSurname(dto.getSurname() == null ? model.getSurname() : dto.getSurname());
+        model.setEmail(dto.getEmail() == null ? model.getEmail() : dto.getEmail());
+        model.setPassword(dto.getPassword() == null ? model.getPassword() : passwordEncoder.encode(dto.getPassword()));
+        model.setPhoneNumber(dto.getPhoneNumber() == null ? model.getPhoneNumber() : dto.getPhoneNumber());
         try {
-            model.setUserRole(UserRole.of(dto.getUserRole()));
+            model.setUserRole(dto.getUserRole() == null ? model.getUserRole() :
+                    UserRole.of(dto.getUserRole()));
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             model.setUserRole(UserRole.DEFAULT);
         }
-        model.setActive(dto.getActive());
+        model.setActive(dto.getActive() == null ? model.getActive() : dto.getActive());
         return model;
     }
 }

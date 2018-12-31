@@ -1,6 +1,7 @@
 package pl.jakub.walczak.driveme.mappers.user;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.dto.address.AddressDTO;
 import pl.jakub.walczak.driveme.dto.course.CourseDTO;
@@ -24,12 +25,14 @@ public class StudentMapper {
     private ReservationService reservationService;
     private DrivingService drivingService;
     private CourseService courseService;
+    private PasswordEncoder passwordEncoder;
 
-    public StudentMapper(AddressService addressService, ReservationService reservationService, DrivingService drivingService, CourseService courseService) {
+    public StudentMapper(AddressService addressService, ReservationService reservationService, DrivingService drivingService, CourseService courseService, PasswordEncoder passwordEncoder) {
         this.addressService = addressService;
         this.reservationService = reservationService;
         this.drivingService = drivingService;
         this.courseService = courseService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // -- mappers methods --
@@ -56,7 +59,7 @@ public class StudentMapper {
         model.setName(dto.getName() == null ? model.getName() : dto.getName());
         model.setSurname(dto.getSurname() == null ? model.getSurname() : dto.getSurname());
         model.setEmail(dto.getEmail() == null ? model.getEmail() : dto.getEmail());
-        model.setPassword(dto.getPassword() == null ? model.getPassword() : dto.getPassword());
+        model.setPassword(dto.getPassword() == null ? model.getPassword() : passwordEncoder.encode(dto.getPassword()));
         model.setPhoneNumber(dto.getPhoneNumber() == null ? model.getPhoneNumber() : dto.getPhoneNumber());
         try {
             model.setUserRole(dto.getUserRole() == null ? model.getUserRole() :

@@ -4,20 +4,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import pl.jakub.walczak.driveme.dto.user.AdminRegistrationDTO;
 import pl.jakub.walczak.driveme.dto.user.InstructorRegistrationDTO;
 import pl.jakub.walczak.driveme.dto.user.RegistrationDTO;
 import pl.jakub.walczak.driveme.dto.user.StudentRegistrationDTO;
 import pl.jakub.walczak.driveme.enums.UserRole;
 import pl.jakub.walczak.driveme.model.address.Address;
 import pl.jakub.walczak.driveme.model.course.Course;
+import pl.jakub.walczak.driveme.model.user.Admin;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.services.address.AddressService;
 
 import java.time.Instant;
-import java.util.Date;
-import java.util.UUID;
 
 @Component
 @Slf4j
@@ -38,7 +38,7 @@ public class RegistrationMapper {
             UserRole userRole = UserRole.of(dto.getUserRole());
             if (userRole.getValue().equals(UserRole.ADMIN.getValue())) {
                 log.info("REJESTRACJA NOWEGO ADMINA");
-                user = User.builder()
+                user = Admin.builder()
                         .name(dto.getName())
                         .surname(dto.getSurname())
                         .email(dto.getEmail())
@@ -81,12 +81,25 @@ public class RegistrationMapper {
         }
     }
 
+    public Admin mapRegistrationDTOToInstructor(AdminRegistrationDTO dto) {
+        Admin model = Admin.builder()
+                .name(dto.getName())
+                .surname(dto.getSurname())
+                .email(dto.getEmail())
+//                .password(passwordEncoder.encode(dto.getPassword()))
+                .phoneNumber(dto.getPhoneNumber())
+                .userRole(UserRole.ADMIN)
+                .build();
+
+        return model;
+    }
+
     public Instructor mapRegistrationDTOToInstructor(InstructorRegistrationDTO dto) {
         Instructor model = Instructor.builder()
                 .name(dto.getName())
                 .surname(dto.getSurname())
                 .email(dto.getEmail())
-                .password(passwordEncoder.encode(dto.getPassword()))
+//                .password(passwordEncoder.encode(dto.getPassword()))
                 .phoneNumber(dto.getPhoneNumber())
                 .availableHours(dto.getAvailableHours())
                 .userRole(UserRole.INSTRUCTOR)
@@ -100,7 +113,7 @@ public class RegistrationMapper {
                 .name(dto.getName())
                 .surname(dto.getSurname())
                 .email(dto.getEmail())
-                .password(passwordEncoder.encode(dto.getPassword()))
+//                .password(passwordEncoder.encode(dto.getPassword()))
                 .phoneNumber(dto.getPhoneNumber())
                 .pesel(dto.getPesel())
                 .address(addressService.mapDTOToModel(dto.getAddress(), Address.builder().build()))

@@ -5,7 +5,7 @@ import java.util.Map;
 
 public enum UserRole {
 
-    ADMIN("Administrator"),
+    ADMIN("Admin"),
     INSTRUCTOR("Instruktor"),
     STUDENT("Kursant"),
     DEFAULT("Brak informacji");

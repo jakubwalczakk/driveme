@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 @Data
 @SuperBuilder
 @NoArgsConstructor
-@Entity(name = "administrators")
-public class Administrator extends User {
+@Entity(name = "admins")
+public class Admin extends User {
 
 }
