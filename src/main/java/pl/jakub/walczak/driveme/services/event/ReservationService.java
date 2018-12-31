@@ -13,13 +13,11 @@ import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.car.CarRepository;
 import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
 import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
+import pl.jakub.walczak.driveme.repos.event.exam.PracticalExamRepository;
 import pl.jakub.walczak.driveme.services.user.InstructorService;
 import pl.jakub.walczak.driveme.utils.AuthenticationUtil;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -31,6 +29,7 @@ public class ReservationService {
     private AuthenticationUtil authenticationUtil;
 
     private DrivingRepository drivingRepository;
+    private PracticalExamRepository practicalExamRepository;
 
     private CarRepository carRepository;
     private InstructorService instructorService;
@@ -38,11 +37,12 @@ public class ReservationService {
     @Autowired
     public ReservationService(ReservationRepository reservationRepository, ReservationMapper reservationMapper,
                               AuthenticationUtil authenticationUtil,
-                              DrivingRepository drivingRepository, CarRepository carRepository, InstructorService instructorService) {
+                              DrivingRepository drivingRepository, PracticalExamRepository practicalExamRepository, CarRepository carRepository, InstructorService instructorService) {
         this.reservationRepository = reservationRepository;
         this.reservationMapper = reservationMapper;
         this.authenticationUtil = authenticationUtil;
         this.drivingRepository = drivingRepository;
+        this.practicalExamRepository = practicalExamRepository;
         this.carRepository = carRepository;
         this.instructorService = instructorService;
     }
@@ -60,12 +60,46 @@ public class ReservationService {
         if (optionalReservation.isPresent()) {
             Reservation reservation = optionalReservation.get();
             CarBrand carBrand = reservation.getCarBrand();
+            List<Car> cars = carRepository.findAllCarByBrand(carBrand);
+
             //FIXME
             //find available car with specified brand in given terms
-            List<Car> cars = carRepository.findAllCarByBrand(carBrand);
-            Driving driving = mapReservationIntoDriving(reservation, cars.get(0));
-            drivingRepository.save(driving);
-            return true;
+            Set<Car> carsFromDrivings =
+                    drivingRepository
+                            .findAllByCarBrandAndAndStartDateBefore(carBrand, reservation.getStartDate())
+                            .stream()
+                            .map(driving -> driving.getCar())
+                            .collect(Collectors.toSet());
+
+            Set<Car> carsFromExams =
+                    practicalExamRepository
+                            .findAllByCarBrandAndAndStartDateBefore(carBrand, reservation.getStartDate())
+                            .stream()
+                            .map(exam -> exam.getCar())
+                            .collect(Collectors.toSet());
+
+            Set<Car> unavailableCars = new HashSet<>(carsFromDrivings);
+            unavailableCars.addAll(carsFromExams);
+
+            Set<Car> availableCars = cars.stream()
+                    .filter(car -> !unavailableCars.contains(car)).collect(Collectors.toSet());
+
+
+            Iterator availableCarsIterator = availableCars.iterator();
+
+            if (availableCarsIterator.hasNext()) {
+                Car selectedCar = (Car) availableCarsIterator.next();
+
+                if (selectedCar != null) {
+
+                    Driving driving = mapReservationIntoDriving(reservation, selectedCar);
+                    drivingRepository.save(driving);
+                    log.info("Reservation with id = " + reservationId + " successfully accepted and transformed into Driving");
+                    return true;
+                }
+            }
+            log.info("Reservation with id = " + reservationId + " NOT accepted...");
+            return false;
         } else {
             String msg = "Cannot find Reservation with id = " + reservationId;
             log.info(msg);
