@@ -35,11 +35,12 @@ public class ReservationMapper {
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
         dto.setStartDate(DateFormatter.formatDateToString(model.getStartDate()));
         dto.setDuration(model.getDuration());
+        dto.setFinishDate(DateFormatter.formatDateToString(model.getFinishDate()));
 
         dto.setInstructor(userService.mapUserBasicModelToDTO(model.getInstructor(), UserBasicDTO.builder().build()));
         dto.setCarBrand(model.getCarBrand() == null ? null : model.getCarBrand().getValue());
         dto.setDrivingCity(model.getDrivingCity() == null ? null : model.getDrivingCity().getName());
-        dto.setStatus(model.getStatus());
+        dto.setAccepted(model.getAccepted());
         return dto;
     }
 
@@ -47,6 +48,7 @@ public class ReservationMapper {
         model.setId(dto.getId());
         model.setStartDate(DateFormatter.parseStringToInstant(dto.getStartDate()));
         model.setDuration(dto.getDuration());
+        model.setFinishDate(DateFormatter.parseStringToInstant(dto.getFinishDate()));
 
         User student = userService.mapUserBasicDTOToModel(dto.getStudent());
         if (student instanceof Student) {
@@ -70,7 +72,7 @@ public class ReservationMapper {
         if (instructor instanceof Instructor) {
             model.setInstructor((Instructor) instructor);
         }
-        model.setStatus(dto.getStatus());
+        model.setAccepted(dto.getAccepted());
         return model;
     }
 
@@ -79,6 +81,7 @@ public class ReservationMapper {
                 .student(reservation.getStudent())
                 .startDate(reservation.getStartDate())
                 .duration(reservation.getDuration())
+                .finishDate(reservation.getFinishDate())
                 .instructor(reservation.getInstructor())
                 .car(car)
                 .drivingCity(reservation.getDrivingCity())

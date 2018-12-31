@@ -37,8 +37,10 @@ public class DBInitialization {
     private final static String DEFAULT_PASSWORD = "password";
     private final static Random RANDOM = new Random();
     private final static Long ONE_DAY_IN_SECONDS = 24 * 60 * 60L;
+    private final static Integer HOUR_IN_SECONDS = 60 * 60;
     private final static Integer HALF_HOUR_IN_SECONDS = 30 * 60;
     private final static Integer HALF_HOUR_IN_MINUTES = 30;
+    private final static Integer MINUTE_IN_SECONDS = 60;
     private final static ZoneId DEFAULT_ZONE_ID = ZoneId.systemDefault();
     private final static String LOREM_IPSUM = "Lorem ipsum dolor sit amet, ad nam debet copiosae, eu omnesque scriptorem mel. " +
             "Elit persius apeirian duo ea, iisque minimum eam ea. Est ad iudico persecuti, ea usu aliquip phaedrum. " +
@@ -486,12 +488,15 @@ public class DBInitialization {
         Course course = student.getCourse();
         Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
 
+        Instant startDate = Instant.now().minusSeconds(RANDOM.nextInt(4) * ONE_DAY_IN_SECONDS);
+        Instant finishDate = startDate.plusSeconds(HOUR_IN_SECONDS);
         boolean status = RANDOM.nextInt(100) % 2 == 0 ? true : false;
         PracticalExam practicalExam = PracticalExam.builder()
                 .student(student)
                 .car(cars.get(RANDOM.nextInt(cars.size())))
                 .instructor(instructor)
-                .startDate(Instant.now().minusSeconds(RANDOM.nextInt(4) * ONE_DAY_IN_SECONDS))
+                .startDate(startDate)
+                .finishDate(finishDate)
                 .passed(status)
                 .build();
         course.setPracticalExam(practicalExam);
@@ -527,6 +532,7 @@ public class DBInitialization {
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
             Instant startDate = Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60);
             Integer duration = (RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_MINUTES;
+            Instant finishDate = startDate.plusSeconds(duration * MINUTE_IN_SECONDS);
             System.out.println(duration);
             Reservation reservation =
                     Reservation.builder()
@@ -535,8 +541,9 @@ public class DBInitialization {
                             .carBrand(cars.get(RANDOM.nextInt(cars.size())).getBrand())
                             .startDate(startDate)
                             .duration(duration)
+                            .finishDate(finishDate)
                             .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
-                            .status(true)
+                            .accepted(false)
                             .build();
             reservations.add(reservation);
         }
@@ -563,6 +570,7 @@ public class DBInitialization {
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
             Instant startDate = Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60);
             Integer duration = (RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_MINUTES;
+            Instant finishDate = startDate.plusSeconds(duration * MINUTE_IN_SECONDS);
             System.out.println(duration);
             Driving driving =
                     Driving.builder()
@@ -571,6 +579,7 @@ public class DBInitialization {
                             .car(cars.get(RANDOM.nextInt(cars.size())))
                             .startDate(startDate)
                             .duration(duration)
+                            .finishDate(finishDate)
                             .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
                             .title(drivingTitle)
                             .comment(drivingComment)

@@ -72,7 +72,7 @@ public class EventController {
 //            return ResponseEntity.ok(eventService.getEventsByInstructorAndCar(request));
 //        }catch (Exception e){
 //            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//            return ResponseEntity.accepted(HttpStatus.INTERNAL_SERVER_ERROR).build();
 //        }
 //    }
 

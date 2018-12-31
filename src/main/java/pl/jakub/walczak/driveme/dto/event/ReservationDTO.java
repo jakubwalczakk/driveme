@@ -15,5 +15,5 @@ public class ReservationDTO extends EventDTO {
     private UserBasicDTO instructor;
     private String carBrand;
     private String drivingCity;
-    private Boolean status;
+    private Boolean accepted;
 }

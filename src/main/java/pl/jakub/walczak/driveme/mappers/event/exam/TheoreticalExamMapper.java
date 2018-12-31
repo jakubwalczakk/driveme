@@ -21,7 +21,6 @@ public class TheoreticalExamMapper {
         dto.setId(model.getId());
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
         dto.setStartDate(DateFormatter.formatDateToString(model.getStartDate()));
-        dto.setDuration(model.getDuration());
         dto.setScoredPoints(model.getScoredPoints());
         dto.setResult(model.getResult());
         dto.setPassed(model.getPassed());
@@ -32,7 +31,6 @@ public class TheoreticalExamMapper {
 
         model.setId(dto.getId());
         model.setStartDate(DateFormatter.parseStringToInstant(dto.getStartDate()));
-        model.setDuration(dto.getDuration());
 
         User student = userService.mapUserBasicDTOToModel(dto.getStudent());
         if (student instanceof Student) {

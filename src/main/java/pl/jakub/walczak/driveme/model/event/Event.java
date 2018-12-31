@@ -27,4 +27,6 @@ public class Event {
     @Column(name = "event_start_date", nullable = false)
     private Instant startDate;
     private Integer duration;
+    @Column(name = "event_finish_date")
+    private Instant finishDate;
 }

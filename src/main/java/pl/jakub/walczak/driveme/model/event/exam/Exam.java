@@ -14,6 +14,6 @@ import javax.persistence.Entity;
 @Entity(name = "exams")
 public class Exam extends Event {
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "accepted", nullable = false)
     private Boolean passed;
 }

@@ -21,6 +21,7 @@ public class ExamMapper {
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
         dto.setStartDate(DateFormatter.formatDateToString(model.getStartDate()));
         dto.setDuration(model.getDuration());
+        dto.setFinishDate(DateFormatter.formatDateToString(model.getFinishDate()));
         dto.setPassed(model.getPassed());
         return dto;
     }
@@ -29,6 +30,7 @@ public class ExamMapper {
         model.setId(dto.getId());
         model.setStartDate(DateFormatter.parseStringToInstant(dto.getStartDate()));
         model.setDuration(dto.getDuration());
+        model.setFinishDate(DateFormatter.parseStringToInstant(dto.getFinishDate()));
 
         User student = userService.mapUserBasicDTOToModel(dto.getStudent());
         if (student instanceof Student) {

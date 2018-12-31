@@ -29,5 +29,5 @@ public class Reservation extends Event {
     private CarBrand carBrand;
     @ManyToOne(fetch = FetchType.LAZY)
     private DrivingCity drivingCity;
-    private Boolean status;
+    private Boolean accepted;
 }

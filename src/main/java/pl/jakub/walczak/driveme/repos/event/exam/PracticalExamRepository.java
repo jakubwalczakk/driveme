@@ -3,7 +3,6 @@ package pl.jakub.walczak.driveme.repos.event.exam;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pl.jakub.walczak.driveme.enums.CarBrand;
-import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
 
 import javax.transaction.Transactional;
@@ -20,5 +19,9 @@ public interface PracticalExamRepository extends JpaRepository<PracticalExam, Lo
 
     List<PracticalExam> findAllByInstructorEmailAndCar_Brand(String instructorEmail, CarBrand brand);
 
-    List<PracticalExam> findAllByCarBrandAndAndStartDateBefore(CarBrand carBrand, Instant startDate);
+//    List<PracticalExam> findAllByCarBrandAndStartDateAfterAndFinishDateBeforeOrStartDateBeforeAndFinishDateAfterAndStartDateBeforeAndFinishDateAfter(CarBrand carBrand, Instant startDate, Instant finishDate);
+
+    List<PracticalExam> findAllByCarBrandAndStartDateAfterAndFinishDateBefore(CarBrand carBrand, Instant startDate, Instant finishDate);
+
+    List<PracticalExam> findAllByCarBrandAndStartDateBeforeAndFinishDateAfter(CarBrand carBrand, Instant startDate, Instant finishDate);
 }

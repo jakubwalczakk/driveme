@@ -63,27 +63,57 @@ public class ReservationService {
             List<Car> cars = carRepository.findAllCarByBrand(carBrand);
 
             //FIXME
-            //find available car with specified brand in given terms
-            Set<Car> carsFromDrivings =
+            //IT WORKS, BUT...
+            Set<Car> carsFromDrivingsInternal =
                     drivingRepository
-                            .findAllByCarBrandAndAndStartDateBefore(carBrand, reservation.getStartDate())
+                            .findAllByCarBrandAndStartDateAfterAndFinishDateBefore(carBrand, reservation.getStartDate(), reservation.getFinishDate())
                             .stream()
                             .map(driving -> driving.getCar())
                             .collect(Collectors.toSet());
 
-            Set<Car> carsFromExams =
+            Set<Car> carsFromDrivingsBefore =
+                    drivingRepository.findAllByCarBrandAndStartDateBeforeAndFinishDateAfter(carBrand, reservation.getStartDate(), reservation.getStartDate())
+                            .stream()
+                            .map(driving -> driving.getCar())
+                            .collect(Collectors.toSet());
+
+            Set<Car> carsFromDrivingsAfter =
+                    drivingRepository.findAllByCarBrandAndStartDateBeforeAndFinishDateAfter(carBrand, reservation.getFinishDate(), reservation.getFinishDate())
+                            .stream()
+                            .map(driving -> driving.getCar())
+                            .collect(Collectors.toSet());
+
+            Set<Car> carsFromExamsInternal =
                     practicalExamRepository
-                            .findAllByCarBrandAndAndStartDateBefore(carBrand, reservation.getStartDate())
+                            .findAllByCarBrandAndStartDateAfterAndFinishDateBefore(carBrand, reservation.getStartDate(), reservation.getFinishDate())
                             .stream()
                             .map(exam -> exam.getCar())
                             .collect(Collectors.toSet());
+
+            Set<Car> carsFromExamsBefore =
+                    practicalExamRepository.findAllByCarBrandAndStartDateBeforeAndFinishDateAfter(carBrand, reservation.getStartDate(), reservation.getStartDate())
+                            .stream()
+                            .map(exam -> exam.getCar())
+                            .collect(Collectors.toSet());
+            Set<Car> carsFromExamsAfter =
+                    practicalExamRepository.findAllByCarBrandAndStartDateBeforeAndFinishDateAfter(carBrand, reservation.getFinishDate(), reservation.getFinishDate())
+                            .stream()
+                            .map(exam -> exam.getCar())
+                            .collect(Collectors.toSet());
+
+            Set<Car> carsFromDrivings = new HashSet<>(carsFromDrivingsInternal);
+            carsFromDrivings.addAll(carsFromDrivingsBefore);
+            carsFromDrivings.addAll(carsFromDrivingsAfter);
+
+            Set<Car> carsFromExams = new HashSet<>(carsFromExamsInternal);
+            carsFromExams.addAll(carsFromExamsBefore);
+            carsFromExams.addAll(carsFromExamsAfter);
 
             Set<Car> unavailableCars = new HashSet<>(carsFromDrivings);
             unavailableCars.addAll(carsFromExams);
 
             Set<Car> availableCars = cars.stream()
                     .filter(car -> !unavailableCars.contains(car)).collect(Collectors.toSet());
-
 
             Iterator availableCarsIterator = availableCars.iterator();
 
@@ -94,6 +124,8 @@ public class ReservationService {
 
                     Driving driving = mapReservationIntoDriving(reservation, selectedCar);
                     drivingRepository.save(driving);
+                    reservation.setAccepted(true);
+                    reservationRepository.save(reservation);
                     log.info("Reservation with id = " + reservationId + " successfully accepted and transformed into Driving");
                     return true;
                 }
