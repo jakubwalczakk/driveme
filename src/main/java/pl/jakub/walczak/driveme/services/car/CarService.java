@@ -65,13 +65,13 @@ public class CarService {
 
     public Set<String> getAllCarBrands() {
         log.info("Getting all Car brands");
-        return Arrays.stream(CarBrand.values()).filter(brand->!brand.equals(CarBrand.DEFAULT))
+        return Arrays.stream(CarBrand.values()).filter(brand -> !brand.equals(CarBrand.DEFAULT))
                 .map(brand -> brand.getValue()).collect(Collectors.toSet());
     }
 
     public Set<String> getAllGasTypes() {
         log.info("Getting all Gas Types");
-        return Arrays.stream(GasType.values()).filter(gType->!gType.equals(GasType.DEFAULT))
+        return Arrays.stream(GasType.values()).filter(gType -> !gType.equals(GasType.DEFAULT))
                 .map(gType -> gType.getValue()).collect(Collectors.toSet());
     }
 
@@ -106,14 +106,8 @@ public class CarService {
         return carRepository.findAllByActive(true);
     }
 
-    public List<Car> findAllCarsByBrand(String brand) {
-        try {
-            CarBrand carBrand = CarBrand.of(brand);
-            return carRepository.findAllCarByBrand(carBrand);
-        } catch (IllegalArgumentException e) {
-            log.warn("Cannot find a car brand from given string = " + brand);
-            throw new NoSuchElementException("Cannot find cars with brand = " + brand);
-        }
+    public List<Car> findAllCarByBrand(CarBrand brand) {
+        return carRepository.findAllCarByBrand(brand);
     }
 
     public List<Car> findAll() {

@@ -5,18 +5,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
 import pl.jakub.walczak.driveme.enums.CarBrand;
+import pl.jakub.walczak.driveme.enums.UserRole;
 import pl.jakub.walczak.driveme.mappers.event.ReservationMapper;
 import pl.jakub.walczak.driveme.model.car.Car;
+import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Reservation;
+import pl.jakub.walczak.driveme.model.user.Instructor;
+import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
-import pl.jakub.walczak.driveme.repos.car.CarRepository;
 import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
 import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
 import pl.jakub.walczak.driveme.repos.event.exam.PracticalExamRepository;
+import pl.jakub.walczak.driveme.services.car.CarService;
+import pl.jakub.walczak.driveme.services.city.CityService;
 import pl.jakub.walczak.driveme.services.user.InstructorService;
 import pl.jakub.walczak.driveme.utils.AuthenticationUtil;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -31,27 +37,40 @@ public class ReservationService {
     private DrivingRepository drivingRepository;
     private PracticalExamRepository practicalExamRepository;
 
-    private CarRepository carRepository;
+    private CarService carService;
     private InstructorService instructorService;
+    private CityService cityService;
 
     @Autowired
     public ReservationService(ReservationRepository reservationRepository, ReservationMapper reservationMapper,
                               AuthenticationUtil authenticationUtil,
-                              DrivingRepository drivingRepository, PracticalExamRepository practicalExamRepository, CarRepository carRepository, InstructorService instructorService) {
+                              DrivingRepository drivingRepository, PracticalExamRepository practicalExamRepository,
+                              CarService carService, InstructorService instructorService, CityService cityService) {
         this.reservationRepository = reservationRepository;
         this.reservationMapper = reservationMapper;
         this.authenticationUtil = authenticationUtil;
         this.drivingRepository = drivingRepository;
         this.practicalExamRepository = practicalExamRepository;
-        this.carRepository = carRepository;
+        this.carService = carService;
         this.instructorService = instructorService;
+        this.cityService = cityService;
     }
 
     // -- methods for controller --
     public Reservation addReservation(ReservationDTO reservationDTO) {
         log.info("Adding new Reservation...");
-        Reservation reservation = mapDTOToModel(reservationDTO, Reservation.builder().build());
+
+        log.info(reservationDTO.toString());
+        Reservation reservation = createReservationFromDTO(reservationDTO);
+        if (reservation != null) {
+            log.info("Reservation is NOT null");
+        } else {
+            log.info("Reservation IS NULL!");
+        }
+
         return reservationRepository.save(reservation);
+//        Reservation reservation = mapDTOToModel(reservationDTO, Reservation.builder().build());
+//        return reservationRepository.save(reservation);
     }
 
     public Boolean acceptReservation(Long reservationId) {
@@ -60,7 +79,7 @@ public class ReservationService {
         if (optionalReservation.isPresent()) {
             Reservation reservation = optionalReservation.get();
             CarBrand carBrand = reservation.getCarBrand();
-            List<Car> cars = carRepository.findAllCarByBrand(carBrand);
+            List<Car> cars = carService.findAllCarByBrand(carBrand);
 
             //FIXME
             //IT WORKS, BUT...
@@ -211,5 +230,46 @@ public class ReservationService {
     public Driving mapReservationIntoDriving(Reservation reservation, Car car) {
         log.info("Mapping reservation into Driving");
         return reservationMapper.mapReservationIntoDriving(reservation, car);
+    }
+
+    public Reservation createReservationFromDTO(ReservationDTO dto) {
+
+        User currentUser = authenticationUtil.getCurrentLoggedUser();
+        Student student;
+        if (currentUser instanceof Student) {
+            student = (Student) currentUser;
+
+            Reservation reservation = Reservation.builder().build();
+
+            reservation.setStudent(student);
+
+            Instant startDate = Instant.parse(dto.getStartDate());
+
+            reservation.setStartDate(startDate);
+
+            reservation.setDuration(dto.getDuration());
+
+            reservation.setFinishDate(startDate.plusSeconds(dto.getDuration() * 60));
+
+            reservation.setCarBrand(CarBrand.of(dto.getCarBrand()));
+
+            Optional<Instructor> optionalInstructor = instructorService.findByEmail(dto.getInstructor().getEmail());
+            if (optionalInstructor.isPresent()) {
+                reservation.setInstructor(optionalInstructor.get());
+            } else {
+                return null;
+            }
+
+            Optional<DrivingCity> cityOptional = cityService.findByName(dto.getDrivingCity());
+            if (cityOptional.isPresent()) {
+                reservation.setDrivingCity(cityOptional.get());
+            } else {
+                return null;
+            }
+
+            return reservation;
+        } else {
+            return null;
+        }
     }
 }
