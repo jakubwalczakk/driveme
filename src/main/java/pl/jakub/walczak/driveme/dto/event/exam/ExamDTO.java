@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import pl.jakub.walczak.driveme.dto.event.EventDTO;
-import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
-import pl.jakub.walczak.driveme.model.event.Event;
 
 @Data
 @SuperBuilder

@@ -41,6 +41,7 @@ public class ReservationMapper {
         dto.setCarBrand(model.getCarBrand() == null ? null : model.getCarBrand().getValue());
         dto.setDrivingCity(model.getDrivingCity() == null ? null : model.getDrivingCity().getName());
         dto.setAccepted(model.getAccepted());
+        dto.setEventType(model.getEventType().getValue());
         return dto;
     }
 

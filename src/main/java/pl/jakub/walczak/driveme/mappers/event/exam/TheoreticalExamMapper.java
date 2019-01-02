@@ -24,6 +24,7 @@ public class TheoreticalExamMapper {
         dto.setScoredPoints(model.getScoredPoints());
         dto.setResult(model.getResult());
         dto.setPassed(model.getPassed());
+        dto.setEventType(model.getEventType().getValue());
         return dto;
     }
 

@@ -3,6 +3,7 @@ package pl.jakub.walczak.driveme.model.event.exam;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import pl.jakub.walczak.driveme.enums.EventType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,5 +20,6 @@ public class TheoreticalExam extends Exam {
     private Integer scoredPoints;
     @Column(name = "result", nullable = false)
     private Double result;
+    private final EventType eventType = EventType.THEORETICAL_EXAM;
 
 }

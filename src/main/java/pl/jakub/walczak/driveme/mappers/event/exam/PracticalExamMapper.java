@@ -39,6 +39,7 @@ public class PracticalExamMapper {
         dto.setInstructor(userService.mapUserBasicModelToDTO(model.getInstructor(), UserBasicDTO.builder().build()));
         dto.setCar(carService.mapModelToBasicDTO(model.getCar(), CarBasicDTO.builder().build()));
         dto.setPassed(model.getPassed());
+        dto.setEventType(model.getEventType().getValue());
         return dto;
     }
 

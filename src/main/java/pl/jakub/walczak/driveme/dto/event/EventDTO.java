@@ -17,4 +17,5 @@ public class EventDTO {
     private String startDate;
     private String finishDate;
     private Integer duration;
+    private String eventType;
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import pl.jakub.walczak.driveme.enums.EventType;
 import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 
@@ -25,5 +26,6 @@ public class PracticalExam extends Exam {
     @ManyToOne(fetch = FetchType.LAZY)
     private Instructor instructor;
     private final Integer duration = 60;
+    private final EventType eventType = EventType.PRACTICAL_EXAM;
 
 }

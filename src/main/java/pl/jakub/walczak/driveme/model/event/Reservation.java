@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import pl.jakub.walczak.driveme.enums.CarBrand;
+import pl.jakub.walczak.driveme.enums.EventType;
 import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 
@@ -30,4 +31,5 @@ public class Reservation extends Event {
     @ManyToOne(fetch = FetchType.LAZY)
     private DrivingCity drivingCity;
     private Boolean accepted;
+    private final EventType eventType = EventType.RESERVATION;
 }

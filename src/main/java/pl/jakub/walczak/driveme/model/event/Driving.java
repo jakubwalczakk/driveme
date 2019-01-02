@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import pl.jakub.walczak.driveme.enums.EventType;
 import pl.jakub.walczak.driveme.enums.Rating;
 import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.city.DrivingCity;
@@ -33,5 +34,6 @@ public class Driving extends Event {
     @Enumerated
     private Rating rating;
     private String comment;
+    private final EventType eventType = EventType.DRIVING;
 }
 
