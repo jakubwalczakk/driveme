@@ -86,7 +86,6 @@ public class RegistrationMapper {
                 .name(dto.getName())
                 .surname(dto.getSurname())
                 .email(dto.getEmail())
-//                .password(passwordEncoder.encode(dto.getPassword()))
                 .phoneNumber(dto.getPhoneNumber())
                 .userRole(UserRole.ADMIN)
                 .build();
@@ -99,7 +98,6 @@ public class RegistrationMapper {
                 .name(dto.getName())
                 .surname(dto.getSurname())
                 .email(dto.getEmail())
-//                .password(passwordEncoder.encode(dto.getPassword()))
                 .phoneNumber(dto.getPhoneNumber())
                 .availableHours(dto.getAvailableHours())
                 .userRole(UserRole.INSTRUCTOR)
@@ -113,7 +111,6 @@ public class RegistrationMapper {
                 .name(dto.getName())
                 .surname(dto.getSurname())
                 .email(dto.getEmail())
-//                .password(passwordEncoder.encode(dto.getPassword()))
                 .phoneNumber(dto.getPhoneNumber())
                 .pesel(dto.getPesel())
                 .address(addressService.mapDTOToModel(dto.getAddress(), Address.builder().build()))

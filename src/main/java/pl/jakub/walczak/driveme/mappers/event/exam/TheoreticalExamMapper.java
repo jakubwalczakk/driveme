@@ -31,15 +31,15 @@ public class TheoreticalExamMapper {
     public TheoreticalExam mapDTOToModel(TheoreticalExamDTO dto, TheoreticalExam model) {
 
         model.setId(dto.getId());
-        model.setStartDate(DateFormatter.parseStringToInstant(dto.getStartDate()));
+        model.setStartDate(dto.getStartDate() == null ? model.getStartDate() : DateFormatter.parseStringToInstant(dto.getStartDate()));
 
         User student = userService.mapUserBasicDTOToModel(dto.getStudent());
         if (student instanceof Student) {
             model.setStudent((Student) student);
         }
-        model.setScoredPoints(dto.getScoredPoints());
-        model.setResult(dto.getResult());
-        model.setPassed(dto.getPassed());
+        model.setScoredPoints(dto.getScoredPoints() == null ? model.getScoredPoints() : dto.getScoredPoints());
+        model.setResult(dto.getResult() == null ? model.getResult() : dto.getResult());
+        model.setPassed(dto.getPassed() == null ? model.getPassed() : dto.getPassed());
         return model;
     }
 }

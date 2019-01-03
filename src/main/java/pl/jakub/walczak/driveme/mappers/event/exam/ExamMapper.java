@@ -28,15 +28,15 @@ public class ExamMapper {
 
     public Exam mapDTOToModel(ExamDTO dto, Exam model) {
         model.setId(dto.getId());
-        model.setStartDate(DateFormatter.parseStringToInstant(dto.getStartDate()));
-        model.setDuration(dto.getDuration());
-        model.setFinishDate(DateFormatter.parseStringToInstant(dto.getFinishDate()));
+        model.setStartDate(dto.getStartDate() == null ? model.getStartDate() : DateFormatter.parseStringToInstant(dto.getStartDate()));
+        model.setDuration(dto.getDuration() == null ? model.getDuration() : dto.getDuration());
+        model.setFinishDate(dto.getFinishDate() == null ? model.getFinishDate() : DateFormatter.parseStringToInstant(dto.getFinishDate()));
 
         User student = userService.mapUserBasicDTOToModel(dto.getStudent());
         if (student instanceof Student) {
             model.setStudent((Student) student);
         }
-        model.setPassed(dto.getPassed());
+        model.setPassed(dto.getPassed() == null ? model.getPassed() : dto.getPassed());
         return model;
     }
 }

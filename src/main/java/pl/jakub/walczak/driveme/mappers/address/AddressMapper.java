@@ -18,10 +18,10 @@ public class AddressMapper {
 
     public Address mapDTOToModel(AddressDTO dto, Address model) {
         model.setId(dto.getId());
-        model.setCity(dto.getCity());
-        model.setZipCode(dto.getZipCode());
-        model.setStreet(dto.getStreet());
-        model.setHouseNo(dto.getHouseNo());
+        model.setCity(dto.getCity() == null ? model.getCity() : dto.getCity());
+        model.setZipCode(dto.getZipCode() == null ? model.getZipCode() : dto.getZipCode());
+        model.setStreet(dto.getStreet() == null ? model.getStreet() : dto.getStreet());
+        model.setHouseNo(dto.getHouseNo() == null ? model.getHouseNo() : dto.getHouseNo());
         return model;
     }
 }

@@ -42,7 +42,6 @@ public class CourseMapper {
 
     public CourseDTO mapModelToDTO(Course model, CourseDTO dto) {
         dto.setId(model.getId());
-//        dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
         dto.setStartDate(model.getStartDate());
         dto.setTakenDrivingHours(model.getTakenDrivingHours());
         dto.setPracticalExam(practicalExamService.mapModelToDTO(model.getPracticalExam(), PracticalExamDTO.builder().build()));
@@ -65,12 +64,8 @@ public class CourseMapper {
 
     public Course mapDTOToModel(CourseDTO dto, Course model) {
         model.setId(dto.getId());
-//        User student = userService.mapUserBasicDTOToModel(dto.getStudent());
-//        if (student instanceof Student) {
-//            model.setStudent((Student) student);
-//        }
-        model.setStartDate(dto.getStartDate());
-        model.setTakenDrivingHours(dto.getTakenDrivingHours());
+        model.setStartDate(dto.getStartDate() == null ? model.getStartDate() : dto.getStartDate());
+        model.setTakenDrivingHours(dto.getTakenDrivingHours() == null ? model.getTakenDrivingHours() : dto.getTakenDrivingHours());
 
         PracticalExamDTO practicalExamDTO = dto.getPracticalExam();
         if (practicalExamDTO != null) {
@@ -95,7 +90,7 @@ public class CourseMapper {
         model.setReservations(reservationService.findAllById(reservationsToAdd));
 
         try {
-            model.setStatus(CourseStatus.of(dto.getStatus()));
+            model.setStatus(dto.getStatus() == null ? model.getStatus() : CourseStatus.of(dto.getStatus()));
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             model.setStatus(CourseStatus.DEFAULT);

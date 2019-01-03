@@ -32,8 +32,8 @@ public class PaymentMapper {
 
     public Payment mapDTOToModel(PaymentDTO dto, Payment model) {
         model.setId(dto.getId());
-        model.setDate(DateFormatter.parseStringToInstant(dto.getDate()));
-        model.setAmount(dto.getAmount());
+        model.setDate(dto.getDate() == null ? model.getDate() : DateFormatter.parseStringToInstant(dto.getDate()));
+        model.setAmount(dto.getAmount() == null ? model.getAmount() : dto.getAmount());
 
         UserBasicDTO studentDTO = dto.getStudent();
         if (studentDTO != null) {

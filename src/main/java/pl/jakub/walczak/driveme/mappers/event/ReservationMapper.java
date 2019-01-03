@@ -47,9 +47,9 @@ public class ReservationMapper {
 
     public Reservation mapDTOToModel(ReservationDTO dto, Reservation model) {
         model.setId(dto.getId());
-        model.setStartDate(DateFormatter.parseStringToInstant(dto.getStartDate()));
-        model.setDuration(dto.getDuration());
-        model.setFinishDate(DateFormatter.parseStringToInstant(dto.getFinishDate()));
+        model.setStartDate(dto.getStartDate() == null ? model.getStartDate() : DateFormatter.parseStringToInstant(dto.getStartDate()));
+        model.setDuration(dto.getDuration() == null ? model.getDuration() : dto.getDuration());
+        model.setFinishDate(dto.getFinishDate() == null ? model.getFinishDate() : DateFormatter.parseStringToInstant(dto.getFinishDate()));
 
         User student = userService.mapUserBasicDTOToModel(dto.getStudent());
         if (student instanceof Student) {
@@ -57,8 +57,7 @@ public class ReservationMapper {
         }
 
         try {
-            CarBrand carBrand = CarBrand.of(dto.getCarBrand());
-            model.setCarBrand(carBrand);
+            model.setCarBrand(dto.getCarBrand() == null ? model.getCarBrand() : CarBrand.of((dto.getCarBrand())));
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             model.setCarBrand(CarBrand.DEFAULT);
@@ -73,7 +72,7 @@ public class ReservationMapper {
         if (instructor instanceof Instructor) {
             model.setInstructor((Instructor) instructor);
         }
-        model.setAccepted(dto.getAccepted());
+        model.setAccepted(dto.getAccepted() == null ? model.getAccepted() : dto.getAccepted());
         return model;
     }
 

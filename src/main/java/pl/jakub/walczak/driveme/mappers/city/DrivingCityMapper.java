@@ -26,16 +26,15 @@ public class DrivingCityMapper {
 
     public DrivingCity mapDTOToModel(DrivingCityDTO dto, DrivingCity model) {
         model.setId(dto.getId());
-        model.setName(dto.getName());
+        model.setName(dto.getName() == null ? model.getName() : dto.getName());
         try {
-            model.setImage(Base64.getDecoder().decode(dto.getImage()));
+            model.setImage(dto.getImage() == null ? model.getImage() : Base64.getDecoder().decode(dto.getImage()));
         } catch (Exception e) {
             e.printStackTrace();
             model.setImage(null);
         }
-//        model.setImage(dto.getImage());
-        model.setDescription(dto.getDescription());
-        model.setActive(dto.getActive());
+        model.setDescription(dto.getDescription() == null ? model.getDescription() : dto.getDescription());
+        model.setActive(dto.getActive() == null ? model.getActive() : dto.getActive());
         return model;
     }
 }
