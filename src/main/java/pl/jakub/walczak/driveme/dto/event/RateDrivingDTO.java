@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class RateDrivingDTO {
     private Long drivingId;
+    private String title;
     private String rating;
     private String comment;
 }

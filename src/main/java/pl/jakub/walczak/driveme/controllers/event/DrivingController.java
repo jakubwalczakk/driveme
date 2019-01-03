@@ -36,7 +36,7 @@ public class DrivingController {
     @PutMapping(path = "/rate")
     public ResponseEntity<DrivingDTO> rateDriving(@RequestBody RateDrivingDTO rateDrivingDTO) {
         try {
-                return ResponseEntity.ok(drivingService.rateDriving(rateDrivingDTO));
+            return ResponseEntity.ok(drivingService.rateDriving(rateDrivingDTO));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();

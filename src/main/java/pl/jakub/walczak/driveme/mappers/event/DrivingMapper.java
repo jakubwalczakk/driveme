@@ -46,8 +46,7 @@ public class DrivingMapper {
         dto.setTitle(model.getTitle());
         dto.setComment(model.getComment());
         dto.setRating(model.getRating() == null ? null : model.getRating().getValue());
-
-        dto.setEventType(model.getEventType().getValue());
+        dto.setEventType(model.getEventType() == null ? null : model.getEventType().getValue());
         return dto;
     }
 

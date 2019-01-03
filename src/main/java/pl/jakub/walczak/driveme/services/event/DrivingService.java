@@ -47,6 +47,7 @@ public class DrivingService {
             Rating rating = Rating.of(rateDrivingDTO.getRating());
             if (optionalDriving.isPresent()) {
                 Driving driving = optionalDriving.get();
+                driving.setTitle(rateDrivingDTO.getTitle());
                 driving.setRating(rating);
                 driving.setComment(rateDrivingDTO.getComment());
                 drivingRepository.save(driving);
