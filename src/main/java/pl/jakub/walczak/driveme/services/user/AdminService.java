@@ -52,11 +52,8 @@ public class AdminService {
     public AdminDTO getAdmin(Long id) {
         log.info("Getting the Admin with id = " + id);
         Optional<Admin> optionalAdmin = adminRepository.findById(id);
-        if (optionalAdmin.isPresent()) {
-            return mapModelToDTO(optionalAdmin.get(), AdminDTO.builder().build());
-        } else {
-            throw new NoSuchElementException("Cannot GET Admin with given id = " + id);
-        }
+        return mapModelToDTO(optionalAdmin.orElseThrow(() ->
+                new NoSuchElementException("Cannot GET Admin with given id = " + id)), AdminDTO.builder().build());
     }
 
     public List<AdminDTO> getAll() {
@@ -81,9 +78,7 @@ public class AdminService {
     public Admin mapDTOToModel(AdminDTO dto, Admin model) {
         if (dto.getId() != null) {
             Optional<Admin> optionalAdmin = adminRepository.findById(dto.getId());
-            if (optionalAdmin.isPresent()) {
-                model = optionalAdmin.get();
-            }
+            model = optionalAdmin.orElse(model);
         }
         model = adminMapper.mapDTOToModel(dto, model);
         return adminRepository.save(model);

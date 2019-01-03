@@ -41,22 +41,15 @@ public class TheoreticalExamService {
     public void deleteTheoreticalExam(Long id) {
         log.info("Deleting the TheoreticalExam with id = " + id);
         Optional<TheoreticalExam> theoreticalExamToDelete = theoreticalExamRepository.findById(id);
-        if (theoreticalExamToDelete.isPresent()) {
-            TheoreticalExam theoreticalExam = theoreticalExamToDelete.get();
-            theoreticalExamRepository.delete(theoreticalExam);
-        } else {
-            throw new NoSuchElementException("Cannot DELETE TheoreticalExam with given id = " + id);
-        }
+        theoreticalExamRepository.delete(theoreticalExamToDelete.orElseThrow(() ->
+                new NoSuchElementException("Cannot DELETE TheoreticalExam with given id = " + id)));
     }
 
     public TheoreticalExamDTO getExam(Long id) {
         log.info("Getting the TheoreticalExam with id = " + id);
         Optional<TheoreticalExam> optionalTheoreticalExam = theoreticalExamRepository.findById(id);
-        if (optionalTheoreticalExam.isPresent()) {
-            return mapModelToDTO(optionalTheoreticalExam.get(), TheoreticalExamDTO.builder().build());
-        } else {
-            throw new NoSuchElementException("Cannot GET TheoreticalExam with given id = " + id);
-        }
+        return mapModelToDTO(optionalTheoreticalExam.orElseThrow(() ->
+                new NoSuchElementException("Cannot GET TheoreticalExam with given id = " + id)), TheoreticalExamDTO.builder().build());
     }
 
     public List<TheoreticalExamDTO> getTheoreticalExamsOfStudent() {
@@ -91,9 +84,7 @@ public class TheoreticalExamService {
     public TheoreticalExam mapDTOToModel(TheoreticalExamDTO dto, TheoreticalExam model) {
         if (dto.getId() != null) {
             Optional<TheoreticalExam> optionalExam = theoreticalExamRepository.findById(dto.getId());
-            if (optionalExam.isPresent()) {
-                model = optionalExam.get();
-            }
+            model = optionalExam.orElse(model);
         }
         model = theoreticalExamMapper.mapDTOToModel(dto, model);
         return theoreticalExamRepository.save(model);

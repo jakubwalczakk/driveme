@@ -81,11 +81,8 @@ public class InstructorService {
     public InstructorDTO getInstructor(Long id) {
         log.info("Getting Instructor with id = " + id);
         Optional<Instructor> optionalInstructor = instructorRepository.findById(id);
-        if (optionalInstructor.isPresent()) {
-            return mapModelToDTO(optionalInstructor.get(), InstructorDTO.builder().build());
-        } else {
-            throw new NoSuchElementException("Cannot GET instructor with given id = " + id);
-        }
+        return mapModelToDTO(optionalInstructor.orElseThrow(() ->
+                new NoSuchElementException("Cannot GET instructor with given id = " + id)), InstructorDTO.builder().build());
     }
 
     public List<InstructorDTO> getAll() {
@@ -114,9 +111,7 @@ public class InstructorService {
     public Instructor mapDTOToModel(InstructorDTO dto, Instructor model) {
         if (dto.getId() != null) {
             Optional<Instructor> optionalInstructor = instructorRepository.findById(dto.getId());
-            if (optionalInstructor.isPresent()) {
-                model = optionalInstructor.get();
-            }
+            model = optionalInstructor.orElse(model);
         }
         model = instructorMapper.mapDTOToModel(dto, model);
         return instructorRepository.save(model);

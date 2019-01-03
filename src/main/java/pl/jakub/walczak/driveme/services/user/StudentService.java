@@ -81,11 +81,8 @@ public class StudentService {
     public StudentDTO getStudent(Long id) {
         log.info("Getting the Student with id = " + id);
         Optional<Student> optionalStudent = studentRepository.findById(id);
-        if (optionalStudent.isPresent()) {
-            return mapModelToDTO(optionalStudent.get(), StudentDTO.builder().build());
-        } else {
-            throw new NoSuchElementException("Cannot GET Student with given id = " + id);
-        }
+        return mapModelToDTO(optionalStudent.orElseThrow(() ->
+                new NoSuchElementException("Cannot GET Student with given id = " + id)), StudentDTO.builder().build());
     }
 
     public List<StudentDTO> getAllOrderByRegistrationDate() {
@@ -116,9 +113,7 @@ public class StudentService {
     public Student mapDTOToModel(StudentDTO dto, Student model) {
         if (dto.getId() != null) {
             Optional<Student> optionalStudent = studentRepository.findById(dto.getId());
-            if (optionalStudent.isPresent()) {
-                model = optionalStudent.get();
-            }
+            model = optionalStudent.orElse(model);
         }
         model = studentMapper.mapDTOToModel(dto, model);
         return studentRepository.save(model);

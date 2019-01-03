@@ -64,9 +64,7 @@ public class ReservationMapper {
         }
 
         Optional<DrivingCity> optionalDrivingCity = cityService.findByName(dto.getDrivingCity());
-        if (optionalDrivingCity.isPresent()) {
-            model.setDrivingCity(optionalDrivingCity.get());
-        }
+        model.setDrivingCity(optionalDrivingCity.orElse(model.getDrivingCity()));
 
         User instructor = userService.mapUserBasicDTOToModel(dto.getInstructor());
         if (instructor instanceof Instructor) {

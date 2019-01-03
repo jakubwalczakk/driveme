@@ -11,7 +11,6 @@ import pl.jakub.walczak.driveme.mappers.user.UserBasicMapper;
 import pl.jakub.walczak.driveme.mappers.user.UserMapper;
 import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.user.UserRepository;
-import pl.jakub.walczak.driveme.utils.Validator;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -65,11 +64,8 @@ public class UserService {
     public UserDTO getUser(Long id) {
         log.info("Getting the User with id = " + id);
         Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            return mapModelToDTO(optionalUser.get(), UserDTO.builder().build());
-        } else {
-            throw new NoSuchElementException("Cannot GET User with given id = " + id);
-        }
+        return mapModelToDTO(optionalUser.orElseThrow(() ->
+                new NoSuchElementException("Cannot GET User with given id = " + id)), UserDTO.builder().build());
     }
 
     public List<UserDTO> getAll() {
@@ -102,9 +98,7 @@ public class UserService {
     public User mapDTOToModel(UserDTO dto, User model) {
         if (dto.getId() != null) {
             Optional<User> optionalUser = userRepository.findById(dto.getId());
-            if (optionalUser.isPresent()) {
-                model = optionalUser.get();
-            }
+            model = optionalUser.orElse(model);
         }
         model = userMapper.mapDTOToModel(dto, model);
         return userRepository.save(model);
@@ -117,9 +111,8 @@ public class UserService {
     public User mapUserBasicDTOToModel(UserBasicDTO dto) {
         if (dto.getId() != null) {
             Optional<User> optionalUser = userRepository.findById(dto.getId());
-            if (optionalUser.isPresent()) {
-                return optionalUser.get();
-            }
+            return optionalUser.orElseThrow(() ->
+                    new NoSuchElementException("Cannot MAP UserBasicDTO into User model"));
         }
         throw new NoSuchElementException("Cannot MAP UserBasicDTO into User model");
     }

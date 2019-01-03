@@ -75,21 +75,15 @@ public class EventService {
     public void deleteEvent(Long id) {
         log.info("Deleting the Event with id = " + id);
         Optional<Event> eventToDelete = eventRepository.findById(id);
-        if (eventToDelete.isPresent()) {
-            eventRepository.delete(eventToDelete.get());
-        } else {
-            throw new NoSuchElementException("Cannot DELETE Event with given id = " + id);
-        }
+        eventRepository.delete(eventToDelete.orElseThrow(() ->
+                new NoSuchElementException("Cannot DELETE Event with given id = " + id)));
     }
 
     public EventDTO getEvent(Long id) {
         log.info("Getting the Event with id = " + id);
         Optional<Event> optionalEvent = eventRepository.findById(id);
-        if (optionalEvent.isPresent()) {
-            return mapModelToDTO(optionalEvent.get(), EventDTO.builder().build());
-        } else {
-            throw new NoSuchElementException("Cannot GET Event with given id = " + id);
-        }
+        return mapModelToDTO(optionalEvent.orElseThrow(() ->
+                new NoSuchElementException("Cannot GET Event with given id = " + id)), EventDTO.builder().build());
     }
 
     //FIXME??
@@ -196,9 +190,7 @@ public class EventService {
     public Event mapDTOToModel(EventDTO dto, Event model) {
         if (dto.getId() != null) {
             Optional<Event> optionalEvent = eventRepository.findById(dto.getId());
-            if (optionalEvent.isPresent()) {
-                model = optionalEvent.get();
-            }
+            model = optionalEvent.orElse(model);
         }
         model = eventMapper.mapDTOToModel(dto, model);
         return eventRepository.save(model);

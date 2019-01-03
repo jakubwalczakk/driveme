@@ -28,12 +28,8 @@ public class AuthenticationUtil {
 
         Optional<User> currentLoggedUser = userRepository.findUserByEmail(authentication.getName());
 
-        if (currentLoggedUser.isPresent()) {
-            log.info("Current logged user found in database");
-            return currentLoggedUser.get();
-        }
-
-        throw new SecurityException("Current profile was not found in database!");
+        return currentLoggedUser.orElseThrow(() ->
+                new SecurityException("Current profile was not found in database!"));
     }
 
     public boolean isCurrentProfileId(Long id) {

@@ -40,22 +40,16 @@ public class PracticalExamService {
     public void deletePracticalExam(Long id) {
         log.info("Deleting the PracticalExam with id = " + id);
         Optional<PracticalExam> practicalExamToDelete = practicalExamRepository.findById(id);
-        if (practicalExamToDelete.isPresent()) {
-            PracticalExam practicalExam = practicalExamToDelete.get();
-            practicalExamRepository.delete(practicalExam);
-        } else {
-            throw new NoSuchElementException("Cannot DELETE PracticalExam with given id = " + id);
-        }
+        practicalExamRepository.delete(practicalExamToDelete.orElseThrow(() ->
+                new NoSuchElementException("Cannot DELETE PracticalExam with given id = " + id)));
     }
 
     public PracticalExamDTO getPracticalExam(Long id) {
         log.info("Getting the PracticalExam with id = " + id);
         Optional<PracticalExam> optionalPracticalExam = practicalExamRepository.findById(id);
-        if (optionalPracticalExam.isPresent()) {
-            return mapModelToDTO(optionalPracticalExam.get(), PracticalExamDTO.builder().build());
-        } else {
-            throw new NoSuchElementException("Cannot GET PracticalExam with given id = " + id);
-        }
+        return mapModelToDTO(optionalPracticalExam.orElseThrow(() ->
+                        new NoSuchElementException("Cannot GET PracticalExam with given id = " + id)),
+                PracticalExamDTO.builder().build());
     }
 
     public PracticalExamDTO getPracticalExamOfStudent() {
@@ -63,11 +57,9 @@ public class PracticalExamService {
         Long currentLoggedUserId = currentLoggedUser.getId();
         log.info("Getting the PracticalExam of current logged Student with id = " + currentLoggedUserId);
         Optional<PracticalExam> optionalPracticalExam = practicalExamRepository.findByStudentId(currentLoggedUserId);
-        if (optionalPracticalExam.isPresent()) {
-            return mapModelToDTO(optionalPracticalExam.get(), PracticalExamDTO.builder().build());
-        } else {
-            throw new NoSuchElementException("Cannot GET PracticalExam of Student with id = " + currentLoggedUserId);
-        }
+        return mapModelToDTO(optionalPracticalExam.orElseThrow(() ->
+                        new NoSuchElementException("Cannot GET PracticalExam of Student with id = " + currentLoggedUserId)),
+                PracticalExamDTO.builder().build());
     }
 
     public List<PracticalExamDTO> getPracticalExamsOfInstructor() {
@@ -101,9 +93,7 @@ public class PracticalExamService {
     public PracticalExam mapDTOToModel(PracticalExamDTO dto, PracticalExam model) {
         if (dto.getId() != null) {
             Optional<PracticalExam> optionalExam = practicalExamRepository.findById(dto.getId());
-            if (optionalExam.isPresent()) {
-                model = optionalExam.get();
-            }
+            model = optionalExam.orElse(model);
         }
         model = practicalExamMapper.mapDTOToModel(dto, model);
         return practicalExamRepository.save(model);

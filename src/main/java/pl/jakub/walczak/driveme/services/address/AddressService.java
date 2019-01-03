@@ -49,11 +49,8 @@ public class AddressService {
     public AddressDTO getAddress(Long id) {
         log.info("Getting the Address with id = " + id);
         Optional<Address> optionalAddress = addressRepository.findById(id);
-        if (optionalAddress.isPresent()) {
-            return mapModelToDTO(optionalAddress.get(), AddressDTO.builder().build());
-        } else {
-            throw new NoSuchElementException("Cannot GET Address with given id = " + id);
-        }
+        return mapModelToDTO(optionalAddress.orElseThrow(() ->
+                new NoSuchElementException("Cannot GET Address with given id = " + id)), AddressDTO.builder().build());
     }
 
     public List<AddressDTO> getAll() {
@@ -83,9 +80,7 @@ public class AddressService {
     public Address mapDTOToModel(AddressDTO dto, Address model) {
         if (dto.getId() != null) {
             Optional<Address> optionalAddress = addressRepository.findById(dto.getId());
-            if (optionalAddress.isPresent()) {
-                model = optionalAddress.get();
-            }
+            model = optionalAddress.orElse(model);
         }
         model = addressMapper.mapDTOToModel(dto, model);
         return addressRepository.save(model);

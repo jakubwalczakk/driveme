@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
 import pl.jakub.walczak.driveme.enums.CarBrand;
-import pl.jakub.walczak.driveme.enums.UserRole;
 import pl.jakub.walczak.driveme.mappers.event.ReservationMapper;
 import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.city.DrivingCity;
@@ -40,6 +39,8 @@ public class ReservationService {
     private CarService carService;
     private InstructorService instructorService;
     private CityService cityService;
+
+    private final static Integer MINUTE_IN_SECONDS = 60;
 
     @Autowired
     public ReservationService(ReservationRepository reservationRepository, ReservationMapper reservationMapper,
@@ -161,21 +162,15 @@ public class ReservationService {
     public void deleteReservation(Long id) {
         log.info("Deleting the Reservation with id = " + id);
         Optional<Reservation> reservationToDelete = reservationRepository.findById(id);
-        if (reservationToDelete.isPresent()) {
-            reservationRepository.delete(reservationToDelete.get());
-        } else {
-            throw new NoSuchElementException("Cannot DELETE Reservation with given id = " + id);
-        }
+        reservationRepository.delete(reservationToDelete.orElseThrow(() ->
+                new NoSuchElementException("Cannot DELETE Reservation with given id = " + id)));
     }
 
     public ReservationDTO getReservation(Long id) {
         log.info("Getting the Reservation with id = " + id);
         Optional<Reservation> optionalReservation = reservationRepository.findById(id);
-        if (optionalReservation.isPresent()) {
-            return mapModelToDTO(optionalReservation.get(), ReservationDTO.builder().build());
-        } else {
-            throw new NoSuchElementException("Cannot GET Reservation with given id = " + id);
-        }
+        return mapModelToDTO(optionalReservation.orElseThrow(() ->
+                new NoSuchElementException("Cannot GET Reservation with given id = " + id)), ReservationDTO.builder().build());
     }
 
     public List<ReservationDTO> getReservationsByInstructor() {
@@ -219,9 +214,7 @@ public class ReservationService {
     public Reservation mapDTOToModel(ReservationDTO dto, Reservation model) {
         if (dto.getId() != null) {
             Optional<Reservation> optionalReservation = reservationRepository.findById(dto.getId());
-            if (optionalReservation.isPresent()) {
-                model = optionalReservation.get();
-            }
+            model = optionalReservation.orElse(model);
         }
         model = reservationMapper.mapDTOToModel(dto, model);
         return reservationRepository.save(model);
@@ -238,34 +231,22 @@ public class ReservationService {
         Student student;
         if (currentUser instanceof Student) {
             student = (Student) currentUser;
-
             Reservation reservation = Reservation.builder().build();
-
             reservation.setStudent(student);
-
             Instant startDate = Instant.parse(dto.getStartDate());
 
             reservation.setStartDate(startDate);
-
             reservation.setDuration(dto.getDuration());
-
-            reservation.setFinishDate(startDate.plusSeconds(dto.getDuration() * 60));
+            reservation.setFinishDate(startDate.plusSeconds(dto.getDuration() * MINUTE_IN_SECONDS));
 
             reservation.setCarBrand(CarBrand.of(dto.getCarBrand().trim()));
 
             Optional<Instructor> optionalInstructor = instructorService.findByEmail(dto.getInstructor().getEmail());
-            if (optionalInstructor.isPresent()) {
-                reservation.setInstructor(optionalInstructor.get());
-            } else {
-                return null;
-            }
+            reservation.setInstructor(optionalInstructor.orElseThrow(() ->
+                    new NoSuchElementException("Cannot find an Instructor with given email = " + dto.getInstructor().getEmail())));
 
-            Optional<DrivingCity> cityOptional = cityService.findByName(dto.getDrivingCity());
-            if (cityOptional.isPresent()) {
-                reservation.setDrivingCity(cityOptional.get());
-            } else {
-                return null;
-            }
+            Optional<DrivingCity> optionalCity = cityService.findByName(dto.getDrivingCity());
+            reservation.setDrivingCity(optionalCity.orElse(null));
 
             return reservation;
         } else {

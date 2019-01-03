@@ -62,21 +62,15 @@ public class DrivingService {
     public void deleteDriving(Long id) {
         log.info("Deleting the Driving with id = " + id);
         Optional<Driving> drivingToDelete = drivingRepository.findById(id);
-        if (drivingToDelete.isPresent()) {
-            drivingRepository.delete(drivingToDelete.get());
-        } else {
-            throw new NoSuchElementException("Cannot DELETE Driving with given id = " + id);
-        }
+        drivingRepository.delete(drivingToDelete.orElseThrow(() ->
+                new NoSuchElementException("Cannot DELETE Driving with given id = " + id)));
     }
 
     public DrivingDTO getDriving(Long id) {
         log.info("Getting the Driving with id = " + id);
         Optional<Driving> optionalDriving = drivingRepository.findById(id);
-        if (optionalDriving.isPresent()) {
-            return mapModelToDTO(optionalDriving.get(), DrivingDTO.builder().build());
-        } else {
-            throw new NoSuchElementException("Cannot GET Driving with given id = " + id);
-        }
+        return mapModelToDTO(optionalDriving.orElseThrow(() ->
+                new NoSuchElementException("Cannot GET Driving with given id = " + id)), DrivingDTO.builder().build());
     }
 
     public List<DrivingDTO> getDrivingsByInstructor() {
@@ -121,9 +115,7 @@ public class DrivingService {
     public Driving mapDTOToModel(DrivingDTO dto, Driving model) {
         if (dto.getId() != null) {
             Optional<Driving> optionalDriving = drivingRepository.findById(dto.getId());
-            if (optionalDriving.isPresent()) {
-                model = optionalDriving.get();
-            }
+            model = optionalDriving.orElse(model);
         }
         model = drivingMapper.mapDTOToModel(dto, model);
         return drivingRepository.save(model);

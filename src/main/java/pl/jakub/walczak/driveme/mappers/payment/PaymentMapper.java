@@ -38,10 +38,11 @@ public class PaymentMapper {
         UserBasicDTO studentDTO = dto.getStudent();
         if (studentDTO != null) {
             Optional<User> optionalUser = userService.findById(studentDTO.getId());
-            if (optionalUser.isPresent()) {
-                Student student = (Student) optionalUser.get();
-                model.setStudent(student);
-            }
+            model.setStudent((Student)optionalUser.orElse(null));
+//            if (optionalUser.isPresent()) {
+//                Student student = (Student) optionalUser.get();
+//                model.setStudent(student);
+//            }
         }
         return model;
     }

@@ -57,21 +57,15 @@ public class PaymentService {
     public void deletePayment(Long id) {
         log.info("Deleting the Payment with id = " + id);
         Optional<Payment> paymentToDelete = paymentRepository.findById(id);
-        if (paymentToDelete.isPresent()) {
-            paymentRepository.delete(paymentToDelete.get());
-        } else {
-            throw new NoSuchElementException("Cannot DELETE Payment with given id = " + id);
-        }
+        paymentRepository.delete(paymentToDelete.orElseThrow(() ->
+                new NoSuchElementException("Cannot DELETE Payment with given id = " + id)));
     }
 
     public PaymentDTO getPayment(Long id) {
         log.info("Getting the Payment with id = " + id);
         Optional<Payment> optionalPayment = paymentRepository.findById(id);
-        if (optionalPayment.isPresent()) {
-            return mapModelToDTO(optionalPayment.get(), PaymentDTO.builder().build());
-        } else {
-            throw new NoSuchElementException("Cannot GET Payment with given id = " + id);
-        }
+        return mapModelToDTO(optionalPayment.orElseThrow(() ->
+                new NoSuchElementException("Cannot GET Payment with given id = " + id)), PaymentDTO.builder().build());
     }
 
     public List<PaymentDTO> getPaymentsByStudent() {
@@ -107,9 +101,7 @@ public class PaymentService {
     public Payment mapDTOToModel(PaymentDTO dto, Payment model) {
         if (dto.getId() != null) {
             Optional<Payment> optionalPayment = paymentRepository.findById(dto.getId());
-            if (optionalPayment.isPresent()) {
-                model = optionalPayment.get();
-            }
+            model = optionalPayment.orElse(model);
         }
         model = paymentMapper.mapDTOToModel(dto, model);
         return paymentRepository.save(model);

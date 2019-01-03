@@ -57,11 +57,8 @@ public class CityService {
     public DrivingCityDTO getDrivingCity(Long id) {
         log.info("Getting the DrivingCity with id = " + id);
         Optional<DrivingCity> optionalDrivingCity = drivingCityRepository.findById(id);
-        if (optionalDrivingCity.isPresent()) {
-            return mapModelToDTO(optionalDrivingCity.get(), DrivingCityDTO.builder().build());
-        } else {
-            throw new NoSuchElementException("Cannot GET DrivingCity with given id = " + id);
-        }
+        return mapModelToDTO(optionalDrivingCity.orElseThrow(() ->
+                new NoSuchElementException("Cannot GET DrivingCity with given id = " + id)), DrivingCityDTO.builder().build());
     }
 
     public List<DrivingCityDTO> getActiveCities() {
@@ -97,9 +94,7 @@ public class CityService {
     public DrivingCity mapDTOToModel(DrivingCityDTO dto, DrivingCity model) {
         if (dto.getId() != null) {
             Optional<DrivingCity> optionalDrivingCity = drivingCityRepository.findById(dto.getId());
-            if (optionalDrivingCity.isPresent()) {
-                model = optionalDrivingCity.get();
-            }
+            model = optionalDrivingCity.orElse(model);
         }
         model = drivingCityMapper.mapDTOToModel(dto, model);
         return drivingCityRepository.save(model);

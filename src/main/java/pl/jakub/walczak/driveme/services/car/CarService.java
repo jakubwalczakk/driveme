@@ -50,11 +50,8 @@ public class CarService {
     public CarDTO getCar(Long id) {
         log.info("Getting the Car with id = " + id);
         Optional<Car> optionalCar = carRepository.findById(id);
-        if (optionalCar.isPresent()) {
-            return mapModelToDTO(optionalCar.get(), CarDTO.builder().build());
-        } else {
-            throw new NoSuchElementException("Cannot GET Car with given id = " + id);
-        }
+        return mapModelToDTO(optionalCar.orElseThrow(() ->
+                new NoSuchElementException("Cannot GET Car with given id = " + id)), CarDTO.builder().build());
     }
 
     public List<CarDTO> getActiveCars() {
@@ -126,9 +123,7 @@ public class CarService {
     public Car mapDTOToModel(CarDTO dto, Car model) {
         if (dto.getId() != null) {
             Optional<Car> optionalCar = carRepository.findById(dto.getId());
-            if (optionalCar.isPresent()) {
-                model = optionalCar.get();
-            }
+            model = optionalCar.orElse(model);
         }
         model = carMapper.mapDTOToModel(dto, model);
         return carRepository.save(model);

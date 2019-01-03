@@ -63,9 +63,7 @@ public class PracticalExamMapper {
         CarBasicDTO carDTO = dto.getCar();
         if (carDTO != null) {
             Optional<Car> carOptional = carService.findById(carDTO.getId());
-            if (carOptional.isPresent()) {
-                model.setCar(carOptional.get());
-            }
+            model.setCar(carOptional.orElse(model.getCar()));
         }
 
         model.setPassed(dto.getPassed() == null ? model.getPassed() : dto.getPassed());

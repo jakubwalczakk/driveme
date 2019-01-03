@@ -70,15 +70,12 @@ public class DrivingMapper {
         CarBasicDTO carDTO = dto.getCar();
         if (carDTO != null) {
             Optional<Car> carOptional = carService.findById(carDTO.getId());
-            if (carOptional.isPresent()) {
-                model.setCar(carOptional.get());
-            }
+            model.setCar(carOptional.orElse(model.getCar()));
         }
 
         Optional<DrivingCity> optionalDrivingCity = cityService.findByName(dto.getDrivingCity());
-        if (optionalDrivingCity.isPresent()) {
-            model.setDrivingCity(optionalDrivingCity.get());
-        }
+        model.setDrivingCity(optionalDrivingCity.orElse(model.getDrivingCity()));
+
         model.setTitle(dto.getTitle() == null ? model.getTitle() : dto.getTitle());
         model.setComment(dto.getComment() == null ? model.getComment() : dto.getComment());
         try {

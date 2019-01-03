@@ -70,9 +70,7 @@ public class CourseMapper {
         PracticalExamDTO practicalExamDTO = dto.getPracticalExam();
         if (practicalExamDTO != null) {
             Optional<PracticalExam> optionalPracticalExam = practicalExamService.findById(practicalExamDTO.getId());
-            if (optionalPracticalExam.isPresent()) {
-                model.setPracticalExam(optionalPracticalExam.get());
-            }
+            model.setPracticalExam(optionalPracticalExam.orElse(model.getPracticalExam()));
         }
 
         Set<Long> theoreticalExamsToAdd = dto.getTheoreticalExams().stream().map(exam -> exam.getId())

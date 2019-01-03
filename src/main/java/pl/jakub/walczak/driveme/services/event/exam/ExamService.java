@@ -36,22 +36,15 @@ public class ExamService {
     public void deleteExam(Long id) {
         log.info("Deleting the Exam with id = " + id);
         Optional<Exam> examToDelete = examRepository.findById(id);
-        if (examToDelete.isPresent()) {
-            Exam exam = examToDelete.get();
-            examRepository.delete(exam);
-        } else {
-            throw new NoSuchElementException("Cannot DELETE Exam with given id = " + id);
-        }
+        examRepository.delete(examToDelete.orElseThrow(() ->
+                new NoSuchElementException("Cannot DELETE Exam with given id = " + id)));
     }
 
     public ExamDTO getExam(Long id) {
         log.info("Getting the Exam with id = " + id);
         Optional<Exam> optionalExam = examRepository.findById(id);
-        if (optionalExam.isPresent()) {
-            return mapModelToDTO(optionalExam.get(), ExamDTO.builder().build());
-        } else {
-            throw new NoSuchElementException("Cannot GET Exam with given id = " + id);
-        }
+        return mapModelToDTO(optionalExam.orElseThrow(() ->
+                new NoSuchElementException("Cannot GET Exam with given id = " + id)), ExamDTO.builder().build());
     }
 
     public List<ExamDTO> getAll() {
@@ -72,9 +65,7 @@ public class ExamService {
     public Exam mapDTOToModel(ExamDTO dto, Exam model) {
         if (dto.getId() != null) {
             Optional<Exam> optionalExam = examRepository.findById(dto.getId());
-            if (optionalExam.isPresent()) {
-                model = optionalExam.get();
-            }
+            model = optionalExam.orElse(model);
         }
         model = examMapper.mapDTOToModel(dto, model);
         return examRepository.save(model);

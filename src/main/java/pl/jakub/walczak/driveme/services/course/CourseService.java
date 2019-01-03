@@ -38,21 +38,15 @@ public class CourseService {
     public void deleteCourse(Long id) {
         log.info("Deleting the Course with id = " + id);
         Optional<Course> courseToDelete = courseRepository.findById(id);
-        if (courseToDelete.isPresent()) {
-            courseRepository.delete(courseToDelete.get());
-        } else {
-            throw new NoSuchElementException("Cannot DELETE Course with given id = " + id);
-        }
+        courseRepository.delete(courseToDelete.orElseThrow(() ->
+                new NoSuchElementException("Cannot DELETE Course with given id = " + id)));
     }
 
     public CourseDTO getCourse(Long id) {
         log.info("Getting the Course with id = " + id);
         Optional<Course> optionalCourse = courseRepository.findById(id);
-        if (optionalCourse.isPresent()) {
-            return mapModelToDTO(optionalCourse.get(), CourseDTO.builder().build());
-        } else {
-            throw new NoSuchElementException("Cannot GET Course with given id = " + id);
-        }
+        return mapModelToDTO(optionalCourse.orElseThrow(() ->
+                new NoSuchElementException("Cannot GET Course with given id = " + id)), CourseDTO.builder().build());
     }
 
     public List<CourseDTO> getAll() {
@@ -77,9 +71,7 @@ public class CourseService {
     public Course mapDTOToModel(CourseDTO dto, Course model) {
         if (dto.getId() != null) {
             Optional<Course> optionalCourse = courseRepository.findById(dto.getId());
-            if (optionalCourse.isPresent()) {
-                model = optionalCourse.get();
-            }
+            model = optionalCourse.orElse(model);
         }
         model = courseMapper.mapDTOToModel(dto, model);
         return courseRepository.save(model);

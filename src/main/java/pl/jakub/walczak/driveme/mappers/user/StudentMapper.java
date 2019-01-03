@@ -76,20 +76,13 @@ public class StudentMapper {
         if (addressDTO != null) {
             Optional<Address> optionalAddress = addressService.findByCityAndZipCodeAndStreetAndHouseNo(addressDTO.getCity(),
                     addressDTO.getZipCode(), addressDTO.getStreet(), addressDTO.getHouseNo());
-            if (optionalAddress.isPresent()) {
-                model.setAddress(optionalAddress.get());
-            } else {
-                Address address = addressService.addAddress(addressDTO);
-                model.setAddress(address);
-            }
+            model.setAddress(optionalAddress.orElse(addressService.addAddress(addressDTO)));
         }
 
         CourseDTO courseDTO = dto.getCourse();
         if (courseDTO != null) {
             Optional<Course> optionalCourse = courseService.findById(courseDTO.getId());
-            if (optionalCourse.isPresent()) {
-                model.setCourse(optionalCourse.get());
-            }
+            model.setCourse(optionalCourse.orElse(model.getCourse()));
         }
         return model;
     }
