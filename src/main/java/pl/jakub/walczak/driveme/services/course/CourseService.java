@@ -7,7 +7,10 @@ import pl.jakub.walczak.driveme.dto.course.CourseDTO;
 import pl.jakub.walczak.driveme.enums.CourseStatus;
 import pl.jakub.walczak.driveme.mappers.course.CourseMapper;
 import pl.jakub.walczak.driveme.model.course.Course;
+import pl.jakub.walczak.driveme.model.user.Student;
+import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.course.CourseRepository;
+import pl.jakub.walczak.driveme.utils.AuthenticationUtil;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,11 +23,13 @@ public class CourseService {
 
     private CourseRepository courseRepository;
     private CourseMapper courseMapper;
+    private AuthenticationUtil authenticationUtil;
 
     @Autowired
-    public CourseService(CourseRepository courseRepository, CourseMapper courseMapper) {
+    public CourseService(CourseRepository courseRepository, CourseMapper courseMapper, AuthenticationUtil authenticationUtil) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
+        this.authenticationUtil = authenticationUtil;
     }
 
     // -- methods for controller --
@@ -47,6 +52,16 @@ public class CourseService {
         Optional<Course> optionalCourse = courseRepository.findById(id);
         return mapModelToDTO(optionalCourse.orElseThrow(() ->
                 new NoSuchElementException("Cannot GET Course with given id = " + id)), CourseDTO.builder().build());
+    }
+
+    public CourseDTO getCourseByStudent() {
+        log.info("Getting the Course of current logged Student");
+        User currentLoggedUser = authenticationUtil.getCurrentLoggedUser();
+        if (currentLoggedUser instanceof Student) {
+            Course course = ((Student) currentLoggedUser).getCourse();
+            return courseMapper.mapModelToDTO(course, CourseDTO.builder().build());
+        }
+        throw new SecurityException("Current logged user is not an instance of Student");
     }
 
     public List<CourseDTO> getAll() {
