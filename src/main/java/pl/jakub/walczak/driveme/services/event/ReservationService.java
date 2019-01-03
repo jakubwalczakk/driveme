@@ -251,7 +251,7 @@ public class ReservationService {
 
             reservation.setFinishDate(startDate.plusSeconds(dto.getDuration() * 60));
 
-            reservation.setCarBrand(CarBrand.of(dto.getCarBrand()));
+            reservation.setCarBrand(CarBrand.of(dto.getCarBrand().trim()));
 
             Optional<Instructor> optionalInstructor = instructorService.findByEmail(dto.getInstructor().getEmail());
             if (optionalInstructor.isPresent()) {

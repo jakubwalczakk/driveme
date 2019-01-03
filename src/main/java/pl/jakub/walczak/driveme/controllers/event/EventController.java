@@ -5,11 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.dto.calendar.CalendarEventsDTO;
-import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
 import pl.jakub.walczak.driveme.dto.event.EventDTO;
 import pl.jakub.walczak.driveme.model.event.Event;
 import pl.jakub.walczak.driveme.services.event.EventService;
 
+import java.time.Instant;
 import java.util.List;
 
 @CrossOrigin
@@ -66,15 +66,18 @@ public class EventController {
         }
     }
 
-//    @PostMapping(path="/events")
-//    public ResponseEntity<List<EventDTO>> getEventsByInstructorAndCar(@RequestBody EventsInfoDTO request){
-//        try{
-//            return ResponseEntity.ok(eventService.getEventsByInstructorAndCar(request));
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            return ResponseEntity.accepted(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
+    @GetMapping(path = "/term_availability")
+    public ResponseEntity<Boolean> checkAvailabilityOfTerm(@RequestParam("instructor") String instructor,
+                                                           @RequestParam("brand") String carBrand,
+                                                           @RequestParam("startDate") String startDate,
+                                                           @RequestParam("duration") Integer duration) {
+        try {
+            return ResponseEntity.ok(eventService.checkAvailabilityOfTerm(instructor, carBrand, startDate, duration));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
     @GetMapping
     public ResponseEntity<List<EventDTO>> getAll() {

@@ -10,7 +10,10 @@ import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
 import pl.jakub.walczak.driveme.dto.event.exam.PracticalExamDTO;
 import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.mappers.event.EventMapper;
+import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Event;
+import pl.jakub.walczak.driveme.model.event.Reservation;
+import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
 import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
 import pl.jakub.walczak.driveme.repos.event.EventRepository;
 import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
@@ -19,6 +22,7 @@ import pl.jakub.walczak.driveme.services.car.CarService;
 import pl.jakub.walczak.driveme.services.event.exam.PracticalExamService;
 import pl.jakub.walczak.driveme.services.user.InstructorService;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -119,31 +123,60 @@ public class EventService {
         }
     }
 
-//    public List<EventDTO> getEventsByInstructorAndCar(EventsInfoDTO request) {
-//        log.info("Getting all Events by Instructor where Instructor email = " + request.getInstructorInfo() +
-//                " and Cars where Car brand = " + request.getCarBrand());
-//        String instructorEmail = request.getInstructorInfo().split(" - ")[1];
-//        log.info("Split instructor info, email is = " + instructorEmail);
-//        Optional<Instructor> optionalInstructor = instructorService.findByEmail(instructorEmail);
-////        Optional<Car> optionalCar = carService.findByLicensePlate(request.getCarLicensePlate());
-//
-//        Set<Car> cars = carService.findAllCarsByBrand(request.getCarBrand());
-//        if (optionalInstructor.isPresent() && cars.size() != 0) {
-//            Long instructorId = optionalInstructor.get().getId();
-//
-//            Set<Long> carsIds = cars.stream().map(car -> car.getId()).collect(Collectors.toSet());
-//
-//            List<Event> events =
-//                    eventRepository.findAllByInstructorIdAndCarIdIn(instructorId, carsIds);
-//
-//            return events.stream().map(event -> mapModelToDTO(event, EventDTO.builder().build())).collect(Collectors.toList());
-//
-//        } else {
-//            log.warn("Cannot find Instructor with email = " + request.getInstructorInfo() +
-//                    " or cannnot find Cars with brand = " + request.getCarBrand());
-//            throw new NoSuchElementException();
-//        }
-//    }
+
+    public Boolean checkAvailabilityOfTerm(String instructorEmail, String brand, String date, Integer duration) {
+        log.info("INSTRUCTOR = " + instructorEmail);
+        log.info("CAR BRAND = " + brand);
+        log.info("START DATE = " + date);
+        log.info("DURATION = " + duration);
+
+        log.info("Checking the availability of term " + date);
+
+        CarBrand carBrand = CarBrand.of(brand.trim());
+
+        Instant startDate = Instant.parse(date);
+        Instant finishDate = startDate.plusSeconds(duration * 60);
+
+        List<Driving> drivings =
+                drivingRepository.findAllByInstructorEmailAndCar_Brand(instructorEmail, carBrand);
+
+        List<Reservation> reservations =
+                reservationRepository.findAllByInstructorEmailAndCarBrand(instructorEmail, carBrand);
+
+        List<PracticalExam> practicalExams =
+                practicalExamRepository.findAllByInstructorEmailAndCar_Brand(instructorEmail, carBrand);
+
+        for (Driving d : drivings) {
+            if (d.getStartDate().isAfter(startDate) && d.getFinishDate().isBefore(finishDate) ||
+                    d.getStartDate().isBefore(startDate) && d.getFinishDate().isAfter(startDate) ||
+                    d.getStartDate().isBefore(finishDate) && d.getFinishDate().isAfter(finishDate)) {
+                log.info("Reservation in term " + date + " is NOT available.");
+                return false;
+            }
+        }
+
+        for (Reservation r : reservations) {
+            if (r.getStartDate().isAfter(startDate) && r.getFinishDate().isBefore(finishDate) ||
+                    r.getStartDate().isBefore(startDate) && r.getFinishDate().isAfter(startDate) ||
+                    r.getStartDate().isBefore(finishDate) && r.getFinishDate().isAfter(finishDate)) {
+                log.info("Reservation in term " + date + " is NOT available.");
+                return false;
+            }
+        }
+
+        for (PracticalExam pE : practicalExams) {
+            if (pE.getStartDate().isAfter(startDate) && pE.getFinishDate().isBefore(finishDate) ||
+                    pE.getStartDate().isBefore(startDate) && pE.getFinishDate().isAfter(startDate) ||
+                    pE.getStartDate().isBefore(finishDate) && pE.getFinishDate().isAfter(finishDate)) {
+                log.info("Reservation in term " + date + " is NOT available.");
+                return false;
+            }
+        }
+
+        log.info("Reservation in term " + date + " is available.");
+        return true;
+    }
+
 
     public List<EventDTO> getAll() {
         log.info("Getting all Events");
