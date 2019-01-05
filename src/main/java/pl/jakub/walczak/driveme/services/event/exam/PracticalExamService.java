@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.event.exam.PracticalExamDTO;
+import pl.jakub.walczak.driveme.dto.event.exam.RateExamDTO;
 import pl.jakub.walczak.driveme.mappers.event.exam.PracticalExamMapper;
 import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
 import pl.jakub.walczak.driveme.model.user.User;
@@ -35,6 +36,18 @@ public class PracticalExamService {
         log.info("Adding new PracticalExam...");
         PracticalExam practicalExam = mapDTOToModel(practicalExamDTO, PracticalExam.builder().build());
         return practicalExamRepository.save(practicalExam);
+    }
+
+    public PracticalExamDTO rateExam(RateExamDTO rateExamDTO) {
+        log.info("Rating a Practical Exam with id = " + rateExamDTO.getExamId());
+        Optional<PracticalExam> optionalPracticalExam = practicalExamRepository.findById(rateExamDTO.getExamId());
+        if (optionalPracticalExam.isPresent()) {
+            PracticalExam practicalExam = optionalPracticalExam.get();
+            practicalExam.setPassed(rateExamDTO.getPassed());
+            practicalExamRepository.save(practicalExam);
+            return mapModelToDTO(practicalExam, PracticalExamDTO.builder().build());
+        }
+        return null;
     }
 
     public void deletePracticalExam(Long id) {

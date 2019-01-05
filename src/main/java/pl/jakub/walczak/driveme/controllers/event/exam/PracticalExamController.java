@@ -3,7 +3,10 @@ package pl.jakub.walczak.driveme.controllers.event.exam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
+import pl.jakub.walczak.driveme.dto.event.RateDrivingDTO;
 import pl.jakub.walczak.driveme.dto.event.exam.PracticalExamDTO;
+import pl.jakub.walczak.driveme.dto.event.exam.RateExamDTO;
 import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
 import pl.jakub.walczak.driveme.services.event.exam.PracticalExamService;
 
@@ -25,6 +28,16 @@ public class PracticalExamController {
     public ResponseEntity<PracticalExam> addPracticalExam(@RequestBody PracticalExamDTO practicalExamDTO) {
         try {
             return ResponseEntity.ok(practicalExamService.addPracticalExam(practicalExamDTO));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping(path = "/rate")
+    public ResponseEntity<PracticalExamDTO> rateExam(@RequestBody RateExamDTO rateExamDTO) {
+        try {
+            return ResponseEntity.ok(practicalExamService.rateExam(rateExamDTO));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
