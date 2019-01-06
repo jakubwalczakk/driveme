@@ -58,7 +58,7 @@ public class LoginController {
             log.info("JWT token is responding now");
             return ResponseEntity.ok(jwtToken);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResponse.builder().success(false).message(e.getMessage()).build());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 

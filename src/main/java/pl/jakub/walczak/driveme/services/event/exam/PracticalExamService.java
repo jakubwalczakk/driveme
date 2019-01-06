@@ -47,7 +47,7 @@ public class PracticalExamService {
             practicalExamRepository.save(practicalExam);
             return mapModelToDTO(practicalExam, PracticalExamDTO.builder().build());
         }
-        return null;
+        throw new NoSuchElementException("Cannot find a Practical Exam with given id = " + rateExamDTO.getExamId());
     }
 
     public void deletePracticalExam(Long id) {
