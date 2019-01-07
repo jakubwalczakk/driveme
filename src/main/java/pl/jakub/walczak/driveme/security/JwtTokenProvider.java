@@ -3,14 +3,19 @@ package pl.jakub.walczak.driveme.security;
 import io.jsonwebtoken.*;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import pl.jakub.walczak.driveme.model.user.User;
+import pl.jakub.walczak.driveme.repos.user.UserRepository;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static pl.jakub.walczak.driveme.security.JwtConstants.JWT_SCOPES;

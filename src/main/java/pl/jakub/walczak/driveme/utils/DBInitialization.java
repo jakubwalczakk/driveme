@@ -27,9 +27,7 @@ import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Component
 public class DBInitialization {
@@ -488,18 +486,21 @@ public class DBInitialization {
         Course course = student.getCourse();
         Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
 
-        Instant startDate = Instant.now().minusSeconds(RANDOM.nextInt(4) * ONE_DAY_IN_SECONDS);
-        Instant finishDate = startDate.plusSeconds(HOUR_IN_SECONDS);
-        boolean status = RANDOM.nextInt(100) % 2 == 0 ? true : false;
-        PracticalExam practicalExam = PracticalExam.builder()
-                .student(student)
-                .car(cars.get(RANDOM.nextInt(cars.size())))
-                .instructor(instructor)
-                .startDate(startDate)
-                .finishDate(finishDate)
-                .passed(status)
-                .build();
-        course.setPracticalExam(practicalExam);
+        Instant startDate = Instant.now().plusSeconds(RANDOM.nextInt(240) * 60 * 60);
+        if (filterCorrectnessOfDate(startDate)) {
+            startDate = roundDateToNearestQuarter(startDate);
+            Instant finishDate = startDate.plusSeconds(HOUR_IN_SECONDS);
+            boolean status = RANDOM.nextInt(100) % 2 == 0 ? true : false;
+            PracticalExam practicalExam = PracticalExam.builder()
+                    .student(student)
+                    .car(cars.get(RANDOM.nextInt(cars.size())))
+                    .instructor(instructor)
+                    .startDate(startDate)
+                    .finishDate(finishDate)
+                    .passed(status)
+                    .build();
+            course.setPracticalExam(practicalExam);
+        }
     }
 
     private void initializeTheoreticalExams(Student student) {
@@ -516,7 +517,8 @@ public class DBInitialization {
                     .scoredPoints(scoredPoints)
                     .result(scoredPoints * 1.0 / TheoreticalExam.MAXIMUM_POINTS_AMOUNT)
                     .passed(status)
-                    .startDate(Instant.now().minusSeconds(RANDOM.nextInt(6) * ONE_DAY_IN_SECONDS))
+                    .startDate(roundDateToNearestQuarter(
+                            Instant.now().minusSeconds(RANDOM.nextInt(6) * ONE_DAY_IN_SECONDS)))
                     .build();
             theoreticalExams.add(theoreticalExam);
         }
@@ -531,21 +533,25 @@ public class DBInitialization {
 
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
             Instant startDate = Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60);
-            Integer duration = (RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_MINUTES;
-            Instant finishDate = startDate.plusSeconds(duration * MINUTE_IN_SECONDS);
-            System.out.println(duration);
-            Reservation reservation =
-                    Reservation.builder()
-                            .student(student)
-                            .instructor(instructor)
-                            .carBrand(cars.get(RANDOM.nextInt(cars.size())).getBrand())
-                            .startDate(startDate)
-                            .duration(duration)
-                            .finishDate(finishDate)
-                            .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
-                            .accepted(false)
-                            .build();
-            reservations.add(reservation);
+
+            if (filterCorrectnessOfDate(startDate)) {
+
+                startDate = roundDateToNearestQuarter(startDate);
+                Integer duration = (RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_MINUTES;
+                Instant finishDate = startDate.plusSeconds(duration * MINUTE_IN_SECONDS);
+                Reservation reservation =
+                        Reservation.builder()
+                                .student(student)
+                                .instructor(instructor)
+                                .carBrand(cars.get(RANDOM.nextInt(cars.size())).getBrand())
+                                .startDate(startDate)
+                                .duration(duration)
+                                .finishDate(finishDate)
+                                .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
+                                .accepted(false)
+                                .build();
+                reservations.add(reservation);
+            }
         }
         course.setReservations(reservations);
     }
@@ -564,28 +570,86 @@ public class DBInitialization {
                 rating = Rating.DISAPPOINTING;
             }
 
-            final String drivingTitle = "DEFAULT DRIVINGS TITLE";
+            String[] suffix = {
+                    "Parkowanie",
+                    "Jazda po mieście",
+                    "Plac manewrowy",
+                    "Obsługa samochodu",
+                    "Doskonalenie techniki jazdy",
+                    "Ruszanie na wzniesieniu",
+                    "Zachowanie w ruchu drogowym",
+                    "Zawracanie"
+            };
+
+            final String drivingTitle = "Jazda szkoleniowa | " + suffix[RANDOM.nextInt(suffix.length)];
             final String drivingComment = "DEFAULT DRIVINGS COMMENT";
 
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
+
             Instant startDate = Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60);
-            Integer duration = (RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_MINUTES;
-            Instant finishDate = startDate.plusSeconds(duration * MINUTE_IN_SECONDS);
-            System.out.println(duration);
-            Driving driving =
-                    Driving.builder()
-                            .student(student)
-                            .instructor(instructor)
-                            .car(cars.get(RANDOM.nextInt(cars.size())))
-                            .startDate(startDate)
-                            .duration(duration)
-                            .finishDate(finishDate)
-                            .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
-                            .title(drivingTitle)
-                            .comment(drivingComment)
-                            .rating(rating).build();
-            drivings.add(driving);
+
+            if (filterCorrectnessOfDate(startDate)) {
+                startDate = roundDateToNearestQuarter(startDate);
+                Integer duration = (RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_MINUTES;
+                Instant finishDate = startDate.plusSeconds(duration * MINUTE_IN_SECONDS);
+                Driving driving =
+                        Driving.builder()
+                                .student(student)
+                                .instructor(instructor)
+                                .car(cars.get(RANDOM.nextInt(cars.size())))
+                                .startDate(startDate)
+                                .duration(duration)
+                                .finishDate(finishDate)
+                                .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
+                                .title(drivingTitle)
+                                .comment(drivingComment)
+                                .rating(rating).build();
+                drivings.add(driving);
+            }
         }
         course.setDrivings(drivings);
+    }
+
+    private Instant roundDateToNearestQuarter(Instant startDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(Date.from(startDate));
+
+        int unroundedMinutes = calendar.get(Calendar.MINUTE);
+        int mod = unroundedMinutes % 15;
+        calendar.add(Calendar.MINUTE, mod < 8 ? -mod : (15 - mod));
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return Instant.ofEpochMilli(
+                calendar.getTimeInMillis());
+    }
+
+    private boolean filterCorrectnessOfDate(Instant startDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(Date.from(startDate));
+        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+            return false;
+        }
+
+        String parsedData = DateFormatter.formatDateToString(startDate);
+        String[] deniedHours = {
+                " 00:",
+                " 01:",
+                " 02:",
+                " 03:",
+                " 04:",
+                " 05:",
+                " 06:",
+                " 07:",
+                " 20:",
+                " 21:",
+                " 22:",
+                " 23:",
+        };
+        for (String deniedHour : deniedHours) {
+            if (parsedData.contains(deniedHour)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
