@@ -9,7 +9,6 @@ import pl.jakub.walczak.driveme.dto.event.EventDTO;
 import pl.jakub.walczak.driveme.model.event.Event;
 import pl.jakub.walczak.driveme.services.event.EventService;
 
-import java.time.Instant;
 import java.util.List;
 
 @CrossOrigin
@@ -56,10 +55,10 @@ public class EventController {
     }
 
     @GetMapping(path = "/booking")
-    public ResponseEntity<CalendarEventsDTO> getAllSpecifiedEvents(@RequestParam("instructor") String instructor,
-                                                                   @RequestParam("brand") String carBrand) {
+    public ResponseEntity<CalendarEventsDTO> getAllSpecifiedEvents(@RequestParam("instructor") Long instructorId,
+                                                                   @RequestParam(value = "brand", required = false) String carBrand) {
         try {
-            return ResponseEntity.ok(eventService.getAllSpecifiedEvents(instructor, carBrand));
+            return ResponseEntity.ok(eventService.getAllSpecifiedEvents(instructorId, carBrand));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -67,12 +66,12 @@ public class EventController {
     }
 
     @GetMapping(path = "/term_availability")
-    public ResponseEntity<Boolean> checkAvailabilityOfTerm(@RequestParam("instructor") String instructor,
+    public ResponseEntity<Boolean> checkAvailabilityOfTerm(@RequestParam("instructor") Long instructorId,
                                                            @RequestParam("brand") String carBrand,
                                                            @RequestParam("startDate") String startDate,
                                                            @RequestParam("duration") Integer duration) {
         try {
-            return ResponseEntity.ok(eventService.checkAvailabilityOfTerm(instructor, carBrand, startDate, duration));
+            return ResponseEntity.ok(eventService.checkAvailabilityOfTerm(instructorId, carBrand, startDate, duration));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

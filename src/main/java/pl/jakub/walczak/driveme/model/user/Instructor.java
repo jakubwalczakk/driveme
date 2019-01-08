@@ -14,9 +14,6 @@ import javax.persistence.*;
 @Entity(name = "instructors")
 public class Instructor extends User {
 
-    private Integer workingHours;
-    private Integer availableHours = 0;
-    private Integer takenHours = 0;
     @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(columnDefinition = "mediumblob")

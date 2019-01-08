@@ -17,5 +17,4 @@ import java.util.List;
 public class CalendarEventsDTO {
     private List<PracticalExamDTO> exams;
     private List<DrivingDTO> drivings;
-    private List<ReservationDTO> reservations;
 }

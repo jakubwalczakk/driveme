@@ -28,9 +28,6 @@ public class InstructorMapper {
         dto.setPhoneNumber(model.getPhoneNumber());
         dto.setUserRole(model.getUserRole().getValue());
         dto.setActive(model.getActive());
-        dto.setAvailableHours(model.getAvailableHours());
-        dto.setTakenHours(model.getTakenHours());
-        dto.setWorkingHours(model.getWorkingHours());
         try {
             dto.setPhoto(Base64.getEncoder().encodeToString(model.getPhoto()));
         } catch (Exception e) {
@@ -58,9 +55,6 @@ public class InstructorMapper {
         }
 
         model.setActive(dto.getActive() == null ? model.getActive() : dto.getActive());
-        model.setAvailableHours(dto.getAvailableHours() == null ? model.getAvailableHours() : dto.getAvailableHours());
-        model.setTakenHours(dto.getTakenHours() == null ? model.getTakenHours() : dto.getTakenHours());
-        model.setWorkingHours(dto.getWorkingHours() == null ? model.getWorkingHours() : dto.getWorkingHours());
         try {
             model.setPhoto(dto.getPhoto() == null ?
                     model.getPhoto() : Base64.getDecoder().decode(dto.getPhoto()));

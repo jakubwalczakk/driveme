@@ -23,7 +23,7 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity<Reservation> addReservation(@RequestBody ReservationDTO reservationDTO) {
+    public ResponseEntity<Boolean> addReservation(@RequestBody ReservationDTO reservationDTO) {
         try {
             return ResponseEntity.ok(reservationService.addReservation(reservationDTO));
         } catch (Exception e) {
@@ -33,7 +33,7 @@ public class ReservationController {
     }
 
     @PostMapping(path = "/accept/{id}")
-    public ResponseEntity<?> acceptReservation(@PathVariable("id") Long reservationId) {
+    public ResponseEntity<Boolean> acceptReservation(@PathVariable("id") Long reservationId) {
         try {
             return ResponseEntity.ok(reservationService.acceptReservation(reservationId));
         } catch (Exception e) {

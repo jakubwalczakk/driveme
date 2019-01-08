@@ -55,7 +55,6 @@ public class RegistrationMapper {
                         .email(dto.getEmail())
                         .phoneNumber(dto.getPhoneNumber())
                         .userRole(userRole)
-                        .workingHours(dto.getWorkingHours())
                         .active(true)
                         .build();
 
@@ -99,7 +98,6 @@ public class RegistrationMapper {
                 .surname(dto.getSurname())
                 .email(dto.getEmail())
                 .phoneNumber(dto.getPhoneNumber())
-                .availableHours(dto.getAvailableHours())
                 .userRole(UserRole.INSTRUCTOR)
                 .build();
 

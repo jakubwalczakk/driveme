@@ -15,11 +15,13 @@ import java.util.Optional;
 public interface PracticalExamRepository extends JpaRepository<PracticalExam, Long> {
     Optional<PracticalExam> findByStudentId(Long studentId);
 
+    List<PracticalExam> findAllByInstructorIdOrderByStartDateDesc(Long instructorId);
+
     List<PracticalExam> findAllByInstructorId(Long instructorId);
 
-    List<PracticalExam> findAllByInstructorEmailAndCar_Brand(String instructorEmail, CarBrand brand);
+    List<PracticalExam> findAllByCarBrand(CarBrand carBrand);
 
-//    List<PracticalExam> findAllByCarBrandAndStartDateAfterAndFinishDateBeforeOrStartDateBeforeAndFinishDateAfterAndStartDateBeforeAndFinishDateAfter(CarBrand carBrand, Instant startDate, Instant finishDate);
+    List<PracticalExam> findAllByInstructorIdAndCarBrand(Long instructorId, CarBrand brand);
 
     List<PracticalExam> findAllByCarBrandAndStartDateAfterAndFinishDateBefore(CarBrand carBrand, Instant startDate, Instant finishDate);
 

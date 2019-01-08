@@ -6,21 +6,16 @@ import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.calendar.CalendarEventsDTO;
 import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
 import pl.jakub.walczak.driveme.dto.event.EventDTO;
-import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
 import pl.jakub.walczak.driveme.dto.event.exam.PracticalExamDTO;
 import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.mappers.event.EventMapper;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Event;
-import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
 import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
 import pl.jakub.walczak.driveme.repos.event.EventRepository;
-import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
 import pl.jakub.walczak.driveme.repos.event.exam.PracticalExamRepository;
-import pl.jakub.walczak.driveme.services.car.CarService;
 import pl.jakub.walczak.driveme.services.event.exam.PracticalExamService;
-import pl.jakub.walczak.driveme.services.user.InstructorService;
 
 import java.time.Instant;
 import java.util.List;
@@ -38,31 +33,20 @@ public class EventService {
     private DrivingRepository drivingRepository;
     private DrivingService drivingService;
 
-    private ReservationRepository reservationRepository;
-    private ReservationService reservationService;
-
     private PracticalExamRepository practicalExamRepository;
     private PracticalExamService practicalExamService;
 
-    private InstructorService instructorService;
-    private CarService carService;
 
     @Autowired
     public EventService(EventRepository eventRepository, EventMapper eventMapper,
                         DrivingRepository drivingRepository, DrivingService drivingService,
-                        ReservationRepository reservationRepository, ReservationService reservationService,
-                        PracticalExamRepository practicalExamRepository, PracticalExamService practicalExamService,
-                        InstructorService instructorService, CarService carService) {
+                        PracticalExamRepository practicalExamRepository, PracticalExamService practicalExamService) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
         this.drivingRepository = drivingRepository;
         this.drivingService = drivingService;
-        this.reservationRepository = reservationRepository;
-        this.reservationService = reservationService;
         this.practicalExamRepository = practicalExamRepository;
         this.practicalExamService = practicalExamService;
-        this.instructorService = instructorService;
-        this.carService = carService;
     }
 
     // -- methods for controller --
@@ -86,31 +70,29 @@ public class EventService {
                 new NoSuchElementException("Cannot GET Event with given id = " + id)), EventDTO.builder().build());
     }
 
-    //FIXME??
-    public CalendarEventsDTO getAllSpecifiedEvents(String instructorEmail, String carBrand) {
-        log.info("Getting all Events specified by Instructor = " + instructorEmail + " and brand = " + carBrand);
+    public CalendarEventsDTO getAllSpecifiedEvents(Long instructorId, String carBrand) {
+        log.info("Getting all Events specified by Instructor = " + instructorId + " and brand = " + carBrand);
         try {
-            CarBrand brand = CarBrand.of(carBrand);
+            if (carBrand == null) {
+                List<DrivingDTO> drivingDTOS = convertListOfDrivingsModelsToDTO(
+                        drivingRepository.findAllByInstructorIdOrderByStartDateDesc(instructorId));
 
-            List<DrivingDTO> drivingDTOS =
-                    drivingRepository.findAllByInstructorEmailAndCar_Brand(instructorEmail, brand)
-                            .stream()
-                            .map(driving -> drivingService.mapModelToDTO(driving, DrivingDTO.builder().build()))
-                            .collect(Collectors.toList());
+                List<PracticalExamDTO> practicalExamDTOS = convertListOfPracticalExamsModelsToDTO(
+                        practicalExamRepository.findAllByInstructorIdOrderByStartDateDesc(instructorId));
 
-            List<ReservationDTO> reservationDTOS =
-                    reservationRepository.findAllByInstructorEmailAndCarBrand(instructorEmail, brand)
-                            .stream()
-                            .map(reservation -> reservationService.mapModelToDTO(reservation, ReservationDTO.builder().build()))
-                            .collect(Collectors.toList());
+                return CalendarEventsDTO.builder().drivings(drivingDTOS).exams(practicalExamDTOS).build();
+            } else {
+                CarBrand brand = CarBrand.of(carBrand);
 
-            List<PracticalExamDTO> practicalExamDTOS =
-                    practicalExamRepository.findAllByInstructorEmailAndCar_Brand(instructorEmail, brand)
-                            .stream()
-                            .map(practicalExam -> practicalExamService.mapModelToDTO(practicalExam, PracticalExamDTO.builder().build()))
-                            .collect(Collectors.toList());
+                List<DrivingDTO> drivingDTOS = convertListOfDrivingsModelsToDTO(
+                        drivingRepository.findAllByInstructorIdAndCarBrand(instructorId, brand));
 
-            return CalendarEventsDTO.builder().drivings(drivingDTOS).reservations(reservationDTOS).exams(practicalExamDTOS).build();
+                List<PracticalExamDTO> practicalExamDTOS =
+                        convertListOfPracticalExamsModelsToDTO(
+                                practicalExamRepository.findAllByInstructorIdAndCarBrand(instructorId, brand));
+
+                return CalendarEventsDTO.builder().drivings(drivingDTOS).exams(practicalExamDTOS).build();
+            }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return null;
@@ -118,57 +100,25 @@ public class EventService {
     }
 
 
-    public Boolean checkAvailabilityOfTerm(String instructorEmail, String brand, String date, Integer duration) {
-        log.info("INSTRUCTOR = " + instructorEmail);
-        log.info("CAR BRAND = " + brand);
-        log.info("START DATE = " + date);
-        log.info("DURATION = " + duration);
-
+    public Boolean checkAvailabilityOfTerm(Long instructorId, String brand, String date, Integer duration) {
         log.info("Checking the availability of term " + date);
+        if (instructorId != null &&
+                brand != null &&
+                date != null &&
+                duration != null) {
 
-        CarBrand carBrand = CarBrand.of(brand.trim());
+            CarBrand carBrand = CarBrand.of(brand.trim());
+            Instant startDate = Instant.parse(date);
+            Instant finishDate = startDate.plusSeconds(duration * 60);
 
-        Instant startDate = Instant.parse(date);
-        Instant finishDate = startDate.plusSeconds(duration * 60);
-
-        List<Driving> drivings =
-                drivingRepository.findAllByInstructorEmailAndCar_Brand(instructorEmail, carBrand);
-
-        List<Reservation> reservations =
-                reservationRepository.findAllByInstructorEmailAndCarBrand(instructorEmail, carBrand);
-
-        List<PracticalExam> practicalExams =
-                practicalExamRepository.findAllByInstructorEmailAndCar_Brand(instructorEmail, carBrand);
-
-        for (Driving d : drivings) {
-            if (d.getStartDate().isAfter(startDate) && d.getFinishDate().isBefore(finishDate) ||
-                    d.getStartDate().isBefore(startDate) && d.getFinishDate().isAfter(startDate) ||
-                    d.getStartDate().isBefore(finishDate) && d.getFinishDate().isAfter(finishDate)) {
-                log.info("Reservation in term " + date + " is NOT available.");
-                return false;
+            if (checkAvailabilityOfInstructor(instructorId, startDate, finishDate) &&
+                    checkAvailabilityOfCar(carBrand, startDate, finishDate)) {
+                log.info("Reservation of term " + date + " is available.");
+                return true;
             }
         }
-
-        for (Reservation r : reservations) {
-            if (r.getStartDate().isAfter(startDate) && r.getFinishDate().isBefore(finishDate) ||
-                    r.getStartDate().isBefore(startDate) && r.getFinishDate().isAfter(startDate) ||
-                    r.getStartDate().isBefore(finishDate) && r.getFinishDate().isAfter(finishDate)) {
-                log.info("Reservation in term " + date + " is NOT available.");
-                return false;
-            }
-        }
-
-        for (PracticalExam pE : practicalExams) {
-            if (pE.getStartDate().isAfter(startDate) && pE.getFinishDate().isBefore(finishDate) ||
-                    pE.getStartDate().isBefore(startDate) && pE.getFinishDate().isAfter(startDate) ||
-                    pE.getStartDate().isBefore(finishDate) && pE.getFinishDate().isAfter(finishDate)) {
-                log.info("Reservation in term " + date + " is NOT available.");
-                return false;
-            }
-        }
-
-        log.info("Reservation in term " + date + " is available.");
-        return true;
+        log.info("Reservation of term " + date + " is NOT available.");
+        return false;
     }
 
 
@@ -194,5 +144,63 @@ public class EventService {
         }
         model = eventMapper.mapDTOToModel(dto, model);
         return eventRepository.save(model);
+    }
+
+    public Boolean checkAvailabilityOfInstructor(Long instructorId, Instant startDate, Instant finishDate) {
+
+        List<PracticalExam> practicalExams = practicalExamRepository.findAllByInstructorId(instructorId);
+        List<Driving> drivings = drivingRepository.findAllByInstructorId(instructorId);
+
+        if (checkDateAvailabilityOfPracticalExams(practicalExams, startDate, finishDate) &&
+                checkDateAvailabilityOfDrivings(drivings, startDate, finishDate)) {
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean checkAvailabilityOfCar(CarBrand carBrand, Instant startDate, Instant finishDate) {
+
+        List<PracticalExam> practicalExams = practicalExamRepository.findAllByCarBrand(carBrand);
+        List<Driving> drivings = drivingRepository.findAllByCarBrand(carBrand);
+
+        if (checkDateAvailabilityOfPracticalExams(practicalExams, startDate, finishDate) &&
+                checkDateAvailabilityOfDrivings(drivings, startDate, finishDate)) {
+            return true;
+        }
+        return true;
+    }
+
+    private boolean checkDateAvailabilityOfDrivings(List<Driving> drivings, Instant startDate, Instant finishDate) {
+        for (Driving driving : drivings) {
+            if (driving.getStartDate().isAfter(startDate) && driving.getFinishDate().isBefore(finishDate) ||
+                    driving.getStartDate().isBefore(startDate) && driving.getFinishDate().isAfter(startDate) ||
+                    driving.getStartDate().isBefore(finishDate) && driving.getFinishDate().isAfter(finishDate)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean checkDateAvailabilityOfPracticalExams(List<PracticalExam> practicalExams, Instant startDate, Instant finishDate) {
+        for (PracticalExam practicalExam : practicalExams) {
+            if (practicalExam.getStartDate().isAfter(startDate) && practicalExam.getFinishDate().isBefore(finishDate) ||
+                    practicalExam.getStartDate().isBefore(startDate) && practicalExam.getFinishDate().isAfter(startDate) ||
+                    practicalExam.getStartDate().isBefore(finishDate) && practicalExam.getFinishDate().isAfter(finishDate)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private List<DrivingDTO> convertListOfDrivingsModelsToDTO(List<Driving> drivings) {
+        return drivings.stream()
+                .map(driving -> drivingService.mapModelToDTO(driving, DrivingDTO.builder().build()))
+                .collect(Collectors.toList());
+    }
+
+    private List<PracticalExamDTO> convertListOfPracticalExamsModelsToDTO(List<PracticalExam> practicalExams) {
+        return practicalExams.stream()
+                .map(practicalExam -> practicalExamService.mapModelToDTO(practicalExam, PracticalExamDTO.builder().build()))
+                .collect(Collectors.toList());
     }
 }

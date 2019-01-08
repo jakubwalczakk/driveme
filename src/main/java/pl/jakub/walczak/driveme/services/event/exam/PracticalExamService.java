@@ -23,9 +23,9 @@ public class PracticalExamService {
     private PracticalExamRepository practicalExamRepository;
     private PracticalExamMapper practicalExamMapper;
     private AuthenticationUtil authenticationUtil;
-
     @Autowired
-    public PracticalExamService(PracticalExamRepository practicalExamRepository, PracticalExamMapper practicalExamMapper, AuthenticationUtil authenticationUtil) {
+    public PracticalExamService(PracticalExamRepository practicalExamRepository, PracticalExamMapper practicalExamMapper,
+                                AuthenticationUtil authenticationUtil) {
         this.practicalExamRepository = practicalExamRepository;
         this.practicalExamMapper = practicalExamMapper;
         this.authenticationUtil = authenticationUtil;
@@ -70,16 +70,20 @@ public class PracticalExamService {
         Long currentLoggedUserId = currentLoggedUser.getId();
         log.info("Getting the PracticalExam of current logged Student with id = " + currentLoggedUserId);
         Optional<PracticalExam> optionalPracticalExam = practicalExamRepository.findByStudentId(currentLoggedUserId);
-        return mapModelToDTO(optionalPracticalExam.orElseThrow(() ->
-                        new NoSuchElementException("Cannot GET PracticalExam of Student with id = " + currentLoggedUserId)),
-                PracticalExamDTO.builder().build());
+        if (optionalPracticalExam.isPresent()) {
+            return mapModelToDTO(optionalPracticalExam.orElseThrow(() ->
+                            new NoSuchElementException("Cannot GET PracticalExam of Student with id = " + currentLoggedUserId)),
+                    PracticalExamDTO.builder().build());
+        } else {
+            return null;
+        }
     }
 
     public List<PracticalExamDTO> getPracticalExamsOfInstructor() {
         User currentLoggedUser = authenticationUtil.getCurrentLoggedUser();
         Long currentLoggedUserId = currentLoggedUser.getId();
         log.info("Getting all PracticalExams of current logged Instructor with id = " + currentLoggedUserId);
-        List<PracticalExam> practicalExamsOfInstructor = practicalExamRepository.findAllByInstructorId(currentLoggedUserId);
+        List<PracticalExam> practicalExamsOfInstructor = practicalExamRepository.findAllByInstructorIdOrderByStartDateDesc(currentLoggedUserId);
         return practicalExamsOfInstructor.stream().map(exam -> mapModelToDTO(exam, PracticalExamDTO.builder().build()))
                 .collect(Collectors.toList());
     }
