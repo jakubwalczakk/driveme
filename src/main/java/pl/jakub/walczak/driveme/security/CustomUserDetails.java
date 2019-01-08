@@ -3,6 +3,7 @@ package pl.jakub.walczak.driveme.security;
 import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.jakub.walczak.driveme.enums.UserRole;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -20,7 +21,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(() -> role);
+        return Collections.singleton(() -> UserRole.of(role).toString());
     }
 
     @Override

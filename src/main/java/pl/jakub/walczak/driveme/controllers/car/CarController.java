@@ -5,8 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.jakub.walczak.driveme.dto.car.CarDTO;
-import pl.jakub.walczak.driveme.enums.CarBrand;
-import pl.jakub.walczak.driveme.enums.GasType;
 import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.services.car.CarService;
 

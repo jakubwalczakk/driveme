@@ -38,21 +38,44 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.cors().and().csrf().disable();
+        final String ADMIN = "ADMIN";
+        final String INSTRUCTOR = "INSTRUCTOR";
+        final String STUDENT = "STUDENT";
 
-        http
-                .exceptionHandling()
-                .authenticationEntryPoint(unauthorizedHandler)
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-//                .antMatchers(HttpMethod.POST,"/auth/signin").permitAll()
-//                .antMatchers(HttpMethod.POST,"/auth/signup").permitAll()
-                .anyRequest()
-                .permitAll();
-//                .authenticated();
+        http.cors().and().csrf().disable();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
+
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/auth/signin")
+                .permitAll()
+                .antMatchers(HttpMethod.GET, "/user/me").hasAnyAuthority(ADMIN, INSTRUCTOR, STUDENT)
+                .antMatchers(HttpMethod.GET, "/car").hasAnyAuthority(ADMIN, INSTRUCTOR, STUDENT)
+                .antMatchers(HttpMethod.POST, "/car").hasAuthority(ADMIN)
+                .antMatchers(HttpMethod.GET, "/car/brands").hasAnyAuthority(ADMIN, INSTRUCTOR, STUDENT)
+                .antMatchers(HttpMethod.GET, "/city").hasAnyAuthority(ADMIN, INSTRUCTOR, STUDENT)
+                .antMatchers(HttpMethod.POST, "/city").hasAuthority(ADMIN)
+                .antMatchers(HttpMethod.GET, "/instructor").hasAnyAuthority(ADMIN, INSTRUCTOR, STUDENT)
+                .antMatchers(HttpMethod.GET, "/course/student").hasAuthority(STUDENT)
+                .antMatchers(HttpMethod.GET, "/payments/student").hasAuthority(STUDENT)
+                .antMatchers(HttpMethod.GET, "/event/**").hasAuthority(STUDENT)
+                .antMatchers(HttpMethod.GET, "/driving/student").hasAuthority(STUDENT)
+                .antMatchers(HttpMethod.PUT, "/driving/rate").hasAuthority(INSTRUCTOR)
+                .antMatchers(HttpMethod.GET, "/driving/instructor").hasAuthority(INSTRUCTOR)
+                .antMatchers(HttpMethod.POST, "/reservation").hasAuthority(STUDENT)
+                .antMatchers(HttpMethod.POST, "/reservation/student").hasAuthority(STUDENT)
+                .antMatchers(HttpMethod.POST, "/reservation/instructor").hasAuthority(INSTRUCTOR)
+                .antMatchers(HttpMethod.POST, "/reservation/accept/**").hasAuthority(INSTRUCTOR)
+                .antMatchers(HttpMethod.GET, "/practical_exam/student").hasAuthority(STUDENT)
+                .antMatchers(HttpMethod.GET, "/practical_exam/instructor").hasAuthority(INSTRUCTOR)
+                .antMatchers(HttpMethod.PUT, "/practical_exam/rate").hasAuthority(INSTRUCTOR)
+                .antMatchers(HttpMethod.GET, "/student").hasAuthority(ADMIN)
+                .antMatchers(HttpMethod.PUT, "/student/activate/**").hasAuthority(ADMIN)
+                .antMatchers(HttpMethod.DELETE, "/student/**").hasAuthority(ADMIN)
+                .antMatchers(HttpMethod.PUT, "/student").hasAuthority(STUDENT)
+                .antMatchers(HttpMethod.PUT, "/instructor").hasAuthority(INSTRUCTOR)
+                .antMatchers(HttpMethod.POST, "/auth/signup").hasAuthority(ADMIN)
+                .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
