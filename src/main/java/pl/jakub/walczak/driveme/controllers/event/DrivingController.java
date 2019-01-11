@@ -9,6 +9,7 @@ import pl.jakub.walczak.driveme.dto.event.RateDrivingDTO;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.services.event.DrivingService;
 
+import java.time.Instant;
 import java.util.List;
 
 @CrossOrigin
@@ -65,9 +66,10 @@ public class DrivingController {
     }
 
     @GetMapping(path = "/instructor")
-    public ResponseEntity<List<DrivingDTO>> getDrivingsByInstructor() {
+    public ResponseEntity<List<DrivingDTO>> getDrivingsByInstructor(@RequestParam("start") String start,
+                                                                    @RequestParam("finish") String finish) {
         try {
-            return ResponseEntity.ok(drivingService.getDrivingsByInstructor());
+            return ResponseEntity.ok(drivingService.getDrivingsByInstructor(start, finish));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();

@@ -1,4 +1,4 @@
-package pl.jakub.walczak.driveme.model.event.exam;
+package pl.jakub.walczak.driveme.model.event;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -9,6 +9,7 @@ import pl.jakub.walczak.driveme.enums.EventType;
 import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -18,8 +19,10 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true, exclude = "instructor")
 @Entity(name = "practical_exams")
-public class PracticalExam extends Exam {
+public class PracticalExam extends Event {
 
+    @Column(name = "passed", nullable = false)
+    private Boolean passed;
     @ManyToOne(fetch = FetchType.LAZY)
     private Car car;
     @JsonIgnore

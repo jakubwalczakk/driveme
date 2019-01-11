@@ -7,7 +7,6 @@ import pl.jakub.walczak.driveme.dto.user.StudentDTO;
 import pl.jakub.walczak.driveme.dto.user.StudentRegistrationDTO;
 import pl.jakub.walczak.driveme.mappers.user.RegistrationMapper;
 import pl.jakub.walczak.driveme.mappers.user.StudentMapper;
-import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.repos.user.StudentRepository;
 import pl.jakub.walczak.driveme.security.ApiResponse;

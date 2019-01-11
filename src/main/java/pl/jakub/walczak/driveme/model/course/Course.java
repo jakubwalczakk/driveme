@@ -6,8 +6,7 @@ import lombok.Data;
 import pl.jakub.walczak.driveme.enums.CourseStatus;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Reservation;
-import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
-import pl.jakub.walczak.driveme.model.event.exam.TheoreticalExam;
+import pl.jakub.walczak.driveme.model.event.PracticalExam;
 import pl.jakub.walczak.driveme.model.payment.Payment;
 
 import javax.persistence.*;
@@ -50,11 +49,6 @@ public class Course {
             orphanRemoval = true
     )
     private List<Driving> drivings;
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<TheoreticalExam> theoreticalExams;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private PracticalExam practicalExam;
     @Enumerated
@@ -67,7 +61,6 @@ public class Course {
         this.payments = new ArrayList<>();
         this.currentPayment = 0.0;
         this.reservations = new ArrayList<>();
-        this.theoreticalExams = new ArrayList<>();
         this.status = CourseStatus.IN_PROGRESS;
 
     }

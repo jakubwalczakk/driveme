@@ -12,17 +12,20 @@ import java.util.List;
 @Repository
 @Transactional
 public interface DrivingRepository extends JpaRepository<Driving, Long> {
-    List<Driving> findAllByInstructorIdOrderByStartDateDesc(Long instructorId);
-
-    List<Driving> findAllByStudentIdOrderByStartDateDesc(Long studentId);
-
     List<Driving> findAllByInstructorId(Long instructorId);
 
     List<Driving> findAllByCarBrand(CarBrand carBrand);
 
-    List<Driving> findAllByInstructorIdAndCarBrand(Long instructorId, CarBrand carBrand);
+    List<Driving> findAllByStudentIdOrderByStartDateDesc(Long studentId);
 
-    //    List<Driving> findAllByCarBrandAndStartDateAfterAndFinishDateBeforeOrStartDateBeforeAndFinishDateAfterOrStartDateBeforeAndFinishDateAfter(CarBrand carBrand, Instant startDate, Instant finishDate);
+    List<Driving> findAllByInstructorIdOrderByStartDateDesc(Long instructorId);
+
+    List<Driving> findAllByInstructorIdAndStartDateAfterOrderByStartDateDesc(Long instructorId, Instant startDate);
+
+    List<Driving> findAllByInstructorIdAndStartDateAfterAndFinishDateBeforeOrderByStartDateDesc(Long instructorId, Instant startDate, Instant finishDate);
+
+    List<Driving> findAllByInstructorIdAndCarBrandAndStartDateAfterOrderByStartDateDesc(Long instructorId, CarBrand carBrand, Instant startDate);
+
     List<Driving> findAllByCarBrandAndStartDateAfterAndFinishDateBefore(CarBrand carBrand, Instant startDate, Instant finishDate);
 
     List<Driving> findAllByCarBrandAndStartDateBeforeAndFinishDateAfter(CarBrand carBrand, Instant startDate, Instant finishDate);

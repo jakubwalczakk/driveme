@@ -1,14 +1,14 @@
-package pl.jakub.walczak.driveme.services.event.exam;
+package pl.jakub.walczak.driveme.services.event;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.jakub.walczak.driveme.dto.event.exam.PracticalExamDTO;
 import pl.jakub.walczak.driveme.dto.event.exam.RateExamDTO;
-import pl.jakub.walczak.driveme.mappers.event.exam.PracticalExamMapper;
-import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
+import pl.jakub.walczak.driveme.mappers.event.PracticalExamMapper;
+import pl.jakub.walczak.driveme.model.event.PracticalExam;
 import pl.jakub.walczak.driveme.model.user.User;
-import pl.jakub.walczak.driveme.repos.event.exam.PracticalExamRepository;
+import pl.jakub.walczak.driveme.repos.event.PracticalExamRepository;
 import pl.jakub.walczak.driveme.utils.AuthenticationUtil;
 
 import java.util.List;

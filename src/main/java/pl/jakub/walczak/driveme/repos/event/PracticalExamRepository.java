@@ -1,9 +1,9 @@
-package pl.jakub.walczak.driveme.repos.event.exam;
+package pl.jakub.walczak.driveme.repos.event;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pl.jakub.walczak.driveme.enums.CarBrand;
-import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
+import pl.jakub.walczak.driveme.model.event.PracticalExam;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
@@ -15,13 +15,15 @@ import java.util.Optional;
 public interface PracticalExamRepository extends JpaRepository<PracticalExam, Long> {
     Optional<PracticalExam> findByStudentId(Long studentId);
 
-    List<PracticalExam> findAllByInstructorIdOrderByStartDateDesc(Long instructorId);
-
     List<PracticalExam> findAllByInstructorId(Long instructorId);
 
     List<PracticalExam> findAllByCarBrand(CarBrand carBrand);
 
-    List<PracticalExam> findAllByInstructorIdAndCarBrand(Long instructorId, CarBrand brand);
+    List<PracticalExam> findAllByInstructorIdOrderByStartDateDesc(Long instructorId);
+
+    List<PracticalExam> findAllByInstructorIdAndStartDateAfterOrderByStartDateDesc(Long instructorId, Instant startDate);
+
+    List<PracticalExam> findAllByInstructorIdAndCarBrandAndStartDateAfterOrderByStartDateDesc(Long instructorId, CarBrand brand, Instant startDate);
 
     List<PracticalExam> findAllByCarBrandAndStartDateAfterAndFinishDateBefore(CarBrand carBrand, Instant startDate, Instant finishDate);
 

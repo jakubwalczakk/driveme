@@ -6,15 +6,13 @@ import pl.jakub.walczak.driveme.dto.course.CourseDTO;
 import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
 import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
 import pl.jakub.walczak.driveme.dto.event.exam.PracticalExamDTO;
-import pl.jakub.walczak.driveme.dto.event.exam.TheoreticalExamDTO;
 import pl.jakub.walczak.driveme.dto.payment.PaymentDTO;
 import pl.jakub.walczak.driveme.enums.CourseStatus;
 import pl.jakub.walczak.driveme.model.course.Course;
-import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
+import pl.jakub.walczak.driveme.model.event.PracticalExam;
 import pl.jakub.walczak.driveme.services.event.DrivingService;
+import pl.jakub.walczak.driveme.services.event.PracticalExamService;
 import pl.jakub.walczak.driveme.services.event.ReservationService;
-import pl.jakub.walczak.driveme.services.event.exam.PracticalExamService;
-import pl.jakub.walczak.driveme.services.event.exam.TheoreticalExamService;
 import pl.jakub.walczak.driveme.services.payment.PaymentService;
 
 import java.util.Optional;
@@ -25,16 +23,14 @@ import java.util.stream.Collectors;
 public class CourseMapper {
 
     private PracticalExamService practicalExamService;
-    private TheoreticalExamService theoreticalExamService;
     private PaymentService paymentService;
     private DrivingService drivingService;
     private ReservationService reservationService;
 
     @Autowired
-    public CourseMapper(PracticalExamService practicalExamService, TheoreticalExamService theoreticalExamService,
+    public CourseMapper(PracticalExamService practicalExamService,
                         PaymentService paymentService, DrivingService drivingService, ReservationService reservationService) {
         this.practicalExamService = practicalExamService;
-        this.theoreticalExamService = theoreticalExamService;
         this.paymentService = paymentService;
         this.drivingService = drivingService;
         this.reservationService = reservationService;
@@ -45,9 +41,6 @@ public class CourseMapper {
         dto.setStartDate(model.getStartDate());
         dto.setTakenDrivingHours(model.getTakenDrivingHours());
         dto.setPracticalExam(practicalExamService.mapModelToDTO(model.getPracticalExam(), PracticalExamDTO.builder().build()));
-        dto.setTheoreticalExams(model.getTheoreticalExams().stream()
-                .map(exam -> theoreticalExamService.mapModelToDTO(exam, TheoreticalExamDTO.builder().build()))
-                .collect(Collectors.toList()));
         dto.setPayments(model.getPayments().stream()
                 .map(payment -> paymentService.mapModelToDTO(payment, PaymentDTO.builder().build()))
                 .collect(Collectors.toList()));
@@ -73,9 +66,6 @@ public class CourseMapper {
             model.setPracticalExam(optionalPracticalExam.orElse(model.getPracticalExam()));
         }
 
-        Set<Long> theoreticalExamsToAdd = dto.getTheoreticalExams().stream().map(exam -> exam.getId())
-                .collect(Collectors.toSet());
-        model.setTheoreticalExams(theoreticalExamService.findAllById(theoreticalExamsToAdd));
         Set<Long> paymentsToAdd = dto.getPayments().stream().map(payment -> payment.getId())
                 .collect(Collectors.toSet());
         model.setPayments(paymentService.findAllById(paymentsToAdd));

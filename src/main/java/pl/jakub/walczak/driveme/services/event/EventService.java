@@ -11,13 +11,13 @@ import pl.jakub.walczak.driveme.enums.CarBrand;
 import pl.jakub.walczak.driveme.mappers.event.EventMapper;
 import pl.jakub.walczak.driveme.model.event.Driving;
 import pl.jakub.walczak.driveme.model.event.Event;
-import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
+import pl.jakub.walczak.driveme.model.event.PracticalExam;
 import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
 import pl.jakub.walczak.driveme.repos.event.EventRepository;
-import pl.jakub.walczak.driveme.repos.event.exam.PracticalExamRepository;
-import pl.jakub.walczak.driveme.services.event.exam.PracticalExamService;
+import pl.jakub.walczak.driveme.repos.event.PracticalExamRepository;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -71,25 +71,30 @@ public class EventService {
     }
 
     public CalendarEventsDTO getAllSpecifiedEvents(Long instructorId, String carBrand) {
-        log.info("Getting all Events specified by Instructor = " + instructorId + " and brand = " + carBrand);
         try {
+            Instant startDate = Instant.now().plus(3, ChronoUnit.DAYS).truncatedTo(ChronoUnit.DAYS);
+            log.info("Getting all Events specified by Instructor ID = " + instructorId + " and Car brand = " + carBrand
+                    + " and StartDate after " + startDate);
             if (carBrand == null) {
                 List<DrivingDTO> drivingDTOS = convertListOfDrivingsModelsToDTO(
-                        drivingRepository.findAllByInstructorIdOrderByStartDateDesc(instructorId));
+                        drivingRepository.findAllByInstructorIdAndStartDateAfterOrderByStartDateDesc(
+                                instructorId, startDate));
 
                 List<PracticalExamDTO> practicalExamDTOS = convertListOfPracticalExamsModelsToDTO(
-                        practicalExamRepository.findAllByInstructorIdOrderByStartDateDesc(instructorId));
+                        practicalExamRepository.findAllByInstructorIdAndStartDateAfterOrderByStartDateDesc(
+                                instructorId, startDate));
 
                 return CalendarEventsDTO.builder().drivings(drivingDTOS).exams(practicalExamDTOS).build();
             } else {
                 CarBrand brand = CarBrand.of(carBrand);
 
                 List<DrivingDTO> drivingDTOS = convertListOfDrivingsModelsToDTO(
-                        drivingRepository.findAllByInstructorIdAndCarBrand(instructorId, brand));
+                        drivingRepository.findAllByInstructorIdAndCarBrandAndStartDateAfterOrderByStartDateDesc(
+                                instructorId, brand, startDate));
 
-                List<PracticalExamDTO> practicalExamDTOS =
-                        convertListOfPracticalExamsModelsToDTO(
-                                practicalExamRepository.findAllByInstructorIdAndCarBrand(instructorId, brand));
+                List<PracticalExamDTO> practicalExamDTOS = convertListOfPracticalExamsModelsToDTO(
+                        practicalExamRepository.findAllByInstructorIdAndCarBrandAndStartDateAfterOrderByStartDateDesc(
+                                instructorId, brand, startDate));
 
                 return CalendarEventsDTO.builder().drivings(drivingDTOS).exams(practicalExamDTOS).build();
             }
@@ -109,7 +114,7 @@ public class EventService {
 
             CarBrand carBrand = CarBrand.of(brand.trim());
             Instant startDate = Instant.parse(date);
-            Instant finishDate = startDate.plusSeconds(duration * 60);
+            Instant finishDate = startDate.plus(duration, ChronoUnit.MINUTES);
 
             if (checkAvailabilityOfInstructor(instructorId, startDate, finishDate) &&
                     checkAvailabilityOfCar(carBrand, startDate, finishDate)) {

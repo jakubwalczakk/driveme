@@ -12,6 +12,8 @@ import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
 import pl.jakub.walczak.driveme.utils.AuthenticationUtil;
 
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -74,12 +76,17 @@ public class DrivingService {
                 new NoSuchElementException("Cannot GET Driving with given id = " + id)), DrivingDTO.builder().build());
     }
 
-    public List<DrivingDTO> getDrivingsByInstructor() {
+    public List<DrivingDTO> getDrivingsByInstructor(String start, String finish) {
 
+        ZonedDateTime startTime = ZonedDateTime.parse(start);
+        ZonedDateTime finishTime = ZonedDateTime.parse(finish);
+        Instant startDate = startTime.toInstant();
+        Instant finishDate = finishTime.toInstant();
         User currentUser = authenticationUtil.getCurrentLoggedUser();
         Long currentLoggedUserId = currentUser.getId();
         log.info("Getting the List of Drivings of current logged Instructor with id = " + currentLoggedUserId);
-        List<Driving> listOfInstructorDrivings = drivingRepository.findAllByInstructorIdOrderByStartDateDesc(currentLoggedUserId);
+        List<Driving> listOfInstructorDrivings = drivingRepository.
+                findAllByInstructorIdAndStartDateAfterAndFinishDateBeforeOrderByStartDateDesc(currentLoggedUserId, startDate, finishDate);
         return listOfInstructorDrivings.stream()
                 .map(driving -> mapModelToDTO(driving, DrivingDTO.builder().build())).collect(Collectors.toList());
     }

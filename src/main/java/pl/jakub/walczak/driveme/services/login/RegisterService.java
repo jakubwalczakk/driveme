@@ -10,7 +10,7 @@ import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.user.UserRepository;
 import pl.jakub.walczak.driveme.services.mail.MailerService;
 import pl.jakub.walczak.driveme.services.user.UserService;
-import pl.jakub.walczak.driveme.utils.PasswordGenerator;
+import pl.jakub.walczak.driveme.utils.Generator;
 import pl.jakub.walczak.driveme.utils.Validator;
 
 @Service
@@ -21,12 +21,12 @@ public class RegisterService {
     private UserRepository userRepository;
     private RegistrationMapper registrationMapper;
     private MailerService mailerService;
-    private PasswordGenerator passwordGenerator;
+    private Generator passwordGenerator;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     public RegisterService(UserService userService, UserRepository userRepository, RegistrationMapper registrationMapper,
-                           MailerService mailerService, PasswordGenerator passwordGenerator, PasswordEncoder passwordEncoder) {
+                           MailerService mailerService, Generator passwordGenerator, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.registrationMapper = registrationMapper;

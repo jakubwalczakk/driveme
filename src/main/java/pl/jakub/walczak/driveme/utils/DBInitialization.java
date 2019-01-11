@@ -9,9 +9,8 @@ import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.event.Driving;
+import pl.jakub.walczak.driveme.model.event.PracticalExam;
 import pl.jakub.walczak.driveme.model.event.Reservation;
-import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
-import pl.jakub.walczak.driveme.model.event.exam.TheoreticalExam;
 import pl.jakub.walczak.driveme.model.payment.Payment;
 import pl.jakub.walczak.driveme.model.user.Admin;
 import pl.jakub.walczak.driveme.model.user.Instructor;
@@ -27,6 +26,7 @@ import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Component
@@ -101,33 +101,33 @@ public class DBInitialization {
         DrivingCity katowice = DrivingCity.builder().name("Katowice").image(imageUploader.uploadFile("signKatowice.png"))
                 .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(katowice);
-        DrivingCity czwa = DrivingCity.builder().name("Częstochowa").image(imageUploader.uploadFile("signCzestochowa.png"))
-                .description(LOREM_IPSUM).active(true).build();
-        drivingCities.add(czwa);
-        DrivingCity sosnowiec = DrivingCity.builder().name("Sosnowiec").image(imageUploader.uploadFile("signSosnowiec.png"))
-                .description(LOREM_IPSUM).active(true).build();
-        drivingCities.add(sosnowiec);
+//        DrivingCity czwa = DrivingCity.builder().name("Częstochowa").image(imageUploader.uploadFile("signCzestochowa.png"))
+//                .description(LOREM_IPSUM).active(true).build();
+//        drivingCities.add(czwa);
+//        DrivingCity sosnowiec = DrivingCity.builder().name("Sosnowiec").image(imageUploader.uploadFile("signSosnowiec.png"))
+//                .description(LOREM_IPSUM).active(true).build();
+//        drivingCities.add(sosnowiec);
         DrivingCity gliwice = DrivingCity.builder().name("Gliwice").image(imageUploader.uploadFile("signGliwice.png"))
                 .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(gliwice);
         DrivingCity zabrze = DrivingCity.builder().name("Zabrze").image(imageUploader.uploadFile("signZabrze.png"))
                 .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(zabrze);
-        DrivingCity bielsko = DrivingCity.builder().name("Bielsko-Biała").image(imageUploader.uploadFile("signBielsko.png"))
-                .description(LOREM_IPSUM).active(true).build();
-        drivingCities.add(bielsko);
-        DrivingCity bytom = DrivingCity.builder().name("Bytom").image(imageUploader.uploadFile("signBytom.png"))
-                .description(LOREM_IPSUM).active(true).build();
-        drivingCities.add(bytom);
+//        DrivingCity bielsko = DrivingCity.builder().name("Bielsko-Biała").image(imageUploader.uploadFile("signBielsko.png"))
+//                .description(LOREM_IPSUM).active(true).build();
+//        drivingCities.add(bielsko);
+//        DrivingCity bytom = DrivingCity.builder().name("Bytom").image(imageUploader.uploadFile("signBytom.png"))
+//                .description(LOREM_IPSUM).active(true).build();
+//        drivingCities.add(bytom);
         DrivingCity ruda = DrivingCity.builder().name("Ruda Śląska").image(imageUploader.uploadFile("signRuda.png"))
                 .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(ruda);
         DrivingCity rybnik = DrivingCity.builder().name("Rybnik").image(imageUploader.uploadFile("signRybnik.png"))
                 .description(LOREM_IPSUM).active(true).build();
         drivingCities.add(rybnik);
-        DrivingCity tychy = DrivingCity.builder().name("Tychy").image(imageUploader.uploadFile("signTychy.png"))
-                .description(LOREM_IPSUM).active(true).build();
-        drivingCities.add(tychy);
+//        DrivingCity tychy = DrivingCity.builder().name("Tychy").image(imageUploader.uploadFile("signTychy.png"))
+//                .description(LOREM_IPSUM).active(true).build();
+//        drivingCities.add(tychy);
 
         drivingCityRepository.saveAll(drivingCities);
     }
@@ -432,7 +432,7 @@ public class DBInitialization {
         for (Student student : students) {
 
             Instant registrationDate = student.getRegistrationDate();
-            Instant courseStartDate = registrationDate.plusSeconds(RANDOM.nextInt(8) * ONE_DAY_IN_SECONDS);
+            Instant courseStartDate = registrationDate.plus(RANDOM.nextInt(8), ChronoUnit.DAYS);
             LocalDate startDate = courseStartDate.atZone(DEFAULT_ZONE_ID).toLocalDate();
 
             int takenDrivingHours;
@@ -452,7 +452,6 @@ public class DBInitialization {
                     .build();
             student.setCourse(course);
             initializePayments(student);
-            initializeTheoreticalExams(student);
             initializePracticalExam(student);
             initializeReservations(student);
             initializeDrivings(student);
@@ -486,10 +485,10 @@ public class DBInitialization {
         Course course = student.getCourse();
         Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
 
-        Instant startDate = Instant.now().plusSeconds(RANDOM.nextInt(240) * 60 * 60);
+        Instant startDate = Instant.now().plus(RANDOM.nextInt(240), ChronoUnit.HOURS);
         if (filterCorrectnessOfDate(startDate)) {
             startDate = roundDateToNearestQuarter(startDate);
-            Instant finishDate = startDate.plusSeconds(HOUR_IN_SECONDS);
+            Instant finishDate = startDate.plus(1, ChronoUnit.HOURS);
             boolean status = RANDOM.nextInt(100) % 2 == 0 ? true : false;
             PracticalExam practicalExam = PracticalExam.builder()
                     .student(student)
@@ -503,28 +502,6 @@ public class DBInitialization {
         }
     }
 
-    private void initializeTheoreticalExams(Student student) {
-        Course course = student.getCourse();
-        List<TheoreticalExam> theoreticalExams = new ArrayList<>();
-        boolean status = false;
-        while (status == false) {
-            final int scoredPoints = 60 + RANDOM.nextInt(15);
-            if (scoredPoints >= 68) {
-                status = true;
-            }
-            TheoreticalExam theoreticalExam = TheoreticalExam.builder()
-                    .student(student)
-                    .scoredPoints(scoredPoints)
-                    .result(scoredPoints * 1.0 / TheoreticalExam.MAXIMUM_POINTS_AMOUNT)
-                    .passed(status)
-                    .startDate(roundDateToNearestQuarter(
-                            Instant.now().minusSeconds(RANDOM.nextInt(6) * ONE_DAY_IN_SECONDS)))
-                    .build();
-            theoreticalExams.add(theoreticalExam);
-        }
-        course.setTheoreticalExams(theoreticalExams);
-    }
-
     private void initializeReservations(Student student) {
         Course course = student.getCourse();
         List<Reservation> reservations = new ArrayList<>();
@@ -532,13 +509,13 @@ public class DBInitialization {
         for (int i = 0; i < 10; i++) {
 
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
-            Instant startDate = Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60);
+            Instant startDate = Instant.now().plus(RANDOM.nextInt(120), ChronoUnit.HOURS);
 
             if (filterCorrectnessOfDate(startDate)) {
 
                 startDate = roundDateToNearestQuarter(startDate);
                 Integer duration = (RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_MINUTES;
-                Instant finishDate = startDate.plusSeconds(duration * MINUTE_IN_SECONDS);
+                Instant finishDate = startDate.plus(duration, ChronoUnit.MINUTES);
                 Reservation reservation =
                         Reservation.builder()
                                 .student(student)
@@ -581,17 +558,17 @@ public class DBInitialization {
                     "Zawracanie"
             };
 
-            final String drivingTitle = "Jazda szkoleniowa | " + suffix[RANDOM.nextInt(suffix.length)];
+            final String drivingTitle = "Jazda szkoleniowa - " + suffix[RANDOM.nextInt(suffix.length)];
             final String drivingComment = "DEFAULT DRIVINGS COMMENT";
 
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
 
-            Instant startDate = Instant.now().plusSeconds(RANDOM.nextInt(120) * 60 * 60);
+            Instant startDate = Instant.now().plus(RANDOM.nextInt(120), ChronoUnit.HOURS);
 
             if (filterCorrectnessOfDate(startDate)) {
                 startDate = roundDateToNearestQuarter(startDate);
                 Integer duration = (RANDOM.nextInt(6) + 2) * HALF_HOUR_IN_MINUTES;
-                Instant finishDate = startDate.plusSeconds(duration * MINUTE_IN_SECONDS);
+                Instant finishDate = startDate.plus(duration, ChronoUnit.MINUTES);
                 Driving driving =
                         Driving.builder()
                                 .student(student)

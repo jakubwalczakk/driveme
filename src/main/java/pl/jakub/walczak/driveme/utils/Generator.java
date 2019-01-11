@@ -1,5 +1,7 @@
 package pl.jakub.walczak.driveme.utils;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -8,6 +10,9 @@ import java.util.Random;
 public class Generator {
 
     private static final Random random = new Random();
+
+    @Value("${password.length}")
+    private int passwordLength;
 
     private char[] numbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
@@ -49,4 +54,10 @@ public class Generator {
         }
         return pesel.toString();
     }
+
+
+    public String generatePassword() {
+        return RandomStringUtils.randomAlphanumeric(passwordLength);
+    }
+
 }

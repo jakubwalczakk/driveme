@@ -1,4 +1,4 @@
-package pl.jakub.walczak.driveme.mappers.event.exam;
+package pl.jakub.walczak.driveme.mappers.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -6,7 +6,7 @@ import pl.jakub.walczak.driveme.dto.car.CarBasicDTO;
 import pl.jakub.walczak.driveme.dto.event.exam.PracticalExamDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 import pl.jakub.walczak.driveme.model.car.Car;
-import pl.jakub.walczak.driveme.model.event.exam.PracticalExam;
+import pl.jakub.walczak.driveme.model.event.PracticalExam;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;

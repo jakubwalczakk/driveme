@@ -26,7 +26,6 @@ public class CourseDTO {
     private List<PaymentDTO> payments;
     private Double currentPayment;
     private PracticalExamDTO practicalExam;
-    private List<TheoreticalExamDTO> theoreticalExams;
     private List<ReservationDTO> reservations;
     private List<DrivingDTO> drivings;
     private String status;
