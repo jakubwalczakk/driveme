@@ -32,7 +32,7 @@ public class Course {
     @Column(name = "lecture_hours", nullable = false)
     private final Integer lectureHours = 30;
     @Column(name = "taken_driving_hours", nullable = false)
-    private Integer takenDrivingHours;
+    private Double takenDrivingHours;
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true
@@ -57,7 +57,7 @@ public class Course {
 
     public Course() {
         this.startDate = LocalDate.now();
-        this.takenDrivingHours = 0;
+        this.takenDrivingHours = 0.0;
         this.payments = new ArrayList<>();
         this.currentPayment = 0.0;
         this.reservations = new ArrayList<>();

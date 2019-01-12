@@ -435,7 +435,7 @@ public class DBInitialization {
             Instant courseStartDate = registrationDate.plus(RANDOM.nextInt(8), ChronoUnit.DAYS);
             LocalDate startDate = courseStartDate.atZone(DEFAULT_ZONE_ID).toLocalDate();
 
-            int takenDrivingHours;
+            double takenDrivingHours;
             if (courseStartDate.isAfter(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * 7))) {
                 takenDrivingHours = RANDOM.nextInt(12);
             } else if (courseStartDate.isAfter(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * 14))) {

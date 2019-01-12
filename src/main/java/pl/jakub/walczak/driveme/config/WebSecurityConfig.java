@@ -66,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/reservation/student").hasAuthority(STUDENT)
                 .antMatchers(HttpMethod.POST, "/reservation/instructor").hasAuthority(INSTRUCTOR)
                 .antMatchers(HttpMethod.POST, "/reservation/accept/**").hasAuthority(INSTRUCTOR)
+                .antMatchers(HttpMethod.POST, "/reservation/deny/**").hasAuthority(INSTRUCTOR)
                 .antMatchers(HttpMethod.GET, "/practical_exam/student").hasAuthority(STUDENT)
                 .antMatchers(HttpMethod.GET, "/practical_exam/instructor").hasAuthority(INSTRUCTOR)
                 .antMatchers(HttpMethod.PUT, "/practical_exam/rate").hasAuthority(INSTRUCTOR)

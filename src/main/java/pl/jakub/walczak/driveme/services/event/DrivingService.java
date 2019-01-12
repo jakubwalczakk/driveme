@@ -7,7 +7,9 @@ import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
 import pl.jakub.walczak.driveme.dto.event.RateDrivingDTO;
 import pl.jakub.walczak.driveme.enums.Rating;
 import pl.jakub.walczak.driveme.mappers.event.DrivingMapper;
+import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.event.Driving;
+import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
 import pl.jakub.walczak.driveme.utils.AuthenticationUtil;
@@ -52,6 +54,9 @@ public class DrivingService {
                 driving.setTitle(rateDrivingDTO.getTitle());
                 driving.setRating(rating);
                 driving.setComment(rateDrivingDTO.getComment());
+                Student student = driving.getStudent();
+                Course course = student.getCourse();
+                course.setTakenDrivingHours(course.getTakenDrivingHours()+driving.getDuration()/60.0);
                 drivingRepository.save(driving);
                 return mapModelToDTO(driving, DrivingDTO.builder().build());
             }

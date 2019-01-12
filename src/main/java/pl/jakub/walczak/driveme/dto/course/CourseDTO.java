@@ -22,7 +22,7 @@ public class CourseDTO {
     private Long id;
 //    private UserBasicDTO student;
     private LocalDate startDate;
-    private Integer takenDrivingHours;
+    private Double takenDrivingHours;
     private List<PaymentDTO> payments;
     private Double currentPayment;
     private PracticalExamDTO practicalExam;

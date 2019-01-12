@@ -10,14 +10,14 @@ import pl.jakub.walczak.driveme.model.car.Car;
 import pl.jakub.walczak.driveme.model.city.DrivingCity;
 import pl.jakub.walczak.driveme.model.course.Course;
 import pl.jakub.walczak.driveme.model.event.Driving;
-import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.model.event.PracticalExam;
+import pl.jakub.walczak.driveme.model.event.Reservation;
 import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.event.DrivingRepository;
-import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
 import pl.jakub.walczak.driveme.repos.event.PracticalExamRepository;
+import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
 import pl.jakub.walczak.driveme.services.car.CarService;
 import pl.jakub.walczak.driveme.services.city.CityService;
 import pl.jakub.walczak.driveme.services.user.InstructorService;
@@ -169,6 +169,20 @@ public class ReservationService {
             log.info(msg);
             throw new NoSuchElementException(msg);
         }
+    }
+
+
+    public Boolean denyReservation(Long reservationId) {
+        log.info("Accepting Reservation with id = " + reservationId);
+
+        Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
+        if (optionalReservation.isPresent()) {
+            Reservation reservation = optionalReservation.get();
+            reservation.setAccepted(false);
+            reservationRepository.save(reservation);
+            return true;
+        }
+        throw new NoSuchElementException("Cannot find a Reservation with given id = " + reservationId);
     }
 
     public void deleteReservation(Long id) {

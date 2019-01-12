@@ -11,6 +11,8 @@ import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.repos.event.PracticalExamRepository;
 import pl.jakub.walczak.driveme.utils.AuthenticationUtil;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -23,6 +25,7 @@ public class PracticalExamService {
     private PracticalExamRepository practicalExamRepository;
     private PracticalExamMapper practicalExamMapper;
     private AuthenticationUtil authenticationUtil;
+
     @Autowired
     public PracticalExamService(PracticalExamRepository practicalExamRepository, PracticalExamMapper practicalExamMapper,
                                 AuthenticationUtil authenticationUtil) {
@@ -83,7 +86,8 @@ public class PracticalExamService {
         User currentLoggedUser = authenticationUtil.getCurrentLoggedUser();
         Long currentLoggedUserId = currentLoggedUser.getId();
         log.info("Getting all PracticalExams of current logged Instructor with id = " + currentLoggedUserId);
-        List<PracticalExam> practicalExamsOfInstructor = practicalExamRepository.findAllByInstructorIdOrderByStartDateDesc(currentLoggedUserId);
+        List<PracticalExam> practicalExamsOfInstructor =
+                practicalExamRepository.findAllByInstructorIdAndStartDateAfterOrderByStartDateDesc(currentLoggedUserId, Instant.now().plus(30, ChronoUnit.MONTHS));
         return practicalExamsOfInstructor.stream().map(exam -> mapModelToDTO(exam, PracticalExamDTO.builder().build()))
                 .collect(Collectors.toList());
     }

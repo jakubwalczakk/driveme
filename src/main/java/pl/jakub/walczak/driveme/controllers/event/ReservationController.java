@@ -42,6 +42,16 @@ public class ReservationController {
         }
     }
 
+    @PostMapping(path = "/deny/{id}")
+    public ResponseEntity<Boolean> denyReservation(@PathVariable("id") Long reservationId) {
+        try {
+            return ResponseEntity.ok(reservationService.denyReservation(reservationId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @DeleteMapping(path = "/{id}")
     public ResponseEntity deleteReservation(@PathVariable("id") Long id) {
         try {
