@@ -10,6 +10,7 @@ import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.services.user.UserService;
 import pl.jakub.walczak.driveme.utils.DateFormatter;
 
+import java.time.Instant;
 import java.util.Optional;
 
 @Component
@@ -32,17 +33,13 @@ public class PaymentMapper {
 
     public Payment mapDTOToModel(PaymentDTO dto, Payment model) {
         model.setId(dto.getId());
-        model.setDate(dto.getDate() == null ? model.getDate() : DateFormatter.parseStringToInstant(dto.getDate()));
+        model.setDate(dto.getDate() == null ? model.getDate() : Instant.parse(dto.getDate()));
         model.setAmount(dto.getAmount() == null ? model.getAmount() : dto.getAmount());
 
         UserBasicDTO studentDTO = dto.getStudent();
         if (studentDTO != null) {
             Optional<User> optionalUser = userService.findById(studentDTO.getId());
             model.setStudent((Student)optionalUser.orElse(null));
-//            if (optionalUser.isPresent()) {
-//                Student student = (Student) optionalUser.get();
-//                model.setStudent(student);
-//            }
         }
         return model;
     }

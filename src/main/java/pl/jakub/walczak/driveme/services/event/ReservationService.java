@@ -104,7 +104,6 @@ public class ReservationService {
                 if (course != null) {
 
                     //FIXME
-                    //IT WORKS, BUT...
                     List<Car> carsFromDrivingsInternal =
                             extractCarsFromDrivings(drivingRepository
                                     .findAllByCarBrandAndStartDateAfterAndFinishDateBefore(carBrand, reservation.getStartDate(), reservation.getFinishDate()));
@@ -154,7 +153,6 @@ public class ReservationService {
                             log.info("Reservation with id = " + reservationId + " successfully accepted and transformed into Driving");
                             return true;
                         }
-
                     }
                     log.info("Reservation with id = " + reservationId + " NOT accepted...");
                     return false;
@@ -170,7 +168,6 @@ public class ReservationService {
             throw new NoSuchElementException(msg);
         }
     }
-
 
     public Boolean denyReservation(Long reservationId) {
         log.info("Accepting Reservation with id = " + reservationId);

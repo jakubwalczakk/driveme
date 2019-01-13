@@ -18,9 +18,11 @@ import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.repos.car.CarRepository;
 import pl.jakub.walczak.driveme.repos.city.DrivingCityRepository;
 import pl.jakub.walczak.driveme.repos.course.CourseRepository;
+import pl.jakub.walczak.driveme.repos.event.ReservationRepository;
 import pl.jakub.walczak.driveme.repos.user.AdminRepository;
 import pl.jakub.walczak.driveme.repos.user.InstructorRepository;
 import pl.jakub.walczak.driveme.repos.user.StudentRepository;
+import pl.jakub.walczak.driveme.services.event.ReservationService;
 
 import javax.annotation.PostConstruct;
 import java.time.Instant;
@@ -35,17 +37,12 @@ public class DBInitialization {
     private final static String DEFAULT_PASSWORD = "password";
     private final static Random RANDOM = new Random();
     private final static Long ONE_DAY_IN_SECONDS = 24 * 60 * 60L;
-    private final static Integer HOUR_IN_SECONDS = 60 * 60;
-    private final static Integer HALF_HOUR_IN_SECONDS = 30 * 60;
     private final static Integer HALF_HOUR_IN_MINUTES = 30;
-    private final static Integer MINUTE_IN_SECONDS = 60;
     private final static ZoneId DEFAULT_ZONE_ID = ZoneId.systemDefault();
-    private final static String LOREM_IPSUM = "Lorem ipsum dolor sit amet, ad nam debet copiosae, eu omnesque scriptorem mel. " +
-            "Elit persius apeirian duo ea, iisque minimum eam ea. Est ad iudico persecuti, ea usu aliquip phaedrum. " +
-            "Ex consul voluptaria eum, mel esse natum altera te, ne vide appellantur ius.";
 
     private Generator generator;
     private ImageUploader imageUploader;
+    private PasswordEncoder passwordEncoder;
 
     private DrivingCityRepository drivingCityRepository;
     private CarRepository carRepository;
@@ -53,7 +50,6 @@ public class DBInitialization {
     private InstructorRepository instructorRepository;
     private CourseRepository courseRepository;
     private StudentRepository studentRepository;
-    private PasswordEncoder passwordEncoder;
 
     private List<DrivingCity> drivingCities;
     private List<Car> cars;
@@ -61,12 +57,14 @@ public class DBInitialization {
     private List<Instructor> instructors;
     private List<Student> students;
     private List<Course> courses;
+    private ReservationService reservationService;
+    private ReservationRepository reservationRepository;
 
     @Autowired
     public DBInitialization(Generator generator, ImageUploader imageUploader, DrivingCityRepository drivingCityRepository,
                             CarRepository carRepository, InstructorRepository instructorRepository,
                             AdminRepository adminRepository, CourseRepository courseRepository,
-                            StudentRepository studentRepository, PasswordEncoder passwordEncoder) {
+                            StudentRepository studentRepository, PasswordEncoder passwordEncoder, ReservationService reservationService, ReservationRepository reservationRepository) {
         this.generator = generator;
         this.imageUploader = imageUploader;
 
@@ -77,6 +75,8 @@ public class DBInitialization {
         this.courseRepository = courseRepository;
         this.studentRepository = studentRepository;
         this.passwordEncoder = passwordEncoder;
+        this.reservationService = reservationService;
+        this.reservationRepository = reservationRepository;
 
         this.drivingCities = new ArrayList<>();
         this.cars = new ArrayList<>();
@@ -90,60 +90,42 @@ public class DBInitialization {
     public void initialize() {
         initializeDrivingCities();
         initializeCars();
-        initializeAddresses();
+        prepareAddresses();
         initializeUsers();
         initializeCourses();
     }
 
-    //10
     private void initializeDrivingCities() {
 
         DrivingCity katowice = DrivingCity.builder().name("Katowice").image(imageUploader.uploadFile("signKatowice.png"))
-                .description(LOREM_IPSUM).active(true).build();
+                .description("Stolica województwa śląskiego. Jazda na rondzie nieopodal Spodka sprawi, że poczujesz się jak w innej galaktyce!").active(true).build();
         drivingCities.add(katowice);
-//        DrivingCity czwa = DrivingCity.builder().name("Częstochowa").image(imageUploader.uploadFile("signCzestochowa.png"))
-//                .description(LOREM_IPSUM).active(true).build();
-//        drivingCities.add(czwa);
-//        DrivingCity sosnowiec = DrivingCity.builder().name("Sosnowiec").image(imageUploader.uploadFile("signSosnowiec.png"))
-//                .description(LOREM_IPSUM).active(true).build();
-//        drivingCities.add(sosnowiec);
         DrivingCity gliwice = DrivingCity.builder().name("Gliwice").image(imageUploader.uploadFile("signGliwice.png"))
-                .description(LOREM_IPSUM).active(true).build();
+                .description("Wiele ulic jednokierunkowych poprawi Twoją orientację w terenie.").active(true).build();
         drivingCities.add(gliwice);
         DrivingCity zabrze = DrivingCity.builder().name("Zabrze").image(imageUploader.uploadFile("signZabrze.png"))
-                .description(LOREM_IPSUM).active(true).build();
+                .description("Drogowa Trasa Średnicowa pozwoli Ci rozwinąć niespotykaną dotąd prędkość.").active(true).build();
         drivingCities.add(zabrze);
-//        DrivingCity bielsko = DrivingCity.builder().name("Bielsko-Biała").image(imageUploader.uploadFile("signBielsko.png"))
-//                .description(LOREM_IPSUM).active(true).build();
-//        drivingCities.add(bielsko);
-//        DrivingCity bytom = DrivingCity.builder().name("Bytom").image(imageUploader.uploadFile("signBytom.png"))
-//                .description(LOREM_IPSUM).active(true).build();
-//        drivingCities.add(bytom);
         DrivingCity ruda = DrivingCity.builder().name("Ruda Śląska").image(imageUploader.uploadFile("signRuda.png"))
-                .description(LOREM_IPSUM).active(true).build();
+                .description("11 dzielnic umożliwi Ci rozwój 11 różnych umiejętności związanych z prowadzeniem pojazdu.").active(true).build();
         drivingCities.add(ruda);
         DrivingCity rybnik = DrivingCity.builder().name("Rybnik").image(imageUploader.uploadFile("signRybnik.png"))
-                .description(LOREM_IPSUM).active(true).build();
+                .description("16 pod względem powierzcni miasto w Polsce, a więc wiele terenów dostępnych do nauki jazdy.").active(true).build();
         drivingCities.add(rybnik);
-//        DrivingCity tychy = DrivingCity.builder().name("Tychy").image(imageUploader.uploadFile("signTychy.png"))
-//                .description(LOREM_IPSUM).active(true).build();
-//        drivingCities.add(tychy);
 
         drivingCityRepository.saveAll(drivingCities);
     }
 
-    //24
     private void initializeCars() {
 
         String grandePunto = "grande_punto.jpg";
-        String nissanMicra = "nissan_micra.jpg";
-        String mitsubishiColt = "mitsubishi_colt.jpg";
+//        String nissanMicra = "nissan_micra.jpg";
+//        String mitsubishiColt = "mitsubishi_colt.jpg";
         String toyotaYaris = "toyota_yaris.jpg";
         String opelCorsa = "opel_corsa.jpg";
         String renaultClio = "renault_clio.jpg";
-        String hyundaiI20 = "hyundai_i20.jpg";
+//        String hyundaiI20 = "hyundai_i20.jpg";
         String kiaRio = "kia_rio.jpg";
-
 
         Car punto = Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.GAS)
                 .licensePlate(generator.generateLicensePlate()).active(true)
@@ -153,26 +135,6 @@ public class DBInitialization {
                 .licensePlate(generator.generateLicensePlate()).active(true)
                 .photo(imageUploader.uploadFile(grandePunto)).build();
         cars.add(punto2);
-        Car punto3 = Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).active(true)
-                .photo(imageUploader.uploadFile(grandePunto)).build();
-        cars.add(punto3);
-        Car micra = Car.builder().brand(CarBrand.NISSAN).model("Micra").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).active(true)
-                .photo(imageUploader.uploadFile(nissanMicra)).build();
-        cars.add(micra);
-        Car micra2 = Car.builder().brand(CarBrand.NISSAN).model("Micra").gasType(GasType.OIL)
-                .licensePlate(generator.generateLicensePlate()).active(true)
-                .photo(imageUploader.uploadFile(nissanMicra)).build();
-        cars.add(micra2);
-        Car colt = Car.builder().brand(CarBrand.MITSUBISHI).model("Colt").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).active(true)
-                .photo(imageUploader.uploadFile(mitsubishiColt)).build();
-        cars.add(colt);
-        Car colt2 = Car.builder().brand(CarBrand.MITSUBISHI).model("Colt").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).active(true)
-                .photo(imageUploader.uploadFile(mitsubishiColt)).build();
-        cars.add(colt2);
         Car yaris = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.GAS)
                 .licensePlate(generator.generateLicensePlate()).active(true)
                 .photo(imageUploader.uploadFile(toyotaYaris)).build();
@@ -193,10 +155,6 @@ public class DBInitialization {
                 .licensePlate(generator.generateLicensePlate()).active(true)
                 .photo(imageUploader.uploadFile(toyotaYaris)).build();
         cars.add(yaris5);
-        Car yaris6 = Car.builder().brand(CarBrand.TOYOTA).model("Yaris").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).active(true)
-                .photo(imageUploader.uploadFile(toyotaYaris)).build();
-        cars.add(yaris6);
         Car corsa = Car.builder().brand(CarBrand.OPEL).model("Corsa").gasType(GasType.PETROL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
                 .photo(imageUploader.uploadFile(opelCorsa)).build();
@@ -213,14 +171,6 @@ public class DBInitialization {
                 .licensePlate(generator.generateLicensePlate()).active(true)
                 .photo(imageUploader.uploadFile(renaultClio)).build();
         cars.add(clio2);
-        Car hyundai = Car.builder().brand(CarBrand.HYUNDAI).model("i20").gasType(GasType.PETROL)
-                .licensePlate(generator.generateLicensePlate()).active(true)
-                .photo(imageUploader.uploadFile(hyundaiI20)).build();
-        cars.add(hyundai);
-        Car hyundai2 = Car.builder().brand(CarBrand.HYUNDAI).model("i20").gasType(GasType.OIL)
-                .licensePlate(generator.generateLicensePlate()).active(true)
-                .photo(imageUploader.uploadFile(hyundaiI20)).build();
-        cars.add(hyundai2);
         Car rio = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.OIL)
                 .licensePlate(generator.generateLicensePlate()).active(true)
                 .photo(imageUploader.uploadFile(kiaRio)).build();
@@ -237,15 +187,11 @@ public class DBInitialization {
                 .licensePlate(generator.generateLicensePlate()).active(true)
                 .photo(imageUploader.uploadFile(kiaRio)).build();
         cars.add(rio4);
-        Car rio5 = Car.builder().brand(CarBrand.KIA).model("Rio").gasType(GasType.GAS)
-                .licensePlate(generator.generateLicensePlate()).active(true)
-                .photo(imageUploader.uploadFile(kiaRio)).build();
-        cars.add(rio5);
 
         carRepository.saveAll(cars);
     }
 
-    private void initializeAddresses() {
+    private void prepareAddresses() {
 
         Address address = Address.builder().city("Gliwice").street("Kujawska").zipCode("44-100").houseNo("142").build();
         addresses.add(address);
@@ -284,7 +230,6 @@ public class DBInitialization {
         initializeStudents();
     }
 
-    //2
     private void initializeAdministrators() {
 
         Admin admin1 = Admin.builder().name("Jadwiga").surname("Bąk").email("jadwiga.bak@driveme.pl")
@@ -298,7 +243,6 @@ public class DBInitialization {
         adminRepository.save(admin2);
     }
 
-    //5
     private void initializeInstructors() {
 
         String instructorPhotoFileName = "instructor.jpg";
@@ -339,7 +283,6 @@ public class DBInitialization {
         instructorRepository.save(instructor5);
     }
 
-    //10
     private void initializeStudents() {
 
         List<Address> addressList = new ArrayList<>(addresses);
@@ -435,26 +378,18 @@ public class DBInitialization {
             Instant courseStartDate = registrationDate.plus(RANDOM.nextInt(8), ChronoUnit.DAYS);
             LocalDate startDate = courseStartDate.atZone(DEFAULT_ZONE_ID).toLocalDate();
 
-            double takenDrivingHours;
-            if (courseStartDate.isAfter(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * 7))) {
-                takenDrivingHours = RANDOM.nextInt(12);
-            } else if (courseStartDate.isAfter(Instant.now().minusSeconds(ONE_DAY_IN_SECONDS * 14))) {
-                takenDrivingHours = RANDOM.nextInt(12) + 10;
-            } else {
-                takenDrivingHours = RANDOM.nextInt(16) + 15;
-            }
-
             Course course = Course.builder()
-                    .takenDrivingHours(takenDrivingHours)
+                    .takenDrivingHours(0.0)
                     .startDate(startDate)
                     .currentPayment(0.0)
                     .status(CourseStatus.IN_PROGRESS)
+                    .drivings(new ArrayList<>())
                     .build();
             student.setCourse(course);
             initializePayments(student);
-            initializePracticalExam(student);
             initializeReservations(student);
-            initializeDrivings(student);
+//            initializePracticalExam(student);
+//            initializeDrivings(student);
 
             courses.add(course);
             courseRepository.save(course);
@@ -503,10 +438,10 @@ public class DBInitialization {
     }
 
     private void initializeReservations(Student student) {
-        Course course = student.getCourse();
         List<Reservation> reservations = new ArrayList<>();
+        Course course = student.getCourse();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 8; i++) {
 
             Instructor instructor = instructors.get(RANDOM.nextInt(instructors.size()));
             Instant startDate = Instant.now().plus(RANDOM.nextInt(120), ChronoUnit.HOURS);
@@ -525,7 +460,6 @@ public class DBInitialization {
                                 .duration(duration)
                                 .finishDate(finishDate)
                                 .drivingCity(drivingCities.get(RANDOM.nextInt(drivingCities.size())))
-                                .accepted(false)
                                 .build();
                 reservations.add(reservation);
             }
@@ -582,6 +516,7 @@ public class DBInitialization {
                                 .comment(drivingComment)
                                 .rating(rating).build();
                 drivings.add(driving);
+                course.setTakenDrivingHours(course.getTakenDrivingHours() + duration / 60.0);
             }
         }
         course.setDrivings(drivings);
