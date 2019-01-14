@@ -52,7 +52,7 @@ public class Course {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private PracticalExam practicalExam;
     @Enumerated
-    @Column(name = "accepted", nullable = false)
+    @Column(name = "status", nullable = false)
     private CourseStatus status;
 
     public Course() {

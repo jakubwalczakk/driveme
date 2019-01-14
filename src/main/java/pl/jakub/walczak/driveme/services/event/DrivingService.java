@@ -112,8 +112,8 @@ public class DrivingService {
     }
 
     // -- dao methods --
-    public List<Driving> findAllById(Set<Long> drivingsToAdd) {
-        return drivingRepository.findAllById(drivingsToAdd);
+    public List<Driving> findAllByIdIn(Set<Long> drivingsToAdd) {
+        return drivingRepository.findAllByIdIn(drivingsToAdd);
     }
 
     public List<Driving> findAll() {

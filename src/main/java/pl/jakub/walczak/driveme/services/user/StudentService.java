@@ -100,10 +100,6 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public Optional<Student> findStudentByName(String name) {
-        return studentRepository.findStudentByName(name);
-    }
-
     // -- mapper methods --
     public StudentDTO mapModelToDTO(Student model, StudentDTO dto) {
         return studentMapper.mapModelToDTO(model, dto);

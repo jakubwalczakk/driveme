@@ -10,6 +10,4 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface StudentRepository extends JpaRepository<Student, Long> {
-
-    Optional<Student> findStudentByName(String name);
 }

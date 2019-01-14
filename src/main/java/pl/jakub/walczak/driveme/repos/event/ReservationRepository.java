@@ -6,6 +6,7 @@ import pl.jakub.walczak.driveme.model.event.Reservation;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 @Transactional
@@ -14,4 +15,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     List<Reservation> findAllByStudentIdOrderByStartDateDesc(Long studentId);
 
+    List<Reservation> findAllByIdIn(Set<Long> reservationsToAdd);
 }

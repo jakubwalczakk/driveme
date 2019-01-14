@@ -89,8 +89,8 @@ public class PaymentService {
         return paymentRepository.findAll();
     }
 
-    public List<Payment> findAllById(Set<Long> paymentsToAdd) {
-        return paymentRepository.findAllById(paymentsToAdd);
+    public List<Payment> findAllByIdIn(Set<Long> paymentsToAdd) {
+        return paymentRepository.findAllByIdIn(paymentsToAdd);
     }
 
     // -- mapper methods --

@@ -68,14 +68,14 @@ public class CourseMapper {
 
         Set<Long> paymentsToAdd = dto.getPayments().stream().map(payment -> payment.getId())
                 .collect(Collectors.toSet());
-        model.setPayments(paymentService.findAllById(paymentsToAdd));
+        model.setPayments(paymentService.findAllByIdIn(paymentsToAdd));
         model.setCurrentPayment(dto.getCurrentPayment());
         Set<Long> drivingsToAdd = dto.getDrivings().stream().map(driving -> driving.getId())
                 .collect(Collectors.toSet());
-        model.setDrivings(drivingService.findAllById(drivingsToAdd));
+        model.setDrivings(drivingService.findAllByIdIn(drivingsToAdd));
         Set<Long> reservationsToAdd = dto.getReservations().stream().map(reservation -> reservation.getId())
                 .collect(Collectors.toSet());
-        model.setReservations(reservationService.findAllById(reservationsToAdd));
+        model.setReservations(reservationService.findAllByIdIn(reservationsToAdd));
 
         try {
             model.setStatus(dto.getStatus() == null ? model.getStatus() : CourseStatus.of(dto.getStatus()));

@@ -8,6 +8,7 @@ import pl.jakub.walczak.driveme.model.event.Driving;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 @Transactional
@@ -27,4 +28,6 @@ public interface DrivingRepository extends JpaRepository<Driving, Long> {
     List<Driving> findAllByCarBrandAndStartDateAfterAndFinishDateBefore(CarBrand carBrand, Instant startDate, Instant finishDate);
 
     List<Driving> findAllByCarBrandAndStartDateBeforeAndFinishDateAfter(CarBrand carBrand, Instant startDate, Instant finishDate);
+
+    List<Driving> findAllByIdIn(Set<Long> drivingsToAdd);
 }

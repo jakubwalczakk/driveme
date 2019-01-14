@@ -221,8 +221,8 @@ public class ReservationService {
     }
 
     // -- dao methods --
-    public List<Reservation> findAllById(Set<Long> reservationsToAdd) {
-        return reservationRepository.findAllById(reservationsToAdd);
+    public List<Reservation> findAllByIdIn(Set<Long> reservationsToAdd) {
+        return reservationRepository.findAllByIdIn(reservationsToAdd);
     }
 
     public List<Reservation> findAll() {

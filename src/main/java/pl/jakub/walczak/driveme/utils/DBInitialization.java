@@ -86,7 +86,7 @@ public class DBInitialization {
         this.courses = new ArrayList<>();
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void initialize() {
         initializeDrivingCities();
         initializeCars();
@@ -97,19 +97,19 @@ public class DBInitialization {
 
     private void initializeDrivingCities() {
 
-        DrivingCity katowice = DrivingCity.builder().name("Katowice").image(imageUploader.uploadFile("signKatowice.png"))
+        DrivingCity katowice = DrivingCity.builder().name("Katowice").image(imageUploader.uploadFile("images/signKatowice.png"))
                 .description("Stolica województwa śląskiego. Jazda na rondzie nieopodal Spodka sprawi, że poczujesz się jak w innej galaktyce!").active(true).build();
         drivingCities.add(katowice);
-        DrivingCity gliwice = DrivingCity.builder().name("Gliwice").image(imageUploader.uploadFile("signGliwice.png"))
+        DrivingCity gliwice = DrivingCity.builder().name("Gliwice").image(imageUploader.uploadFile("images/signGliwice.png"))
                 .description("Wiele ulic jednokierunkowych poprawi Twoją orientację w terenie.").active(true).build();
         drivingCities.add(gliwice);
-        DrivingCity zabrze = DrivingCity.builder().name("Zabrze").image(imageUploader.uploadFile("signZabrze.png"))
+        DrivingCity zabrze = DrivingCity.builder().name("Zabrze").image(imageUploader.uploadFile("images/signZabrze.png"))
                 .description("Drogowa Trasa Średnicowa pozwoli Ci rozwinąć niespotykaną dotąd prędkość.").active(true).build();
         drivingCities.add(zabrze);
-        DrivingCity ruda = DrivingCity.builder().name("Ruda Śląska").image(imageUploader.uploadFile("signRuda.png"))
+        DrivingCity ruda = DrivingCity.builder().name("Ruda Śląska").image(imageUploader.uploadFile("images/signRuda.png"))
                 .description("11 dzielnic umożliwi Ci rozwój 11 różnych umiejętności związanych z prowadzeniem pojazdu.").active(true).build();
         drivingCities.add(ruda);
-        DrivingCity rybnik = DrivingCity.builder().name("Rybnik").image(imageUploader.uploadFile("signRybnik.png"))
+        DrivingCity rybnik = DrivingCity.builder().name("Rybnik").image(imageUploader.uploadFile("images/signRybnik.png"))
                 .description("16 pod względem powierzcni miasto w Polsce, a więc wiele terenów dostępnych do nauki jazdy.").active(true).build();
         drivingCities.add(rybnik);
 
@@ -118,14 +118,14 @@ public class DBInitialization {
 
     private void initializeCars() {
 
-        String grandePunto = "grande_punto.jpg";
+        String grandePunto = "images/grande_punto.jpg";
 //        String nissanMicra = "nissan_micra.jpg";
 //        String mitsubishiColt = "mitsubishi_colt.jpg";
-        String toyotaYaris = "toyota_yaris.jpg";
-        String opelCorsa = "opel_corsa.jpg";
-        String renaultClio = "renault_clio.jpg";
+        String toyotaYaris = "images/toyota_yaris.jpg";
+        String opelCorsa = "images/opel_corsa.jpg";
+        String renaultClio = "images/renault_clio.jpg";
 //        String hyundaiI20 = "hyundai_i20.jpg";
-        String kiaRio = "kia_rio.jpg";
+        String kiaRio = "images/kia_rio.jpg";
 
         Car punto = Car.builder().brand(CarBrand.FIAT).model("Grande Punto").gasType(GasType.GAS)
                 .licensePlate(generator.generateLicensePlate()).active(true)
@@ -245,7 +245,7 @@ public class DBInitialization {
 
     private void initializeInstructors() {
 
-        String instructorPhotoFileName = "instructor.jpg";
+        String instructorPhotoFileName = "images/instructor.jpg";
 
         Instructor instructor1 = Instructor.builder().name("Jerzy").surname("Kowalski").email("jerzy.kowalski@driveme.pl")
                 .password(passwordEncoder.encode(DEFAULT_PASSWORD)).phoneNumber(generator.generatePhoneNumber())
