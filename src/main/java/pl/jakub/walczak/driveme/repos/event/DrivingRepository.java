@@ -18,8 +18,6 @@ public interface DrivingRepository extends JpaRepository<Driving, Long> {
 
     List<Driving> findAllByStudentIdOrderByStartDateDesc(Long studentId);
 
-    List<Driving> findAllByInstructorIdOrderByStartDateDesc(Long instructorId);
-
     List<Driving> findAllByInstructorIdAndStartDateAfterOrderByStartDateDesc(Long instructorId, Instant startDate);
 
     List<Driving> findAllByInstructorIdAndStartDateAfterAndFinishDateBeforeOrderByStartDateDesc(Long instructorId, Instant startDate, Instant finishDate);

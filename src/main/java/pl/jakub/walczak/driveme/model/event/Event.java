@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
 
 import javax.persistence.*;
@@ -24,6 +25,9 @@ public class Event {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Student student;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Instructor instructor;
     @Column(name = "event_start_date", nullable = false)
     private Instant startDate;
     private Integer duration;

@@ -3,6 +3,9 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
   datasource:
     url: jdbc:mysql://localhost:3306/drive_me_db?createDatabaseIfNotExist=true&characterEncoding=utf8&amp;characterSetResults=utf8mb4&autoReconnect=true&useSSL=false
     username: user

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import pl.jakub.walczak.driveme.dto.event.DrivingDTO;
 import pl.jakub.walczak.driveme.dto.event.ReservationDTO;
 import pl.jakub.walczak.driveme.dto.event.exam.PracticalExamDTO;
-import pl.jakub.walczak.driveme.dto.event.exam.TheoreticalExamDTO;
 import pl.jakub.walczak.driveme.dto.payment.PaymentDTO;
 
 import java.time.LocalDate;

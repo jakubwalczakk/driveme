@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import pl.jakub.walczak.driveme.dto.event.EventDTO;
 import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 import pl.jakub.walczak.driveme.model.event.Event;
+import pl.jakub.walczak.driveme.model.user.Instructor;
 import pl.jakub.walczak.driveme.model.user.Student;
 import pl.jakub.walczak.driveme.model.user.User;
 import pl.jakub.walczak.driveme.services.user.UserService;
@@ -23,6 +24,7 @@ public class EventMapper {
     public EventDTO mapModelToDTO(Event model, EventDTO dto) {
         dto.setId(model.getId());
         dto.setStudent(userService.mapUserBasicModelToDTO(model.getStudent(), UserBasicDTO.builder().build()));
+        dto.setInstructor(userService.mapUserBasicModelToDTO(model.getInstructor(), UserBasicDTO.builder().build()));
         dto.setStartDate(DateFormatter.formatDateToString(model.getStartDate()));
         dto.setDuration(model.getDuration());
         dto.setFinishDate(DateFormatter.formatDateToString(model.getFinishDate()));
@@ -38,6 +40,11 @@ public class EventMapper {
         User student = userService.mapUserBasicDTOToModel(dto.getStudent());
         if (student instanceof Student) {
             model.setStudent((Student) student);
+        }
+
+        User instructor = userService.mapUserBasicDTOToModel(dto.getInstructor());
+        if (instructor instanceof Instructor) {
+            model.setInstructor((Instructor) instructor);
         }
         return model;
     }

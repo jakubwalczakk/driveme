@@ -15,7 +15,6 @@ import pl.jakub.walczak.driveme.dto.user.UserBasicDTO;
 @AllArgsConstructor
 public class DrivingDTO extends EventDTO {
 
-    private UserBasicDTO instructor;
     private CarBasicDTO car;
     private String drivingCity;
     private String title;

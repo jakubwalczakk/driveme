@@ -19,8 +19,6 @@ public interface PracticalExamRepository extends JpaRepository<PracticalExam, Lo
 
     List<PracticalExam> findAllByCarBrand(CarBrand carBrand);
 
-    List<PracticalExam> findAllByInstructorIdOrderByStartDateDesc(Long instructorId);
-
     List<PracticalExam> findAllByInstructorIdAndStartDateAfterOrderByStartDateDesc(Long instructorId, Instant startDate);
 
     List<PracticalExam> findAllByInstructorIdAndCarBrandAndStartDateAfterOrderByStartDateDesc(Long instructorId, CarBrand brand, Instant startDate);

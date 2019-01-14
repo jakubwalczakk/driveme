@@ -1,13 +1,11 @@
 package pl.jakub.walczak.driveme.model.event;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import pl.jakub.walczak.driveme.enums.EventType;
 import pl.jakub.walczak.driveme.model.car.Car;
-import pl.jakub.walczak.driveme.model.user.Instructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,9 +23,6 @@ public class PracticalExam extends Event {
     private Boolean passed;
     @ManyToOne(fetch = FetchType.LAZY)
     private Car car;
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Instructor instructor;
     private final Integer duration = 60;
     private final EventType eventType = EventType.PRACTICAL_EXAM;
 

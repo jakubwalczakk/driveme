@@ -62,8 +62,10 @@ public class CarService {
 
     public Set<String> getAllCarBrands() {
         log.info("Getting all Car brands");
-        return Arrays.stream(CarBrand.values()).filter(brand -> !brand.equals(CarBrand.DEFAULT))
-                .map(brand -> brand.getValue()).collect(Collectors.toSet());
+        return carRepository.findAllCarBrands().stream().map(brand -> brand.getValue())
+                .collect(Collectors.toSet());
+//        return Arrays.stream(CarBrand.values()).filter(brand -> !brand.equals(CarBrand.DEFAULT))
+//                .map(brand -> brand.getValue()).collect(Collectors.toSet());
     }
 
     public Set<String> getAllGasTypes() {

@@ -15,6 +15,7 @@ public class EventDTO {
 
     private Long id;
     private UserBasicDTO student;
+    private UserBasicDTO instructor;
     private String startDate;
     private String finishDate;
     private Integer duration;
