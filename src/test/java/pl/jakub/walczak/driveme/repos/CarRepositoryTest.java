@@ -21,7 +21,6 @@ import java.util.Set;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-//@SpringBootTest
 @DataJpaTest
 @TestPropertySource(
         locations = "classpath:application-test.properties")

@@ -45,7 +45,6 @@ public class StudentService {
         if (studentToActivate.isPresent()) {
             Student student = studentToActivate.get();
             student.setActive(true);
-//            student.setCourse(new Course());
             return studentRepository.save(student);
         } else {
             throw new NoSuchElementException("Cannot ACTIVATE Student with given id = " + id);

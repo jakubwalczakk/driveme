@@ -82,13 +82,12 @@ public class ReservationService {
 
                 Reservation reservation = createReservationFromDTO(reservationDTO);
                 if (reservation != null) {
-                    log.info("Reservation is NOT null");
                     reservationRepository.save(reservation);
                     return true;
                 }
             }
         }
-        throw new NoSuchElementException("Cannot CREATE a new Reservation from given data!");
+        throw new NoSuchElementException("Cannot CREATE a new Reservation!");
     }
 
     public Boolean acceptReservation(Long reservationId) {

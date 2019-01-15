@@ -18,7 +18,6 @@ public class DrivingCityMapper {
             e.printStackTrace();
             dto.setImage(null);
         }
-//        dto.setImage(model.getImage());
         dto.setDescription(model.getDescription());
         dto.setActive(model.getActive());
         return dto;

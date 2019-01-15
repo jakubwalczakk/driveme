@@ -19,7 +19,6 @@ import java.util.List;
 public class CourseDTO {
 
     private Long id;
-//    private UserBasicDTO student;
     private LocalDate startDate;
     private Double takenDrivingHours;
     private List<PaymentDTO> payments;

@@ -86,7 +86,7 @@ public class DBInitialization {
         this.courses = new ArrayList<>();
     }
 
-//    @PostConstruct
+    @PostConstruct
     public void initialize() {
         initializeDrivingCities();
         initializeCars();
